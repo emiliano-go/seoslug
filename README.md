@@ -48,7 +48,7 @@ entity = SEOEntity(
 payload = build_seo_payload(entity, "/posts/my-post", config)
 ```
 
-Full docs, API reference, and usage examples are in `docs/` and published with MkDocs.
+Full docs, API reference, and usage examples are in `docs/` and published with Zensical.
 
 ## License
 
