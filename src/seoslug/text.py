@@ -1,12 +1,9 @@
 """Text extraction utilities for seoslug."""
 
 import re
-from html import unescape
 
-_SCRIPT_STYLE_RE = re.compile(
-    r"<(script|style)\b[^>]*>.*?</\1>", re.IGNORECASE | re.DOTALL
-)
-_TAG_RE = re.compile(r"<[^>]+>")
+from lxml.html import fromstring
+
 _WS_RE = re.compile(r"\s+")
 
 
@@ -17,10 +14,11 @@ def html_to_text(html: str | None) -> str:
         raise ValueError("html must be a string or None")
     if not html:
         return ""
-    text = _SCRIPT_STYLE_RE.sub(" ", html)
-    text = _TAG_RE.sub(" ", text)
-    text = unescape(text)
-    return _WS_RE.sub(" ", text).strip()
+    doc = fromstring(html)
+    for elem in doc.xpath("//script | //style"):
+        elem.drop_tree()
+    parts = [t.strip() for t in doc.itertext() if t.strip()]
+    return _WS_RE.sub(" ", " ".join(parts)).strip()
 
 
 def build_description_snippet(body_html: str | None, max_length: int = 160) -> str:
