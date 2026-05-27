@@ -27,6 +27,9 @@ classifiers = [
 dependencies = []
 license-files = ["LICENSE"]
 
+[project.optional-dependencies]
+docs = ["mkdocs", "mkdocs-material"]
+
 [project.urls]
 Documentation = "https://deepwiki.com/emiliano-gandini-outeda/seoslug/"
 

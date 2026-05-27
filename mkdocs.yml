@@ -1,4 +1,5 @@
 site_name: seoslug
+site_url: https://emiliano-gandini-outeda.github.io/seoslug/
 site_description: Canonical URL normalization and deterministic SEO payload generation
 repo_name: seoslug
 
