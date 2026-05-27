@@ -27,6 +27,7 @@ class SEOEntity:
     featured_image: str | None = None
     published_at: str | None = None
     updated_at: str | None = None
+    author_name: str | None = None
 
     def __post_init__(self) -> None:
         if self.entity_type not in _ENTITY_TYPES:
@@ -40,6 +41,7 @@ class SEOEntity:
         self.featured_image = _normalize_optional_string(self.featured_image, "featured_image")
         self.published_at = _normalize_optional_string(self.published_at, "published_at")
         self.updated_at = _normalize_optional_string(self.updated_at, "updated_at")
+        self.author_name = _normalize_optional_string(self.author_name, "author_name")
 
 
 @dataclass(slots=True)
@@ -56,6 +58,7 @@ class SEOOverrides:
     twitter_description: str | None = None
     twitter_image: str | None = None
     schema_jsonld: dict | list[dict] | None = None
+    omit_schema: bool = False
 
     def __post_init__(self) -> None:
         self.meta_title = _normalize_optional_string(self.meta_title, "meta_title")
