@@ -69,3 +69,37 @@ def test_schema_list_passthrough() -> None:
     schema = [{"@type": "BreadcrumbList"}, {"@type": "WebPage"}]
     payload = build_seo_payload(entity, "/docs", _config(), SEOOverrides(schema_jsonld=schema))
     assert payload["schema_jsonld"] == schema
+
+
+def test_title_template_is_applied() -> None:
+    config = SEOConfig(
+        canonical_host="portal.example.com",
+        public_base_url="https://portal.example.com",
+        url_policy=URLPolicy(),
+        title_template="{title} | Portal",
+    )
+    payload = build_seo_payload(SEOEntity(entity_type="page", title="About"), "/about", config)
+    assert payload["title"] == "About | Portal"
+
+
+def test_description_prefers_excerpt_over_body_snippet() -> None:
+    entity = SEOEntity(
+        entity_type="post",
+        excerpt="Excerpt text",
+        body_html="<p>Body fallback text</p>",
+    )
+    payload = build_seo_payload(entity, "/posts/p", _config())
+    assert payload["description"] == "Excerpt text"
+
+
+def test_twitter_falls_back_to_og_values() -> None:
+    entity = SEOEntity(entity_type="post", title="Entity")
+    overrides = SEOOverrides(
+        og_title="OG T",
+        og_description="OG D",
+        og_image="https://cdn.example.com/og.jpg",
+    )
+    payload = build_seo_payload(entity, "/posts/p", _config(), overrides)
+    assert payload["twitter"]["title"] == "OG T"
+    assert payload["twitter"]["description"] == "OG D"
+    assert payload["twitter"]["image"] == "https://cdn.example.com/og.jpg"

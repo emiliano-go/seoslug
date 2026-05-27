@@ -30,3 +30,9 @@ def test_override_robots_wins() -> None:
     ov = SEOOverrides(robots="noindex,nofollow")
     payload = build_seo_payload(entity, "/posts/x", _config(), ov)
     assert payload["robots"] == "noindex,nofollow"
+
+
+def test_non_published_uses_default_robots() -> None:
+    entity = SEOEntity(entity_type="post", status="draft")
+    payload = build_seo_payload(entity, "/posts/x", _config())
+    assert payload["robots"] == "index,follow"

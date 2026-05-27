@@ -32,3 +32,48 @@ def test_og_and_twitter_image_fallbacks() -> None:
     payload = build_seo_payload(entity, "/x", _config())
     assert payload["og"]["image"] == "https://cdn.example.com/default.jpg"
     assert payload["twitter"]["image"] == "https://cdn.example.com/default.jpg"
+
+
+def test_canonical_fallback_uses_normalized_route() -> None:
+    entity = SEOEntity(entity_type="page", title="About")
+    payload = build_seo_payload(entity, "/About//Team?utm_source=x", _config())
+    assert payload["canonical"] == "https://portal.example.com/about/team"
+
+
+def test_og_image_precedence_override_then_entity_then_default() -> None:
+    base_entity = SEOEntity(entity_type="post", featured_image="https://cdn.example.com/entity.jpg")
+    with_override = build_seo_payload(
+        base_entity,
+        "/x",
+        _config(),
+        SEOOverrides(og_image="https://cdn.example.com/override.jpg"),
+    )
+    assert with_override["og"]["image"] == "https://cdn.example.com/override.jpg"
+
+    without_override = build_seo_payload(base_entity, "/x", _config())
+    assert without_override["og"]["image"] == "https://cdn.example.com/entity.jpg"
+
+    no_entity_image = build_seo_payload(SEOEntity(entity_type="post"), "/x", _config())
+    assert no_entity_image["og"]["image"] == "https://cdn.example.com/default.jpg"
+
+
+def test_twitter_override_fields_take_highest_precedence() -> None:
+    entity = SEOEntity(entity_type="post", title="Entity", excerpt="Excerpt")
+    payload = build_seo_payload(
+        entity,
+        "/x",
+        _config(),
+        SEOOverrides(
+            twitter_card="summary",
+            twitter_title="Tw Title",
+            twitter_description="Tw Desc",
+            twitter_image="https://cdn.example.com/tw.jpg",
+            og_title="OG Title",
+            og_description="OG Desc",
+            og_image="https://cdn.example.com/og.jpg",
+        ),
+    )
+    assert payload["twitter"]["card"] == "summary"
+    assert payload["twitter"]["title"] == "Tw Title"
+    assert payload["twitter"]["description"] == "Tw Desc"
+    assert payload["twitter"]["image"] == "https://cdn.example.com/tw.jpg"

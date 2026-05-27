@@ -73,3 +73,14 @@ def test_malformed_url_raises_value_error() -> None:
     config = _config()
     with pytest.raises(ValueError):
         normalize_public_url("https:///broken", config)
+
+
+def test_host_is_always_enforced_for_absolute_input() -> None:
+    config = _config()
+    normalized = normalize_public_url("https://evil.example.org/path", config)
+    assert normalized == "https://portal.example.com/path"
+
+
+def test_can_disable_duplicate_slash_collapse_and_lowercase() -> None:
+    policy = URLPolicy(collapse_duplicate_slashes=False, lowercase_paths=False, trailing_slash="preserve")
+    assert normalize_path("//Blog//Post//", policy) == "//Blog//Post//"
