@@ -59,18 +59,22 @@ def build_seo_payload(
     twitter_image = _pick(ov.twitter_image, og_image)
     twitter_card = _pick(ov.twitter_card, "summary_large_image")
 
+    og: dict = {
+        "type": _og_type(entity),
+        "title": og_title,
+        "description": og_description,
+        "url": canonical,
+        "image": og_image,
+    }
+    if config.site_name:
+        og["site_name"] = config.site_name
+
     payload: dict = {
         "title": title,
         "description": description,
         "canonical": canonical,
         "robots": robots,
-        "og": {
-            "type": _og_type(entity),
-            "title": og_title,
-            "description": og_description,
-            "url": canonical,
-            "image": og_image,
-        },
+        "og": og,
         "twitter": {
             "card": twitter_card,
             "title": twitter_title,
