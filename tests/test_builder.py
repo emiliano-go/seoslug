@@ -39,6 +39,7 @@ def test_payload_contract_shape() -> None:
     }
     assert payload["canonical"] == "https://portal.example.com/posts/my-post"
     assert payload["og"]["url"] == payload["canonical"]
+    assert payload["og"]["site_name"] == "Portal"
     assert payload["twitter"]["card"] == "summary_large_image"
     assert payload["schema_jsonld"]["@type"] == "Article"
 
