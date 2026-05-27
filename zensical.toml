@@ -1,18 +1,113 @@
 [project]
 site_name = "seoslug"
-site_url = "https://emiliano-gandini-outeda.me/seoslug/"
 site_description = "Canonical URL normalization and deterministic SEO payload generation"
-repo_name = "seoslug"
-repo_url = "https://github.com/emiliano-gandini-outeda/seoslug"
-nav = [
-  { "Home" = "index.md" },
-  { "API Reference" = "api.md" },
-  { "Usage Examples" = "usage-examples.md" },
-  { "Rules and Fallbacks" = "rules-and-fallbacks.md" },
-  { "Development" = "development.md" },
-]
+site_url = "https://emiliano-gandini-outeda.me/seoslug/"
+docs_dir = "docs"
+site_dir = "site"
+
+copyright = "&copy; 2026 Emiliano Gandini Outeda"
+
+extra_css = ["stylesheets/extra.css"]
+
+# ==============================================================================
+# Theme
+# ==============================================================================
 
 [project.theme]
+variant = "modern"
+
+font.text = "Ubuntu"
+font.code = "JetBrains Mono"
+
+features = [
+    "navigation.instant",
+    "navigation.instant.prefetch",
+    "navigation.tabs",
+    "navigation.indexes",
+    "navigation.top",
+    "navigation.footer",
+    "search.suggest",
+    "search.highlight",
+    "content.code.copy",
+    "content.code.annotate",
+    "toc.follow",
+]
+
+[[project.theme.palette]]
+scheme = "default"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+# ==============================================================================
+# Footer / extra
+# ==============================================================================
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/emiliano-gandini-outeda/seoslug"
+name = "seoslug on GitHub"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/python"
+link = "https://pypi.org/project/seoslug/"
+name = "seoslug on PyPI"
+
+# ==============================================================================
+# Navigation
+# ==============================================================================
+
+[[project.nav]]
+"Home" = "index.md"
+
+[[project.nav]]
+"API Reference" = "api.md"
+
+[[project.nav]]
+"Usage Examples" = "usage-examples.md"
+
+[[project.nav]]
+"Rules and Fallbacks" = "rules-and-fallbacks.md"
+
+[[project.nav]]
+"Development" = "development.md"
+
+# ==============================================================================
+# Markdown extensions
+# ==============================================================================
+
+[project.markdown_extensions.tables]
 
 [project.markdown_extensions.admonition]
-[project.markdown_extensions.tables]
+
+[project.markdown_extensions.toc]
+permalink = true
+
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+
+[project.markdown_extensions.pymdownx.inlinehilite]
+
+[project.markdown_extensions.pymdownx.snippets]
+
+[project.markdown_extensions.pymdownx.superfences]
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+
+[project.markdown_extensions.pymdownx.tasklist]
+custom_checkbox = true
+
+[project.markdown_extensions.attr_list]
+
+[project.markdown_extensions.md_in_html]
