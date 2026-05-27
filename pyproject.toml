@@ -4,11 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "seoslug"
-version = "1.0.0"
+version = "1.0.1"
 description = "Framework-agnostic canonical URL normalization and SEO payload generation"
 readme = "README.md"
 requires-python = ">=3.10"
-authors = [{ name = "seoslug contributors" }]
+authors = [
+    { name = "Emiliano Gandini Outeda", email = "emiliano.gandini@protonmail.com" }
+]
 license = "MIT"
 keywords = ["seo", "canonical", "urls", "metadata", "open-graph", "twitter-cards"]
 classifiers = [
