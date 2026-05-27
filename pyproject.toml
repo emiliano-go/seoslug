@@ -24,11 +24,12 @@ classifiers = [
   "Topic :: Internet :: WWW/HTTP",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = []
+dependencies = ["lxml"]
 license-files = ["LICENSE"]
 
 [project.optional-dependencies]
 docs = ["zensical"]
+test = ["pytest", "pytest-cov"]
 
 [project.urls]
 Documentation = "https://deepwiki.com/emiliano-gandini-outeda/seoslug/"
