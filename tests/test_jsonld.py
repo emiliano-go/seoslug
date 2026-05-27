@@ -5,8 +5,8 @@ import pytest
 from seoslug.jsonld import normalize_schema_jsonld
 
 
-def test_normalize_schema_jsonld_none_to_empty_dict() -> None:
-    assert normalize_schema_jsonld(None) == {}
+def test_normalize_schema_jsonld_none_returns_none() -> None:
+    assert normalize_schema_jsonld(None) is None
 
 
 def test_normalize_schema_jsonld_returns_copy_for_dict() -> None:
