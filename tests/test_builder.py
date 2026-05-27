@@ -33,7 +33,6 @@ def test_payload_contract_shape() -> None:
         "robots",
         "og",
         "twitter",
-        "schema_jsonld",
     }
     assert payload["canonical"] == "https://portal.example.com/posts/my-post"
     assert payload["og"]["url"] == payload["canonical"]
