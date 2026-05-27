@@ -44,6 +44,17 @@ class SEOConfig:
     site_name: str | None = None
     title_template: str | None = "{title}"
     search_robots: str = "noindex,follow"
+    schema_type_map: dict[str, str | None] = field(default_factory=lambda: {
+        "post": "Article",
+        "page": "WebPage",
+        "video": "VideoObject",
+        "home": "WebPage",
+        "taxonomy": "CollectionPage",
+        "search": "SearchResultsPage",
+    })
+    auto_generate_schema: bool = True
+    publisher_name: str | None = None
+    publisher_logo: str | None = None
 
     def __post_init__(self) -> None:
         self.canonical_host = _validate_canonical_host(self.canonical_host)
