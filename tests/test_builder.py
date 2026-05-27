@@ -3,8 +3,8 @@
 from seoslug import SEOConfig, SEOEntity, SEOOverrides, URLPolicy, build_seo_payload
 
 
-def _config() -> SEOConfig:
-    return SEOConfig(
+def _config(**kwargs) -> SEOConfig:
+    defaults = dict(
         canonical_host="portal.example.com",
         public_base_url="https://portal.example.com",
         url_policy=URLPolicy(),
@@ -12,6 +12,8 @@ def _config() -> SEOConfig:
         site_name="Portal",
         title_template="{title}",
     )
+    defaults.update(kwargs)
+    return SEOConfig(**defaults)
 
 
 def test_payload_contract_shape() -> None:
@@ -33,10 +35,12 @@ def test_payload_contract_shape() -> None:
         "robots",
         "og",
         "twitter",
+        "schema_jsonld",
     }
     assert payload["canonical"] == "https://portal.example.com/posts/my-post"
     assert payload["og"]["url"] == payload["canonical"]
     assert payload["twitter"]["card"] == "summary_large_image"
+    assert payload["schema_jsonld"]["@type"] == "Article"
 
 
 def test_canonical_override_and_schema_passthrough() -> None:
@@ -50,6 +54,64 @@ def test_canonical_override_and_schema_passthrough() -> None:
     assert payload["schema_jsonld"]["@type"] == "WebPage"
 
 
+def test_schema_list_passthrough() -> None:
+    entity = SEOEntity(entity_type="page", title="Docs")
+    schema = [{"@type": "BreadcrumbList"}, {"@type": "WebPage"}]
+    payload = build_seo_payload(entity, "/docs", _config(), SEOOverrides(schema_jsonld=schema))
+    assert payload["schema_jsonld"] == schema
+
+
+def test_omit_schema_flag_removes_key() -> None:
+    entity = SEOEntity(entity_type="post", title="Post")
+    overrides = SEOOverrides(omit_schema=True)
+    payload = build_seo_payload(entity, "/post", _config(), overrides)
+    assert "schema_jsonld" not in payload
+
+
+def test_omit_schema_flag_still_applies_when_override_given() -> None:
+    entity = SEOEntity(entity_type="post", title="Post")
+    overrides = SEOOverrides(omit_schema=True, schema_jsonld={"@type": "Product"})
+    payload = build_seo_payload(entity, "/post", _config(), overrides)
+    assert "schema_jsonld" not in payload
+
+
+def test_auto_generate_schema_false_omits_key() -> None:
+    entity = SEOEntity(entity_type="post", title="Post")
+    payload = build_seo_payload(entity, "/post", _config(auto_generate_schema=False))
+    assert "schema_jsonld" not in payload
+
+
+def test_auto_generate_schema_still_allows_override() -> None:
+    entity = SEOEntity(entity_type="post", title="Post")
+    overrides = SEOOverrides(schema_jsonld={"@type": "Product"})
+    payload = build_seo_payload(entity, "/post", _config(auto_generate_schema=False), overrides)
+    assert payload["schema_jsonld"]["@type"] == "Product"
+
+
+def test_unmapped_entity_type_skips_schema() -> None:
+    config = _config(schema_type_map={})
+    entity = SEOEntity(entity_type="post", title="Post")
+    payload = build_seo_payload(entity, "/post", config)
+    assert "schema_jsonld" not in payload
+
+
+def test_author_injected_into_auto_schema() -> None:
+    entity = SEOEntity(entity_type="post", title="Post", author_name="Jane Doe")
+    payload = build_seo_payload(entity, "/post", _config())
+    assert payload["schema_jsonld"]["author"] == {"@type": "Person", "name": "Jane Doe"}
+
+
+def test_publisher_injected_into_auto_schema() -> None:
+    entity = SEOEntity(entity_type="post", title="Post")
+    config = _config(publisher_name="Acme Corp", publisher_logo="https://example.com/logo.png")
+    payload = build_seo_payload(entity, "/post", config)
+    assert payload["schema_jsonld"]["publisher"] == {
+        "@type": "Organization",
+        "name": "Acme Corp",
+        "logo": "https://example.com/logo.png",
+    }
+
+
 def test_twitter_override_precedence() -> None:
     entity = SEOEntity(entity_type="post", title="Entity Title", excerpt="Entity Excerpt")
     overrides = SEOOverrides(
@@ -61,13 +123,6 @@ def test_twitter_override_precedence() -> None:
     assert payload["og"]["title"] == "OG Title"
     assert payload["twitter"]["title"] == "Twitter Title"
     assert payload["twitter"]["description"] == "Twitter Description"
-
-
-def test_schema_list_passthrough() -> None:
-    entity = SEOEntity(entity_type="page", title="Docs")
-    schema = [{"@type": "BreadcrumbList"}, {"@type": "WebPage"}]
-    payload = build_seo_payload(entity, "/docs", _config(), SEOOverrides(schema_jsonld=schema))
-    assert payload["schema_jsonld"] == schema
 
 
 def test_title_template_is_applied() -> None:
