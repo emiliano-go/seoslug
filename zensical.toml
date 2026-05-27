@@ -7,10 +7,8 @@ repo_url = "https://github.com/emiliano-gandini-outeda/seoslug"
 
 [project.theme]
 
-[project.markdown_extensions]
-admonition = {}
-codehilite = {}
-tables = {}
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.tables]
 
 nav = [
   { "Home" = "index.md" },
