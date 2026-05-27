@@ -59,7 +59,7 @@ def build_seo_payload(
     twitter_image = _pick(ov.twitter_image, og_image)
     twitter_card = _pick(ov.twitter_card, "summary_large_image")
 
-    return {
+    payload: dict = {
         "title": title,
         "description": description,
         "canonical": canonical,
@@ -77,5 +77,10 @@ def build_seo_payload(
             "description": twitter_description,
             "image": twitter_image,
         },
-        "schema_jsonld": normalize_schema_jsonld(ov.schema_jsonld),
     }
+
+    schema_jsonld = normalize_schema_jsonld(ov.schema_jsonld)
+    if schema_jsonld is not None:
+        payload["schema_jsonld"] = schema_jsonld
+
+    return payload
