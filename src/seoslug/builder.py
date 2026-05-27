@@ -1,7 +1,7 @@
 """SEO payload builder for seoslug."""
 
 from .config import SEOConfig
-from .jsonld import normalize_schema_jsonld
+from .jsonld import build_schema, normalize_schema_jsonld
 from .normalization import normalize_public_url
 from .schemas import SEOEntity, SEOOverrides
 from .text import build_description_snippet
@@ -79,8 +79,20 @@ def build_seo_payload(
         },
     }
 
-    schema_jsonld = normalize_schema_jsonld(ov.schema_jsonld)
-    if schema_jsonld is not None:
-        payload["schema_jsonld"] = schema_jsonld
+    if ov.omit_schema:
+        pass
+    elif ov.schema_jsonld is not None:
+        payload["schema_jsonld"] = normalize_schema_jsonld(ov.schema_jsonld)
+    elif config.auto_generate_schema:
+        schema = build_schema(
+            entity=entity,
+            config=config,
+            canonical=canonical,
+            title=title,
+            description=description,
+            og_image=og_image,
+        )
+        if schema is not None:
+            payload["schema_jsonld"] = schema
 
     return payload
