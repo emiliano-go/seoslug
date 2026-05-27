@@ -1,0 +1,18 @@
+site_name: seoslug
+site_description: Canonical URL normalization and deterministic SEO payload generation
+repo_name: seoslug
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - API Reference: api.md
+  - Usage Examples: usage-examples.md
+  - Rules and Fallbacks: rules-and-fallbacks.md
+  - Development: development.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - tables
