@@ -39,7 +39,6 @@ def _config() -> SEOConfig:
                     "description": "home excerpt",
                     "image": "https://cdn.example.com/default.jpg",
                 },
-                "schema_jsonld": {},
             },
         ),
         (
@@ -63,7 +62,6 @@ def _config() -> SEOConfig:
                     "description": "post excerpt",
                     "image": "https://cdn.example.com/default.jpg",
                 },
-                "schema_jsonld": {},
             },
         ),
         (
@@ -87,7 +85,6 @@ def _config() -> SEOConfig:
                     "description": "page excerpt",
                     "image": "https://cdn.example.com/default.jpg",
                 },
-                "schema_jsonld": {},
             },
         ),
         (
@@ -111,7 +108,6 @@ def _config() -> SEOConfig:
                     "description": "video excerpt",
                     "image": "https://cdn.example.com/default.jpg",
                 },
-                "schema_jsonld": {},
             },
         ),
         (
@@ -135,7 +131,6 @@ def _config() -> SEOConfig:
                     "description": "taxonomy excerpt",
                     "image": "https://cdn.example.com/default.jpg",
                 },
-                "schema_jsonld": {},
             },
         ),
         (
@@ -159,7 +154,6 @@ def _config() -> SEOConfig:
                     "description": "search excerpt",
                     "image": "https://cdn.example.com/default.jpg",
                 },
-                "schema_jsonld": {},
             },
         ),
     ],
