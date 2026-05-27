@@ -4,12 +4,6 @@ site_url = "https://emiliano-gandini-outeda.me/seoslug/"
 site_description = "Canonical URL normalization and deterministic SEO payload generation"
 repo_name = "seoslug"
 repo_url = "https://github.com/emiliano-gandini-outeda/seoslug"
-
-[project.theme]
-
-[project.markdown_extensions.admonition]
-[project.markdown_extensions.tables]
-
 nav = [
   { "Home" = "index.md" },
   { "API Reference" = "api.md" },
@@ -17,3 +11,8 @@ nav = [
   { "Rules and Fallbacks" = "rules-and-fallbacks.md" },
   { "Development" = "development.md" },
 ]
+
+[project.theme]
+
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.tables]
