@@ -78,18 +78,6 @@ name = "seoslug on PyPI"
 "Configuration" = "configuration/index.md"
 
 [[project.nav]]
-"Configuration: SEOConfig" = "configuration/seo-config.md"
-
-[[project.nav]]
-"Configuration: URLPolicy" = "configuration/url-policy.md"
-
-[[project.nav]]
-"Configuration: SEOEntity" = "configuration/seo-entity.md"
-
-[[project.nav]]
-"Configuration: SEOOverrides" = "configuration/seo-overrides.md"
-
-[[project.nav]]
 "URL Normalization" = "url-normalization.md"
 
 [[project.nav]]
@@ -108,34 +96,10 @@ name = "seoslug on PyPI"
 "Integrations" = "integrations/index.md"
 
 [[project.nav]]
-"Integration: FastAPI" = "integrations/fastapi.md"
-
-[[project.nav]]
-"Integration: Django" = "integrations/django.md"
-
-[[project.nav]]
-"Integration: Static Sites" = "integrations/ssg.md"
-
-[[project.nav]]
 "API Reference" = "api-reference.md"
 
 [[project.nav]]
 "Recipes" = "recipes/index.md"
-
-[[project.nav]]
-"Recipe: Blog Post" = "recipes/blog-post.md"
-
-[[project.nav]]
-"Recipe: Product Page" = "recipes/product-page.md"
-
-[[project.nav]]
-"Recipe: Category Page" = "recipes/category-page.md"
-
-[[project.nav]]
-"Recipe: Search Results" = "recipes/search-results.md"
-
-[[project.nav]]
-"Recipe: Multi Language" = "recipes/multi-language.md"
 
 [[project.nav]]
 "Migration Guide" = "migration.md"

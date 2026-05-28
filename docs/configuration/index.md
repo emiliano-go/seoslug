@@ -69,7 +69,7 @@ payload = build_seo_payload(entity, "/path", config, overrides)
 ## Next steps
 
 Read the detailed pages for each configuration class.
-[SEOConfig Reference](seo-config.md)
-[URLPolicy Reference](url-policy.md)
-[SEOEntity Reference](seo-entity.md)
-[SEOOverrides Reference](seo-overrides.md)
+[SEOConfig Reference](seo-config.md). All SEOConfig fields explained.
+[URLPolicy Reference](url-policy.md). URL normalization rules in detail.
+[SEOEntity Reference](seo-entity.md). Input schema for content.
+[SEOOverrides Reference](seo-overrides.md). Per call override options.

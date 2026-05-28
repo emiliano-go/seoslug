@@ -9,9 +9,9 @@ It also shows how to render the payload in templates and cache the results.
 
 ## Available guides
 
-- [FastAPI](fastapi.md) -- async route handlers with ETag caching
-- [Django](django.md) -- views, templates, and framework caching
-- [Static Site Generators](ssg.md) -- Pelican, MkDocs, and build time generation
+- [FastAPI](fastapi.md). Async route handlers with ETag caching.
+- [Django](django.md). Views, templates, and framework caching.
+- [Static Site Generators](ssg.md). Pelican, MkDocs, and build time generation.
 
 ## General pattern
 
