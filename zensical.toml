@@ -69,16 +69,88 @@ name = "seoslug on PyPI"
 "Home" = "index.md"
 
 [[project.nav]]
-"API Reference" = "api.md"
+"Getting Started" = "getting-started.md"
 
 [[project.nav]]
-"Usage Examples" = "usage-examples.md"
+"Core Concepts" = "core-concepts.md"
 
 [[project.nav]]
-"Rules and Fallbacks" = "rules-and-fallbacks.md"
+"Configuration" = "configuration/index.md"
 
 [[project.nav]]
-"Development" = "development.md"
+"Configuration: SEOConfig" = "configuration/seo-config.md"
+
+[[project.nav]]
+"Configuration: URLPolicy" = "configuration/url-policy.md"
+
+[[project.nav]]
+"Configuration: SEOEntity" = "configuration/seo-entity.md"
+
+[[project.nav]]
+"Configuration: SEOOverrides" = "configuration/seo-overrides.md"
+
+[[project.nav]]
+"URL Normalization" = "url-normalization.md"
+
+[[project.nav]]
+"SEO Payload" = "seo-payload.md"
+
+[[project.nav]]
+"Schema.org and JSON-LD" = "schema-jsonld.md"
+
+[[project.nav]]
+"Fallback Chains" = "fallback-chains.md"
+
+[[project.nav]]
+"Testing" = "testing.md"
+
+[[project.nav]]
+"Integrations" = "integrations/index.md"
+
+[[project.nav]]
+"Integration: FastAPI" = "integrations/fastapi.md"
+
+[[project.nav]]
+"Integration: Django" = "integrations/django.md"
+
+[[project.nav]]
+"Integration: Static Sites" = "integrations/ssg.md"
+
+[[project.nav]]
+"API Reference" = "api-reference.md"
+
+[[project.nav]]
+"Recipes" = "recipes/index.md"
+
+[[project.nav]]
+"Recipe: Blog Post" = "recipes/blog-post.md"
+
+[[project.nav]]
+"Recipe: Product Page" = "recipes/product-page.md"
+
+[[project.nav]]
+"Recipe: Category Page" = "recipes/category-page.md"
+
+[[project.nav]]
+"Recipe: Search Results" = "recipes/search-results.md"
+
+[[project.nav]]
+"Recipe: Multi Language" = "recipes/multi-language.md"
+
+[[project.nav]]
+"Migration Guide" = "migration.md"
+
+[[project.nav]]
+"FAQ" = "faq.md"
+
+[[project.nav]]
+"Contributing" = "contributing.md"
+
+[[project.nav]]
+"Changelog" = "changelog.md"
+
+[[project.nav]]
+"License" = "license.md"
 
 # ==============================================================================
 # Markdown extensions

@@ -1,6 +1,9 @@
 # seoslug
 
-Canonical URL normalization and deterministic SEO payload generation for content platforms.
+seoslug turns your content entities into production ready SEO metadata.
+It generates canonical URLs, Open Graph tags, Twitter Cards, and JSON-LD.
+The library is deterministic. Same input always produces the same output.
+This makes your SEO layer testable, cacheable, and predictable.
 
 ## Install
 
@@ -29,8 +32,11 @@ entity = SEOEntity(
 payload = build_seo_payload(entity, "/posts/my-post", config)
 ```
 
-## What you get
+The payload contains title, description, canonical, robots, og, twitter, and schema_jsonld.
+Inject it directly into your HTML head section.
 
-- One URL normalization engine, host and scheme enforcement included.
-- One SEO payload builder with strict fallback order.
-- Deterministic output for tests and snapshots.
+## Next steps
+
+Read the [Getting Started](getting-started.md) guide for installation and setup.
+Read [Core Concepts](core-concepts.md) to understand how seoslug works.
+Read the [API Reference](api-reference.md) for the complete function reference.
