@@ -1,38 +1,46 @@
-# seoslug
+<p align="center">
+  <h1 align="center">seoslug</h1>
+</p>
 
-[![DeepWiki](https://img.shields.io/badge/DeepWiki-Documentation-blue)](https://deepwiki.com/emiliano-gandini-outeda/seoslug/)
+<p align="center">
+  <strong>Canonical URL normalization + deterministic SEO payload generation for content platforms.</strong>
+</p>
 
-Canonical URL normalization and deterministic SEO payload generation for content platforms.
+<p align="center">
+  <a href="https://www.python.org/downloads/">
+    <img src="https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white&style=for-the-badge" alt="Python">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-10AC84?style=for-the-badge" alt="License">
+  </a>
+  <a href="https://deepwiki.com/emiliano-gandini-outeda/seoslug/">
+    <img src="https://img.shields.io/badge/DeepWiki-8A2BE2?logo=readthedocs&logoColor=white&style=for-the-badge" alt="DeepWiki">
+  </a>
+</p>
 
-## Installation
+---
 
-```bash
-pip install seoslug
-```
+## What is seoslug?
 
-For local development:
+seoslug turns your content entities into production-ready SEO metadata, canonical URLs, Open Graph, Twitter Cards, and JSON-LD, **deterministically**. Same input always produces the same output, making your SEO layer testable, cacheable, and predictable.
 
-```bash
-pip install -e .
-```
+**One function call. Complete SEO coverage. No surprises.**
 
-## Quick usage
+---
+
+## Quick start
 
 ```python
 from seoslug import SEOConfig, URLPolicy, SEOEntity, build_seo_payload
 
 config = SEOConfig(
-    canonical_host="portal.example.com",
-    public_base_url="https://portal.example.com",
+    canonical_host="blog.example.com",
+    public_base_url="https://blog.example.com",
     url_policy=URLPolicy(
         enforce_https=True,
         lowercase_paths=True,
         trailing_slash="never",
-        collapse_duplicate_slashes=True,
-        strip_tracking_params=True,
-        allowed_query_params=["page", "q"],
     ),
-    default_og_image="https://cdn.example.com/default.jpg",
 )
 
 entity = SEOEntity(
@@ -40,16 +48,39 @@ entity = SEOEntity(
     slug="my-post",
     title="My Post",
     excerpt="Example excerpt",
-    body_html="<p>Body content</p>",
-    status="published",
-    featured_image="https://cdn.example.com/post.jpg",
 )
 
 payload = build_seo_payload(entity, "/posts/my-post", config)
 ```
 
-Full docs, API reference, and usage examples are in `docs/` and published with Zensical.
+That's it. payload contains everything you need: title, description, canonical, og, twitter, and schema_jsonld, ready to inject into your HTML.
 
-## License
+### Why deterministic?
 
-MIT, see `LICENSE`.
+Most SEO tools produce different output for the same input: random cache busters, timestamps, or dictionary key order changes. **seoslug** does none of that.
+
+```python
+payload1 = build_seo_payload(entity, path, config)
+payload2 = build_seo_payload(entity, path, config)
+assert payload1 == payload2  # Always True
+```
+
+This seemingly small property unlocks powerful workflows. You can commit expected SEO output to Git and validate it in CI: if SEO changes, your build fails. The same URL always generates an identical payload, so you can cache forever without invalidation logic. Diffing staging against production instantly reveals configuration drift, and you can track how your SEO evolves right alongside your code.
+
+### What seoslug handles
+
+**URL normalization**: HTTPS enforcement, trailing slash policy, lowercase paths, query parameter sorting. Optionally strips tracking parameters using [detrack](https://github.com/emiliano-gandini-outeda/detrack).
+
+**Open Graph and Twitter Cards**: `og:title`, `og:image`, `twitter:card`, and everything else search engines and social platforms expect.
+
+**JSON-LD**: Auto-generates Article, WebPage, Product, or Event schemas from your entity type. Override with custom JSON-LD when needed.
+
+**Robots directives**: index/noindex and follow/nofollow based on entity status.
+
+**Configurable fallbacks**: Define what happens when a field is missing. `Title` can fall back to `meta_title`, then slug, then entity_id.
+
+And everything is pure: no environment variables, no system clock, no random numbers, no external API calls.
+
+### Documentation
+- [Docs](https://emiliano-gandini-outeda.me/seoslug)
+- [Deepwiki](https://deepwiki.com/emiliano-gandini-outeda/seoslug/)
