@@ -2,9 +2,9 @@
 
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from .config import SEOConfig, URLPolicy
+import detrack
 
-_TRACKING_KEYS = {"gclid", "fbclid"}
+from .config import SEOConfig, URLPolicy
 
 
 def _collapse_duplicate_slashes(path: str) -> str:
@@ -47,17 +47,14 @@ def normalize_path(path: str, policy: URLPolicy) -> str:
 
 
 def _filter_query(query: str, policy: URLPolicy) -> str:
-    pairs = parse_qsl(query, keep_blank_values=True)
-    filtered: list[tuple[str, str]] = []
-    allowlist = set(policy.allowed_query_params)
-    for key, value in pairs:
-        k = key.lower()
-        if policy.strip_tracking_params and (k.startswith("utm_") or k in _TRACKING_KEYS):
-            continue
-        if allowlist and key not in allowlist:
-            continue
-        filtered.append((key, value))
-    return urlencode(filtered, doseq=True)
+    if policy.strip_tracking_params:
+        query = detrack.clean_query(query)
+    if policy.allowed_query_params:
+        pairs = parse_qsl(query, keep_blank_values=True)
+        allowlist = set(policy.allowed_query_params)
+        filtered = [(k, v) for k, v in pairs if k in allowlist]
+        query = urlencode(filtered, doseq=True)
+    return query
 
 
 def normalize_public_url(url_or_path: str, config: SEOConfig) -> str:
