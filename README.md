@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://www.python.org/downloads/">
-    <img src="https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white&style=for-the-badge" alt="Python">
+    <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white&style=for-the-badge" alt="Python">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-10AC84?style=for-the-badge" alt="License">
@@ -73,11 +73,11 @@ This seemingly small property unlocks powerful workflows. You can commit expecte
 
 **Open Graph and Twitter Cards**: `og:title`, `og:image`, `twitter:card`, and everything else search engines and social platforms expect.
 
-**JSON-LD**: Auto-generates Article, WebPage, Product, or Event schemas from your entity type. Override with custom JSON-LD when needed.
+**JSON-LD**: Auto-generates schema.org schemas (Article, WebPage, VideoObject, CollectionPage, SearchResultsPage) based on your entity type. Map any entity type to any schema type via config. Override with custom JSON-LD when needed.
 
 **Robots directives**: index/noindex and follow/nofollow based on entity status.
 
-**Configurable fallbacks**: Define what happens when a field is missing. `Title` can fall back to `meta_title`, then slug, then entity_id.
+**Configurable fallbacks**: Define what happens when a field is missing. `Title` can fall back to `meta_title`, then `entity.title`, then `"Untitled"`. Description falls back from `meta_description` to `entity.excerpt` to an auto-generated HTML body snippet.
 
 And everything is pure: no environment variables, no system clock, no random numbers, no external API calls.
 
