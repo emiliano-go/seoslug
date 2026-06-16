@@ -11,6 +11,18 @@ from seoslug import (
     normalize_public_url,
     normalize_path,
     build_seo_payload,
+    # Exceptions
+    SEOError,
+    SEOConfigError,
+    SEOEntityError,
+    URLPolicyError,
+    SEOPayloadError,
+    # Hooks
+    hook,
+    register_hook,
+    clear_hooks,
+    get_registered_hooks,
+    run_hooks,
 )
 ```
 
@@ -45,7 +57,7 @@ Enforces the canonical host, scheme, trailing slash policy, and query filtering.
 Accepts both absolute URLs and relative paths.
 Relative paths are resolved against the public_base_url.
 
-Raises ValueError for empty input or malformed URLs.
+Raises SEOPayloadError for empty input or malformed URLs.
 
 ## normalize_path
 
@@ -59,7 +71,7 @@ normalize_path(
 Normalizes a URL path without host or scheme.
 Applies lowercase, trailing slash, and duplicate slash rules.
 Always returns a path starting with "/".
-Raises ValueError for non string input.
+Raises URLPolicyError for non-string input.
 
 ## SEOConfig
 
@@ -148,3 +160,104 @@ class SEOOverrides:
 Per call overrides for SEO metadata.
 `schema_jsonld` accepts a dict, list of dicts, or None.
 `omit_schema` removes the schema_jsonld key from the payload.
+
+## Exceptions
+
+All seoslug exceptions inherit from `SEOError`, which itself inherits from both `Exception` and `ValueError`. This means existing code catching `ValueError` will continue to work.
+
+### SEOError
+
+```python
+seoslug.exceptions.SEOError
+```
+
+Base exception for all seoslug errors. Inherits from `Exception` and `ValueError`.
+
+### SEOConfigError
+
+```python
+seoslug.exceptions.SEOConfigError
+```
+
+Raised when an `SEOConfig` or `URLPolicy` field fails validation.
+For example: `canonical_host` contains a scheme or path, `title_template` is missing the `{title}` placeholder, or a required field is empty.
+
+### SEOEntityError
+
+```python
+seoslug.exceptions.SEOEntityError
+```
+
+Raised when an `SEOEntity` or `SEOOverrides` field fails validation.
+For example: `entity_type` is not a valid type, `schema_jsonld` is an invalid type, or a string field receives a non-string value.
+
+### URLPolicyError
+
+```python
+seoslug.exceptions.URLPolicyError
+```
+
+Raised when a `URLPolicy` field fails validation or a path argument is not a string.
+For example: `trailing_slash` is set to an invalid value, or `normalize_path` receives non-string input.
+
+### SEOPayloadError
+
+```python
+seoslug.exceptions.SEOPayloadError
+```
+
+Raised during payload generation or text processing.
+For example: `normalize_public_url` receives empty or malformed input, or `html_to_text` receives a non-string argument.
+
+## Hooks
+
+Hooks let you register callback functions that transform the SEO payload after it is built. See the [Hooks guide](hooks.md) for full documentation.
+
+### hook
+
+```python
+hook(name: str) -> Callable
+```
+
+Decorator that registers a function to run when a named hook point is triggered.
+
+```python
+from seoslug import hook
+
+@hook("post_process")
+def add_breadcrumb(payload, entity, config):
+    payload["breadcrumb"] = {"@type": "BreadcrumbList", ...}
+    return payload
+```
+
+### register_hook
+
+```python
+register_hook(name: str, fn: Callable) -> None
+```
+
+Programmatic equivalent of the `@hook` decorator.
+
+### clear_hooks
+
+```python
+clear_hooks(name: str | None = None) -> None
+```
+
+Remove all hooks registered under *name*, or all hooks if *name* is `None`.
+
+### get_registered_hooks
+
+```python
+get_registered_hooks() -> dict[str, list[Callable]]
+```
+
+Return a copy of all registered hooks keyed by hook point name. Useful for inspection and testing.
+
+### run_hooks
+
+```python
+run_hooks(name, payload, entity, config) -> dict
+```
+
+Run all hooks registered under *name* in registration order. Each hook receives the current payload and must return the (possibly modified) payload. Typically not called directly — `build_seo_payload` already calls `run_hooks("post_process", ...)` after building the payload.

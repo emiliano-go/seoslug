@@ -40,3 +40,4 @@ Inject it directly into your HTML head section.
 Read the [Getting Started](getting-started.md) guide for installation and setup.
 Read [Core Concepts](core-concepts.md) to understand how seoslug works.
 Read the [API Reference](api-reference.md) for the complete function reference.
+Read the [Hooks Guide](hooks.md) to extend seoslug with custom post-processing.

@@ -60,6 +60,10 @@ Then entity excerpt is checked.
 Then the HTML body is converted to plain text and truncated to 160 characters.
 If all are missing, the result is an empty string.
 
+The HTML body is only parsed when neither the override nor the excerpt is available.
+If you provide an explicit `excerpt` or `meta_description`, the `body_html` is never touched.
+This avoids expensive lxml parsing when the description is already determined.
+
 ### canonical
 
 Resolved through the fallback chain.

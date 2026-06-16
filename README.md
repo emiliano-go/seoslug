@@ -77,10 +77,14 @@ This seemingly small property unlocks powerful workflows. You can commit expecte
 
 **Robots directives**: index/noindex and follow/nofollow based on entity status.
 
-**Configurable fallbacks**: Define what happens when a field is missing. `Title` can fall back to `meta_title`, then `entity.title`, then `"Untitled"`. Description falls back from `meta_description` to `entity.excerpt` to an auto-generated HTML body snippet.
+**Configurable fallbacks**: Define what happens when a field is missing. `Title` can fall back to `meta_title`, then `entity.title`, then `"Untitled"`. Description falls back from `meta_description` to `entity.excerpt` to an auto-generated HTML body snippet. The HTML body is only parsed when no higher-precedence source is available.
+
+**Plugin hooks**: Extend the payload with custom JSON-LD, inject organization schemas, or transform descriptions via the `post_process` hook system.
 
 And everything is pure: no environment variables, no system clock, no random numbers, no external API calls.
 
 ### Documentation
 - [Docs](https://emiliano-gandini-outeda.me/seoslug)
 - [Deepwiki](https://deepwiki.com/emiliano-gandini-outeda/seoslug/)
+- [Hooks & Plugins](https://emiliano-gandini-outeda.me/seoslug/hooks/)
+- [API Reference](https://emiliano-gandini-outeda.me/seoslug/api-reference/)
