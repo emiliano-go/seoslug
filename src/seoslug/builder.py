@@ -1,14 +1,22 @@
 """SEO payload builder for seoslug."""
 
+from collections.abc import Callable
+
 from .config import SEOConfig
+from .hooks import run as run_hooks
 from .jsonld import build_schema, normalize_schema_jsonld
 from .normalization import normalize_public_url
 from .schemas import SEOEntity, SEOOverrides
 from .text import build_description_snippet
 
 
-def _pick(*values: str | None) -> str | None:
+_LazyValue = str | None | Callable[[], str | None]
+
+
+def _pick(*values: _LazyValue) -> str | None:
     for value in values:
+        if callable(value):
+            value = value()
         if isinstance(value, str) and value.strip():
             return value.strip()
     return None
@@ -43,7 +51,7 @@ def build_seo_payload(
     description = _pick(
         ov.meta_description,
         entity.excerpt,
-        build_description_snippet(entity.body_html),
+        lambda: build_description_snippet(entity.body_html),
         "",
     )
 
@@ -99,4 +107,5 @@ def build_seo_payload(
         if schema is not None:
             payload["schema_jsonld"] = schema
 
+    payload = run_hooks("post_process", payload, entity, config)
     return payload
