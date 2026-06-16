@@ -1,6 +1,6 @@
 """Tests for URL normalization."""
 
-from seoslug import SEOConfig, URLPolicy, normalize_path, normalize_public_url
+from seoslug import SEOConfig, SEOPayloadError, URLPolicy, normalize_path, normalize_public_url
 import pytest
 
 
@@ -69,9 +69,9 @@ def test_no_allowlist_keeps_non_tracking_params() -> None:
     assert normalize_public_url("/p?a=1&b=2&utm_campaign=x", config) == "https://portal.example.com/p?a=1&b=2"
 
 
-def test_malformed_url_raises_value_error() -> None:
+def test_malformed_url_raises_error() -> None:
     config = _config()
-    with pytest.raises(ValueError):
+    with pytest.raises(SEOPayloadError):
         normalize_public_url("https:///broken", config)
 
 

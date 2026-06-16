@@ -3,6 +3,8 @@
 from dataclasses import dataclass
 from typing import Literal
 
+from .exceptions import SEOEntityError
+
 
 _ENTITY_TYPES = {"home", "post", "page", "video", "taxonomy", "search", "other"}
 
@@ -11,7 +13,7 @@ def _normalize_optional_string(value: object, field_name: str) -> str | None:
     if value is None:
         return None
     if not isinstance(value, str):
-        raise ValueError(f"{field_name} must be a string or None")
+        raise SEOEntityError(f"{field_name} must be a string or None")
     normalized = value.strip()
     return normalized or None
 
@@ -31,7 +33,7 @@ class SEOEntity:
 
     def __post_init__(self) -> None:
         if self.entity_type not in _ENTITY_TYPES:
-            raise ValueError("entity_type must be one of home/post/page/video/taxonomy/search/other")
+            raise SEOEntityError("entity_type must be one of home/post/page/video/taxonomy/search/other")
 
         self.slug = _normalize_optional_string(self.slug, "slug")
         self.title = _normalize_optional_string(self.title, "title")
@@ -87,4 +89,4 @@ class SEOOverrides:
             isinstance(item, dict) for item in self.schema_jsonld
         ):
             return
-        raise ValueError("schema_jsonld must be dict, list[dict], or None")
+        raise SEOEntityError("schema_jsonld must be dict, list[dict], or None")

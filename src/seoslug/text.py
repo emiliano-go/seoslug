@@ -4,6 +4,8 @@ import re
 
 from lxml.html import fromstring
 
+from .exceptions import SEOPayloadError
+
 _WS_RE = re.compile(r"\s+")
 
 
@@ -11,7 +13,7 @@ def html_to_text(html: str | None) -> str:
     if html is None:
         return ""
     if not isinstance(html, str):
-        raise ValueError("html must be a string or None")
+        raise SEOPayloadError("html must be a string or None")
     if not html:
         return ""
     doc = fromstring(html)
@@ -23,7 +25,7 @@ def html_to_text(html: str | None) -> str:
 
 def build_description_snippet(body_html: str | None, max_length: int = 160) -> str:
     if not isinstance(max_length, int) or max_length <= 0:
-        raise ValueError("max_length must be a positive integer")
+        raise SEOPayloadError("max_length must be a positive integer")
     text = html_to_text(body_html)
     if len(text) <= max_length:
         return text

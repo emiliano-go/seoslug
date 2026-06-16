@@ -2,6 +2,7 @@
 
 import pytest
 
+from seoslug import SEOPayloadError
 from seoslug.text import build_description_snippet, html_to_text
 
 
@@ -22,8 +23,8 @@ def test_html_to_text_normalizes_whitespace_and_style() -> None:
     assert html_to_text(html) == "Hello World"
 
 
-def test_invalid_inputs_raise_value_error() -> None:
-    with pytest.raises(ValueError):
+def test_invalid_inputs_raise_error() -> None:
+    with pytest.raises(SEOPayloadError):
         html_to_text(123)  # type: ignore[arg-type]
-    with pytest.raises(ValueError):
+    with pytest.raises(SEOPayloadError):
         build_description_snippet("<p>ok</p>", max_length=0)

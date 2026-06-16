@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 from typing import Literal
 from urllib.parse import urlparse
 
+from .exceptions import SEOConfigError, URLPolicyError
+
 
 @dataclass(slots=True)
 class URLPolicy:
@@ -16,7 +18,7 @@ class URLPolicy:
 
     def __post_init__(self) -> None:
         if self.trailing_slash not in {"always", "never", "preserve"}:
-            raise ValueError(
+            raise URLPolicyError(
                 "trailing_slash must be one of: 'always', 'never', 'preserve'"
             )
 
@@ -24,7 +26,7 @@ class URLPolicy:
         seen: set[str] = set()
         for param in self.allowed_query_params:
             if not isinstance(param, str):
-                raise ValueError("allowed_query_params must contain only strings")
+                raise URLPolicyError("allowed_query_params must contain only strings")
             normalized = param.strip()
             if not normalized:
                 continue
@@ -61,26 +63,26 @@ class SEOConfig:
         self.public_base_url = _validate_public_base_url(self.public_base_url)
 
         if not isinstance(self.url_policy, URLPolicy):
-            raise ValueError("url_policy must be a URLPolicy instance")
+            raise SEOConfigError("url_policy must be a URLPolicy instance")
 
         if not _is_nonempty_string(self.default_robots):
-            raise ValueError("default_robots must be a non-empty string")
+            raise SEOConfigError("default_robots must be a non-empty string")
         if not _is_nonempty_string(self.search_robots):
-            raise ValueError("search_robots must be a non-empty string")
+            raise SEOConfigError("search_robots must be a non-empty string")
 
         if self.default_og_image is not None and not _is_nonempty_string(
             self.default_og_image
         ):
-            raise ValueError("default_og_image must be a non-empty string when set")
+            raise SEOConfigError("default_og_image must be a non-empty string when set")
 
         if self.site_name is not None and not _is_nonempty_string(self.site_name):
-            raise ValueError("site_name must be a non-empty string when set")
+            raise SEOConfigError("site_name must be a non-empty string when set")
 
         if self.title_template is not None:
             if not _is_nonempty_string(self.title_template):
-                raise ValueError("title_template must be a non-empty string when set")
+                raise SEOConfigError("title_template must be a non-empty string when set")
             if "{title}" not in self.title_template:
-                raise ValueError("title_template must include '{title}' placeholder")
+                raise SEOConfigError("title_template must include '{title}' placeholder")
 
 
 def _is_nonempty_string(value: object) -> bool:
@@ -89,20 +91,20 @@ def _is_nonempty_string(value: object) -> bool:
 
 def _validate_canonical_host(canonical_host: str) -> str:
     if not _is_nonempty_string(canonical_host):
-        raise ValueError("canonical_host must be a non-empty string")
+        raise SEOConfigError("canonical_host must be a non-empty string")
 
     value = canonical_host.strip().lower()
     if "://" in value or "/" in value or "?" in value or "#" in value:
-        raise ValueError("canonical_host must be host-only (no scheme/path/query)")
+        raise SEOConfigError("canonical_host must be host-only (no scheme/path/query)")
     return value
 
 
 def _validate_public_base_url(public_base_url: str) -> str:
     if not _is_nonempty_string(public_base_url):
-        raise ValueError("public_base_url must be a non-empty string")
+        raise SEOConfigError("public_base_url must be a non-empty string")
 
     value = public_base_url.strip()
     parsed = urlparse(value)
     if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-        raise ValueError("public_base_url must be an absolute http(s) URL")
+        raise SEOConfigError("public_base_url must be an absolute http(s) URL")
     return value

@@ -2,7 +2,7 @@
 
 import pytest
 
-from seoslug import SEOConfig, SEOEntity, URLPolicy
+from seoslug import SEOConfig, SEOEntity, SEOEntityError, URLPolicy
 from seoslug.jsonld import build_schema, normalize_schema_jsonld
 
 
@@ -43,7 +43,7 @@ def test_normalize_schema_jsonld_returns_copy_for_list() -> None:
 
 
 def test_normalize_schema_jsonld_rejects_invalid_type() -> None:
-    with pytest.raises(ValueError):
+    with pytest.raises(SEOEntityError):
         normalize_schema_jsonld("bad")  # type: ignore[arg-type]
 
 

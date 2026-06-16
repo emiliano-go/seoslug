@@ -5,6 +5,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 import detrack
 
 from .config import SEOConfig, URLPolicy
+from .exceptions import SEOPayloadError, URLPolicyError
 
 
 def _collapse_duplicate_slashes(path: str) -> str:
@@ -34,7 +35,7 @@ def _apply_trailing_slash(path: str, mode: str) -> str:
 
 def normalize_path(path: str, policy: URLPolicy) -> str:
     if not isinstance(path, str):
-        raise ValueError("path must be a string")
+        raise URLPolicyError("path must be a string")
     value = path.strip() or "/"
     if not value.startswith("/"):
         value = "/" + value
@@ -59,14 +60,14 @@ def _filter_query(query: str, policy: URLPolicy) -> str:
 
 def normalize_public_url(url_or_path: str, config: SEOConfig) -> str:
     if not isinstance(url_or_path, str) or not url_or_path.strip():
-        raise ValueError("url_or_path must be a non-empty string")
+        raise SEOPayloadError("url_or_path must be a non-empty string")
 
     value = url_or_path.strip()
     parsed_input = urlsplit(value)
     parsed_base = urlsplit(config.public_base_url)
 
     if parsed_input.scheme and not parsed_input.netloc:
-        raise ValueError("Malformed URL input")
+        raise SEOPayloadError("Malformed URL input")
 
     path = parsed_input.path
     query = parsed_input.query

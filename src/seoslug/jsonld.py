@@ -5,6 +5,8 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
+from .exceptions import SEOEntityError
+
 if TYPE_CHECKING:
     from .config import SEOConfig
     from .schemas import SEOEntity
@@ -17,7 +19,7 @@ def normalize_schema_jsonld(value: dict | list[dict] | None) -> dict | list[dict
         return deepcopy(value)
     if isinstance(value, list) and all(isinstance(item, dict) for item in value):
         return deepcopy(value)
-    raise ValueError("schema_jsonld must be dict, list[dict], or None")
+    raise SEOEntityError("schema_jsonld must be dict, list[dict], or None")
 
 
 def build_schema(

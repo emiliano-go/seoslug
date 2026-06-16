@@ -2,7 +2,7 @@
 
 import pytest
 
-from seoslug import SEOEntity, SEOOverrides
+from seoslug import SEOEntity, SEOEntityError, SEOOverrides
 
 
 def test_entity_normalizes_optional_string_fields() -> None:
@@ -18,12 +18,12 @@ def test_entity_normalizes_optional_string_fields() -> None:
 
 
 def test_entity_rejects_invalid_entity_type() -> None:
-    with pytest.raises(ValueError):
+    with pytest.raises(SEOEntityError):
         SEOEntity(entity_type="invalid")
 
 
 def test_entity_rejects_non_string_optional_field() -> None:
-    with pytest.raises(ValueError):
+    with pytest.raises(SEOEntityError):
         SEOEntity(entity_type="post", title=123)  # type: ignore[arg-type]
 
 
@@ -32,5 +32,5 @@ def test_overrides_normalize_and_validate_schema_type() -> None:
     assert overrides.meta_title == "A"
     assert overrides.robots is None
 
-    with pytest.raises(ValueError):
+    with pytest.raises(SEOEntityError):
         SEOOverrides(schema_jsonld=[{"@type": "WebPage"}, "bad"])  # type: ignore[list-item]
