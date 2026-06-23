@@ -13,7 +13,7 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-10AC84?style=for-the-badge" alt="License">
   </a>
-  <a href="https://deepwiki.com/emiliano-gandini-outeda/seoslug/">
+  <a href="https://deepwiki.com/emiliano-go/seoslug/">
     <img src="https://img.shields.io/badge/DeepWiki-8A2BE2?logo=readthedocs&logoColor=white&style=for-the-badge" alt="DeepWiki">
   </a>
 </p>
@@ -69,7 +69,7 @@ This seemingly small property unlocks powerful workflows. You can commit expecte
 
 ### What seoslug handles
 
-**URL normalization**: HTTPS enforcement, trailing slash policy, lowercase paths, query parameter sorting. Optionally strips tracking parameters using [detrack](https://github.com/emiliano-gandini-outeda/detrack).
+**URL normalization**: HTTPS enforcement, trailing slash policy, lowercase paths, query parameter sorting. Optionally strips tracking parameters using [detrack](https://github.com/emiliano-go/detrack).
 
 **Open Graph and Twitter Cards**: `og:title`, `og:image`, `twitter:card`, and everything else search engines and social platforms expect.
 

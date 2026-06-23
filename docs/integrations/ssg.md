@@ -642,7 +642,7 @@ This prevents SEO payloads from being generated for hidden draft directories, ar
 
 ### Real-world example
 
-This exact setup runs in production on [egoblog](https://github.com/emiliano-gandini-outeda/egoblog), a Hugo blog deployed via GitHub Actions to GitHub Container Registry. The repo uses Strategy B (PaperMod handles og:/twitter:, seoslug provides canonical/description/robots/schema), a three-stage Dockerfile, and the full generation script from section 2.
+This exact setup runs in production on [egoblog](https://github.com/emiliano-go/egoblog), a Hugo blog deployed via GitHub Actions to GitHub Container Registry. The repo uses Strategy B (PaperMod handles og:/twitter:, seoslug provides canonical/description/robots/schema), a three-stage Dockerfile, and the full generation script from section 2.
 
 ## Build time generation (generic)
 

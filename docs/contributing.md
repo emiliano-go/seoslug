@@ -8,7 +8,7 @@ seoslug is pure Python with minimal dependencies.
 Clone the repository.
 
 ```bash
-git clone https://github.com/emiliano-gandini-outeda/seoslug.git
+git clone https://github.com/emiliano-go/seoslug.git
 cd seoslug
 ```
 
