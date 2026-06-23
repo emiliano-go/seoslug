@@ -7,7 +7,7 @@ pip install seoslug
 ```
 
 seoslug requires Python 3.10 or later.
-The only dependency is lxml for HTML to text conversion.
+Dependencies are lxml for HTML to text conversion and detrack for tracking parameter stripping.
 
 ## Configure
 
