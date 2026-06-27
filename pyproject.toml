@@ -32,7 +32,7 @@ docs = ["zensical"]
 test = ["pytest", "pytest-cov"]
 
 [project.urls]
-Documentation = "https://deepwiki.com/emiliano-gandini-outeda/seoslug/"
+Documentation = "https://deepwiki.com/emiliano-go/seoslug/"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

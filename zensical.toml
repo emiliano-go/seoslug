@@ -1,7 +1,7 @@
 [project]
 site_name = "seoslug"
 site_description = "Canonical URL normalization and deterministic SEO payload generation"
-site_url = "https://emiliano-gandini-outeda.me/seoslug/"
+site_url = "https://seoslug.emiliano-go.com/"
 docs_dir = "docs"
 site_dir = "site"
 

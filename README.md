@@ -84,7 +84,7 @@ This seemingly small property unlocks powerful workflows. You can commit expecte
 And everything is pure: no environment variables, no system clock, no random numbers, no external API calls.
 
 ### Documentation
-- [Docs](https://emiliano-gandini-outeda.me/seoslug)
-- [Deepwiki](https://deepwiki.com/emiliano-gandini-outeda/seoslug/)
-- [Hooks & Plugins](https://emiliano-gandini-outeda.me/seoslug/hooks/)
-- [API Reference](https://emiliano-gandini-outeda.me/seoslug/api-reference/)
+- [Docs](https://seoslug.emiliano-go.com)
+- [Deepwiki](https://deepwiki.com/emiliano-go/seoslug/)
+- [Hooks & Plugins](https://seoslug.emiliano-go.com/hooks/)
+- [API Reference](https://seoslug.emiliano-go.com/api-reference/)
