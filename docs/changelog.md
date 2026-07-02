@@ -1,8 +1,109 @@
 # Changelog
 
-All notable changes to seoslug are documented here.
-The format is based on Keep a Changelog.
-The project follows semantic versioning.
+All notable changes to seoslug are documented here. The format is based on Keep a Changelog. The project follows semantic versioning.
+
+## 2.0.0 (2026-07-02)
+
+### Added
+
+#### New entity types
+
+- `product` - Schema.org Product with sku, price, price_currency, and availability fields. Auto-generates Product JSON-LD with Offer.
+- `organization` - Schema.org Organization with sameAs and logo support.
+- `local_business` - Schema.org LocalBusiness extends Organization with address field.
+- `faq` - Schema.org FAQPage with faq_items (list of FAQItem). Auto-generates Question/Answer JSON-LD.
+
+#### New dataclasses
+
+- `OGImage` - Structured image type with url, width, height, and alt. Accepted by SEOEntity.featured_image, SEOConfig.default_og_image, SEOOverrides.og_image, and SEOOverrides.twitter_image.
+- `Breadcrumb` - Single breadcrumb entry with name and url. Used in SEOEntity.breadcrumbs.
+- `FAQItem` - Single FAQ pair with question and answer. Used in SEOEntity.faq_items.
+- `Robots` - Structured robots directive. Supports index, follow, max-snippet, max-image-preview, and max-video-preview. Serializes to standard robots meta content string.
+
+#### BreadcrumbList auto-generation
+
+Pass a list of `Breadcrumb` objects to `SEOEntity.breadcrumbs`. seoslug automatically generates a `BreadcrumbList` JSON-LD schema and appends it to the payload.
+
+#### Social metadata fields
+
+- `SEOOverrides.og_audio` and `SEOOverrides.og_video` for multimedia Open Graph tags.
+- `SEOOverrides.twitter_creator` for Twitter `creator` attribution.
+- `SEOConfig.locale_alternate` for alternate locale Open Graph tags.
+- `SEOConfig.twitter_site` for Twitter `site` attribution.
+
+#### SchemaRegistry
+
+Register custom JSON-LD generators for any schema type. When `build_schema` encounters a registered type, it calls your generator instead of the built-in builder.
+
+```python
+from seoslug import SchemaRegistry
+
+registry = SchemaRegistry()
+registry.register("Podcast", lambda entity, config, canonical, title, description, og_image: {
+    "@context": "https://schema.org",
+    "@type": "Podcast",
+    "name": title,
+    "url": canonical,
+})
+
+config = SEOConfig(
+    ...,
+    schema_registry=registry,
+)
+```
+
+#### Validation warnings
+
+Set `emit_warnings=True` in `SEOConfig` to receive non-fatal Python warnings for common SEO issues (title too long, description too long, missing absolute URLs, malformed robots directives).
+
+#### SEOPayload dataclass return type
+
+`build_seo_payload` now returns an `SEOPayload` dataclass instead of a plain dict. The dataclass supports dict-style access (`payload["title"]`), attribute access (`payload.title`), and `.to_dict()`.
+
+#### build_seo_payload_dict
+
+New function that calls `build_seo_payload` and returns `payload.to_dict()`. Convenience wrapper for template engines and JSON serialization that expect a raw dictionary.
+
+#### build_seo_payload_async
+
+Async version of `build_seo_payload`. Runs the synchronous builder in a thread pool executor. Import from `seoslug.async_builder`. Accepts an optional `executor` parameter.
+
+```python
+from seoslug.async_builder import build_seo_payload_async
+
+payload = await build_seo_payload_async(entity, route, config)
+```
+
+#### Factory functions
+
+- `from_blog_post(title, body_html, ...)` - Creates an SEOEntity pre-configured as a blog post.
+- `from_product(name, sku, price, ...)` - Creates an SEOEntity pre-configured as a product.
+- `from_faq(questions, ...)` - Creates an SEOEntity pre-configured as an FAQ page.
+
+#### SEOEntityBuilder
+
+Fluent builder for `SEOEntity`. Use chained method calls instead of keyword arguments.
+
+```python
+from seoslug import SEOEntityBuilder
+
+entity = (
+    SEOEntityBuilder()
+    .entity_type("product")
+    .title("Widget")
+    .price(29.99)
+    .availability("InStock")
+    .build()
+)
+```
+
+### Changed
+
+- lxml and detrack moved from core dependencies to optional extras.
+  - `[fast]` extras include lxml + detrack (recommended).
+  - `[light]` extras is a no-op marker for minimal installs.
+- Pure-Python HTML extractor replaces lxml for `html_to_text` when lxml is not available.
+- HTML entity decoding (nbsp, amp, lt, gt, quot, #39) added to pure-Python extractor.
 
 ## 1.1.0 (2026-06-17)
 
@@ -31,7 +132,7 @@ The project follows semantic versioning.
 
 - Replaced inline tracking parameter logic with the detrack library.
 - Tracking coverage expanded from 3 patterns to 60+ patterns.
-Added detrack as a dependency.
+- Added detrack as a dependency.
 
 ## 1.0.0 (2026-04-15)
 

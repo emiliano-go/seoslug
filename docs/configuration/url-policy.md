@@ -1,83 +1,92 @@
 # URLPolicy reference
 
-`URLPolicy` controls how URLs are normalized before becoming canonical.
+`URLPolicy` controls how URLs are normalized before they become canonical. Every canonical URL flows through this pipeline. Create one instance and attach it to your `SEOConfig`.
 
 ## Fields
 
-### enforce_https (optional)
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `enforce_https` | `bool` | `True` | Force HTTPS scheme in all canonical URLs. |
+| `lowercase_paths` | `bool` | `True` | Lowercase the path component. |
+| `trailing_slash` | `Literal` | `"never"` | Trailing slash policy: `"always"`, `"never"`, or `"preserve"`. |
+| `collapse_duplicate_slashes` | `bool` | `True` | Collapse consecutive slashes into one. |
+| `strip_tracking_params` | `bool` | `True` | Remove tracking parameters (UTM, fbclid, gclid, 60+ more). |
+| `allowed_query_params` | `list[str]` | `[]` | Allowlist of query parameters to keep. Empty list keeps all non-tracking params. |
 
-Converts HTTP to HTTPS in canonical URLs.
-Defaults to True.
+### enforce_https
+
+When `True`, all canonical URLs use `https://`. When `False`, the scheme from `config.public_base_url` is used.
 
 ```python
 URLPolicy(enforce_https=True)
+# http://example.com/page → https://example.com/page
+
+URLPolicy(enforce_https=False)
+# Uses whatever scheme is in public_base_url
 ```
 
-When True, the scheme is always https.
-When False, the scheme from public_base_url is used.
+### lowercase_paths
 
-### lowercase_paths (optional)
-
-Normalizes path case to lowercase.
-Defaults to True.
+When `True`, the path component is lowercased. This prevents duplicate content from case-insensitive URL variations.
 
 ```python
 URLPolicy(lowercase_paths=True)
+# /Blog/My-Post → /blog/my-post
 ```
 
-`/Blog/My-Post` becomes `/blog/my-post`.
+### trailing_slash
 
-### trailing_slash (optional)
+Controls whether canonical URLs end with a trailing slash. Accepts exactly three values:
 
-Controls trailing slash behavior.
-Accepts three values: `"always"`, `"never"`, or `"preserve"`.
-Defaults to `"never"`.
+- `"always"` -- append a trailing slash to every path
+- `"never"` -- remove trailing slashes from every path
+- `"preserve"` -- leave the path as-is
 
 ```python
-URLPolicy(trailing_slash="always")   # /blog/post/
-URLPolicy(trailing_slash="never")    # /blog/post
-URLPolicy(trailing_slash="preserve") # keeps original
+URLPolicy(trailing_slash="always")
+# /blog/post → /blog/post/
+
+URLPolicy(trailing_slash="never")
+# /blog/post/ → /blog/post
+
+URLPolicy(trailing_slash="preserve")
+# Keeps original casing and slash
 ```
 
-### collapse_duplicate_slashes (optional)
+### collapse_duplicate_slashes
 
-Collapses consecutive slashes into one.
-Defaults to True.
+When `True`, consecutive slashes are collapsed into a single slash. Prevents path injection-style duplicates.
 
 ```python
 URLPolicy(collapse_duplicate_slashes=True)
+# //blog//post// → /blog/post/
 ```
 
-`//blog//post//` becomes `/blog/post/`.
+### strip_tracking_params
 
-### strip_tracking_params (optional)
+When `True`, removes common tracking parameters from URLs. Removes UTM parameters (`utm_source`, `utm_medium`, etc.), `fbclid`, `gclid`, `gclsrc`, and 60+ other tracking parameters.
 
-Removes tracking parameters from URLs.
-Defaults to True.
+This feature uses the optional `detrack` library when available, with a pure-Python fallback.
 
 ```python
 URLPolicy(strip_tracking_params=True)
+# /page?utm_source=twitter&utm_campaign=summer&gclid=abc → /page
 ```
 
-Removes UTM parameters, fbclid, gclid, and 60+ other tracking parameters.
-This feature requires the detrack library, which is installed automatically.
+### allowed_query_params
 
-### allowed_query_params (optional)
+When set, only the listed query parameters are kept. All others are stripped. When empty (the default), all non-tracking parameters are preserved.
 
-List of query parameters to keep.
-When set, all other parameters are removed.
-Defaults to an empty list, which keeps all non tracking parameters.
+Processing order: tracking parameters are stripped first, then the allowlist is applied.
 
 ```python
-URLPolicy(allowed_query_params=["page", "q", "sort"])
+URLPolicy(allowed_query_params=["q", "page", "sort"])
+# /search?q=seo&page=2&utm_source=twitter&ref=sidebar → /search?q=seo&page=2
 ```
 
-When combined with `strip_tracking_params`, tracking parameters are removed first,
-then the allowlist is applied.
+## Strict policy
 
-## Example
-
-A complete URLPolicy that enforces strict canonical URLs.
+Combines all options for maximum URL consistency. Use this when you need canonical URLs to be identical regardless of how users arrive.
 
 ```python
 from seoslug import URLPolicy
@@ -92,4 +101,28 @@ policy = URLPolicy(
 )
 ```
 
-This policy produces clean, canonical URLs that are consistent across all pages.
+What this policy does:
+
+- Forces HTTPS -- no mixed content
+- Lowercases paths -- `/Blog/Post` and `/blog/post` are the same
+- Removes trailing slashes -- no slash/no-slash duplicates
+- Collapses `//` -- no path injection
+- Strips UTM, fbclid, gclid -- clean URLs
+- Keeps only `q` and `page` -- no arbitrary query params
+
+```python
+config = SEOConfig(
+    canonical_host="example.com",
+    public_base_url="https://example.com",
+    url_policy=URLPolicy(
+        enforce_https=True,
+        lowercase_paths=True,
+        trailing_slash="never",
+        collapse_duplicate_slashes=True,
+        strip_tracking_params=True,
+        allowed_query_params=["q", "page"],
+    ),
+)
+```
+
+Result: every canonical URL is predictable, clean, and reproducible.

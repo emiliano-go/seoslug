@@ -1,16 +1,10 @@
 # Configuration overview
 
-seoslug uses three dataclasses for configuration.
-
-`SEOConfig` controls global behavior like canonical host and schema generation.
-`URLPolicy` defines how URLs are normalized.
-`SEOEntity` represents your content.
-`SEOOverrides` lets you override any generated field on a per call basis.
+seoslug uses four dataclasses to configure SEO output. Each one has a single responsibility. You compose them together at build time.
 
 ## SEOConfig
 
-`SEOConfig` is the main configuration object.
-It holds your site wide settings.
+Global settings for your entire site. Controls canonical host, URL normalization, robots defaults, Open Graph, schema generation, and locale.
 
 ```python
 from seoslug import SEOConfig, URLPolicy
@@ -22,9 +16,11 @@ config = SEOConfig(
 )
 ```
 
+[Full reference](seo-config.md)
+
 ## URLPolicy
 
-`URLPolicy` controls URL normalization rules.
+URL normalization rules. Enforces HTTPS, trailing slash policy, lowercase paths, and query parameter filtering. Every canonical URL flows through this pipeline.
 
 ```python
 from seoslug import URLPolicy
@@ -37,9 +33,11 @@ policy = URLPolicy(
 )
 ```
 
+[Full reference](url-policy.md)
+
 ## SEOEntity
 
-`SEOEntity` represents a single content item.
+Your content. Holds the raw data seoslug uses to generate title, description, Open Graph, Twitter Cards, and JSON-LD schema. Entity type determines the schema output.
 
 ```python
 from seoslug import SEOEntity
@@ -47,29 +45,25 @@ from seoslug import SEOEntity
 entity = SEOEntity(
     entity_type="post",
     title="My Post",
-    excerpt="Example excerpt",
+    excerpt="A brief description",
     status="published",
 )
 ```
 
+[Full reference](seo-entity.md)
+
 ## SEOOverrides
 
-`SEOOverrides` lets you override generated values for a single call.
+Per-call overrides. Bypass generated values for a single page without touching global config. Useful for custom titles, per-page robots, or injecting custom JSON-LD.
 
 ```python
 from seoslug import SEOOverrides
 
 overrides = SEOOverrides(
-    meta_title="Custom title for this page",
+    meta_title="Custom Page Title",
     robots="noindex,follow",
 )
 payload = build_seo_payload(entity, "/path", config, overrides)
 ```
 
-## Next steps
-
-Read the detailed pages for each configuration class.
-[SEOConfig Reference](seo-config.md). All SEOConfig fields explained.
-[URLPolicy Reference](url-policy.md). URL normalization rules in detail.
-[SEOEntity Reference](seo-entity.md). Input schema for content.
-[SEOOverrides Reference](seo-overrides.md). Per call override options.
+[Full reference](seo-overrides.md)

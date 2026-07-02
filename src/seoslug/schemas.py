@@ -343,4 +343,3 @@ class SEOEntityBuilder:
         if "entity_type" not in self._kwargs:
             raise ValueError("entity_type is required")
         return SEOEntity(**self._kwargs)
->>>>>>> a7fc95d (feat: add domain factories, async builder, entity builder, registry, validation)

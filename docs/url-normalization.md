@@ -1,49 +1,90 @@
-# URL normalization
+# URL Normalization
 
-seoslug normalizes URLs in a deterministic pipeline.
-The result is a clean, canonical URL that never changes for the same input.
+seoslug normalizes URLs through a deterministic pipeline.
+The output is always a clean canonical URL.
+
+Every step is controlled by `URLPolicy` and `canonical_host`.
 
 ## The pipeline
 
 URLs pass through these steps in order.
 
-### 1. Scheme enforcement
+### 0. Base path prepending
 
-If `enforce_https` is True, the scheme is set to https.
-If False, the scheme from `public_base_url` is used.
+If `public_base_url` contains a path, it is prepended to the route path before any other step.
 
 ```python
+from seoslug import SEOConfig
+
+config = SEOConfig(
+    canonical_host="example.com",
+    public_base_url="https://example.com/blog",
+    url_policy=...,
+)
+```
+
+| Input  | Result          |
+|--------|-----------------|
+| `/page`   | `/blog/page`    |
+| `/`       | `/blog`         |
+
+This enables sub-path deployments like `https://example.com/blog/`.
+
+### 1. Scheme enforcement
+
+Sets the URL scheme. HTTPS by default.
+
+| `enforce_https` | Behavior                          |
+|-----------------|-----------------------------------|
+| `True`          | Always `https`                    |
+| `False`         | Uses scheme from `public_base_url`|
+
+```python
+from seoslug import URLPolicy
+
 URLPolicy(enforce_https=True)
 ```
 
-`http://example.com/page` becomes `https://example.com/page`.
+`http://other.com/page` becomes `https://portal.example.com/page`.
 
 ### 2. Host enforcement
 
-The host is always set to `canonical_host`.
+Always replaces the host with `canonical_host`.
 Host injection attacks are prevented.
 
 ```python
-SEOConfig(canonical_host="blog.example.com")
+SEOConfig(canonical_host="portal.example.com")
 ```
 
-`https://evil.com/page` becomes `https://blog.example.com/page`.
+`https://evil.com/path` becomes `https://portal.example.com/path`.
 
 ### 3. Path normalization
 
-Paths are lowercased if `lowercase_paths` is True.
-Duplicate slashes are collapsed if `collapse_duplicate_slashes` is True.
+Two operations controlled by `URLPolicy`:
+
+| Setting                     | Default | Effect |
+|-----------------------------|---------|--------|
+| `lowercase_paths`           | `True`  | Lowercases the path |
+| `collapse_duplicate_slashes`| `True`  | Reduces `//` to `/` |
 
 ```python
-URLPolicy(lowercase_paths=True, collapse_duplicate_slashes=True)
+URLPolicy(
+    lowercase_paths=True,
+    collapse_duplicate_slashes=True,
+)
 ```
 
 `//Blog//My-Post//` becomes `/blog/my-post`.
 
 ### 4. Trailing slash
 
-The trailing slash policy is applied.
-Three modes are available: always, never, or preserve.
+Three modes:
+
+| `trailing_slash` | Effect                    |
+|------------------|---------------------------|
+| `"never"`        | Removes trailing slash    |
+| `"always"`       | Adds trailing slash       |
+| `"preserve"`     | Leaves as-is              |
 
 ```python
 URLPolicy(trailing_slash="never")
@@ -53,52 +94,82 @@ URLPolicy(trailing_slash="never")
 
 ### 5. Query parameter filtering
 
-Tracking parameters are stripped if `strip_tracking_params` is True.
-This removes UTM parameters, fbclid, gclid, and 60+ other tracking parameters.
-The detrack library handles this step automatically.
+Two layers of filtering:
 
-If `allowed_query_params` is set, only those parameters are kept.
-All other parameters are removed.
+**Tracking param stripping** -- removes UTM parameters, fbclid, gclid, msclkid, and 60+ more. Uses the `detrack` library if installed, otherwise a built-in regex.
+
+| `strip_tracking_params` | Behavior                          |
+|-------------------------|-----------------------------------|
+| `True` (default)        | Strips known tracking params      |
+| `False`                 | Keeps all params                  |
+
+**Query allowlist** -- when set, only the listed params are kept. All others are removed.
 
 ```python
 URLPolicy(
     strip_tracking_params=True,
-    allowed_query_params=["q", "page"],
+    allowed_query_params=["q", "page", "sort"],
 )
 ```
 
-`?utm_source=twitter&q=python&bad=1` becomes `?q=python`.
+`?utm_source=twitter&q=python&bad=1&page=2` becomes `?q=python&page=2`.
+
+## Sub-path deployment example
+
+```python
+from seoslug import SEOConfig, URLPolicy
+
+config = SEOConfig(
+    canonical_host="example.com",
+    public_base_url="https://example.com/blog",
+    url_policy=URLPolicy(
+        lowercase_paths=True,
+        trailing_slash="never",
+        collapse_duplicate_slashes=True,
+        strip_tracking_params=True,
+    ),
+)
+
+# Given route "/about"
+# Result: "https://example.com/blog/about"
+
+# Given route "/"
+# Result: "https://example.com/blog"
+```
+
+Sub-path canonical URLs work because base path prepending happens at step 0, before path normalization.
 
 ## Standalone use
 
-You can use the URL normalizer without generating a full SEO payload.
+URL normalization functions are public. Use them without building a full payload.
 
 ```python
-from seoslug import normalize_public_url, normalize_path
+from seoslug import normalize_public_url, normalize_path, URLPolicy
 
-# Normalize a full URL
+# Normalize a full URL with config
 url = normalize_public_url(
     "http://evil.com//Blog/Post?utm_source=x",
     config,
 )
-# Result: "https://blog.example.com/blog/post"
+# Result: "https://example.com/blog/post"
 
-# Normalize just the path
+# Normalize just the path with a policy
 path = normalize_path(
     "//Blog//My-Post//",
-    URLPolicy(lowercase_paths=True),
+    URLPolicy(lowercase_paths=True, trailing_slash="never"),
 )
 # Result: "/blog/my-post"
 ```
 
 ## Idempotency
 
-URL normalization is idempotent.
-Normalizing an already normalized URL produces the same result.
+Normalization is idempotent. Running it twice produces the same result.
 
 ```python
 url = "http://example.com//A//B/?utm_campaign=x"
 first = normalize_public_url(url, config)
 second = normalize_public_url(first, config)
-assert first == second
+assert first == second  # always True
 ```
+
+This holds for sub-path deployments too.

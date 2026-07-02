@@ -1,15 +1,14 @@
 # FastAPI integration
 
-In FastAPI, you can use seoslug inside your route handlers.
-Create a dependency that loads your SEO config and entity.
-Call `build_seo_payload` before rendering your template.
+Use `build_seo_payload_async` from `seoslug.async_builder` in your route handlers. It runs the synchronous builder in a thread pool so it does not block the event loop.
 
-## Basic example
+## Basic route handler
 
 ```python
 from fastapi import FastAPI, Depends
 from fastapi.responses import HTMLResponse
-from seoslug import SEOConfig, URLPolicy, SEOEntity, build_seo_payload
+from seoslug import SEOConfig, URLPolicy, SEOEntity
+from seoslug.async_builder import build_seo_payload_async
 
 app = FastAPI()
 
@@ -28,31 +27,54 @@ async def get_post(slug: str, config: SEOConfig = Depends(get_seo_config)):
         excerpt="A short description",
         status="published",
     )
-    payload = build_seo_payload(entity, f"/posts/{slug}", config)
-    # Render template with payload
+    payload = await build_seo_payload_async(entity, f"/posts/{slug}", config)
     return HTMLResponse(f"""
     <head>
-        <title>{payload['title']}</title>
-        <meta name="description" content="{payload['description']}">
-        <link rel="canonical" href="{payload['canonical']}">
+        <title>{payload.title}</title>
+        <meta name="description" content="{payload.description}">
+        <link rel="canonical" href="{payload.canonical}">
     </head>
     """)
 ```
 
-## Caching with ETags
+## Dependency injection pattern
 
-Use seoslug's deterministic output for ETag based caching.
-Compare the hash of the payload against the If-None-Match header.
+Use FastAPI's `Depends` to provide `SEOConfig`. This keeps configuration centralised and testable.
+
+```python
+from functools import lru_cache
+from seoslug import SEOConfig, URLPolicy
+
+@lru_cache
+def get_seo_config():
+    return SEOConfig(
+        canonical_host="blog.example.com",
+        public_base_url="https://blog.example.com",
+        url_policy=URLPolicy(allowed_query_params=["page"]),
+        site_name="My Blog",
+        locale="en_US",
+    )
+```
+
+Inject the config into any route that needs SEO metadata.
+
+## ETag caching
+
+seoslug is deterministic. Same input always produces the same `SEOPayload`. Use this for ETag-based HTTP caching.
 
 ```python
 import hashlib
 from fastapi import Request, Response
 
 @app.get("/posts/{slug}")
-async def get_post_cached(request: Request, slug: str, config=Depends(get_seo_config)):
-    entity = SEOEntity(entity_type="post", title="My Post")
-    payload = build_seo_payload(entity, f"/posts/{slug}", config)
-    etag = hashlib.sha256(str(payload).encode()).hexdigest()[:16]
+async def get_post_cached(
+    request: Request,
+    slug: str,
+    config: SEOConfig = Depends(get_seo_config),
+):
+    entity = SEOEntity(entity_type="post", title="My Post", status="published")
+    payload = await build_seo_payload_async(entity, f"/posts/{slug}", config)
+    etag = hashlib.sha256(str(payload.to_dict()).encode()).hexdigest()[:16]
 
     if request.headers.get("if-none-match") == etag:
         return Response(status_code=304)
@@ -63,9 +85,7 @@ async def get_post_cached(request: Request, slug: str, config=Depends(get_seo_co
     )
 ```
 
-## Jinja templates
-
-Use Jinja2Templates for full HTML rendering.
+## Template rendering with Jinja2
 
 ```python
 from fastapi.templating import Jinja2Templates
@@ -73,11 +93,29 @@ from fastapi.templating import Jinja2Templates
 templates = Jinja2Templates(directory="templates")
 
 @app.get("/posts/{slug}")
-async def get_post(request: Request, slug: str, config=Depends(get_seo_config)):
-    entity = SEOEntity(entity_type="post", title="My Post")
-    payload = build_seo_payload(entity, f"/posts/{slug}", config)
+async def get_post(
+    request: Request,
+    slug: str,
+    config: SEOConfig = Depends(get_seo_config),
+):
+    entity = SEOEntity(entity_type="post", title="My Post", status="published")
+    payload = await build_seo_payload_async(entity, f"/posts/{slug}", config)
     return templates.TemplateResponse("post.html", {
         "request": request,
-        "payload": payload,
+        "payload": payload.to_dict(),
     })
 ```
+
+The `SEOPayload` dataclass is dict-compatible. You can pass it directly or use `.to_dict()` for explicit serialization.
+
+## Customising the thread pool
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+from seoslug.async_builder import set_executor
+
+executor = ThreadPoolExecutor(max_workers=8)
+set_executor(executor)
+```
+
+Call `set_executor(None)` to reset to the default 4-worker pool.

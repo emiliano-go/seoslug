@@ -1,112 +1,211 @@
-# SEO payload generation
+# SEO Payload
 
-The payload returned by `build_seo_payload()` is a dictionary with seven top level keys.
+`build_seo_payload()` returns a `SEOPayload` dataclass.
+It behaves like a dict for most use cases.
 
-## Payload structure
+The payload contains every tag your `<head>` needs.
+
+## Full payload structure
 
 ```python
 {
-    "title": "My Post",
-    "description": "A short description",
+    "title": "My Post - My Blog",
+    "description": "A brief description of the post.",
     "canonical": "https://blog.example.com/posts/my-post",
     "robots": "index,follow",
     "og": {
         "type": "article",
-        "title": "My Post",
-        "description": "A short description",
+        "title": "My Post - My Blog",
+        "description": "A brief description of the post.",
         "url": "https://blog.example.com/posts/my-post",
-        "image": "https://cdn.example.com/default.jpg",
+        "image": "https://cdn.example.com/hero.jpg",
+        "image:width": 1200,
+        "image:height": 630,
+        "image:alt": "Hero image description",
+        "site_name": "My Blog",
+        "locale": "en_US",
+        "locale:alternate": ["es_ES", "fr_FR"],
+        "audio": "https://example.com/audio.mp3",
+        "video": "https://example.com/video.mp4",
     },
     "twitter": {
         "card": "summary_large_image",
-        "title": "My Post",
-        "description": "A short description",
-        "image": "https://cdn.example.com/default.jpg",
+        "title": "My Post - My Blog",
+        "description": "A brief description of the post.",
+        "image": "https://cdn.example.com/hero.jpg",
+        "image:alt": "Hero image description",
+        "site": "@mysite",
+        "creator": "@janedoe",
     },
     "schema_jsonld": {
         "@context": "https://schema.org",
         "@type": "Article",
-        "name": "My Post",
+        "name": "My Post - My Blog",
         "url": "https://blog.example.com/posts/my-post",
-        "description": "A short description",
-        "image": "https://cdn.example.com/default.jpg",
+        "description": "A brief description of the post.",
+        "image": "https://cdn.example.com/hero.jpg",
     },
 }
 ```
 
-## How each field is generated
+## Top-level keys
 
-### title
+| Key           | Type                        | Description |
+|---------------|-----------------------------|-------------|
+| `title`       | `str`                       | Page title, with title template applied |
+| `description` | `str`                       | Meta description from fallback chain |
+| `canonical`   | `str`                       | Fully normalized canonical URL |
+| `robots`      | `str`                       | Robots meta content string |
+| `og`          | `OGPayload` (dict-like)     | Open Graph tags |
+| `twitter`     | `TwitterPayload` (dict-like)| Twitter Card tags |
+| `schema_jsonld` | `dict \| list[dict] \| None` | Schema.org JSON-LD |
 
-Resolved through the fallback chain.
-Override meta_title is checked first.
-Then entity title is checked.
-If both are missing, the default is "Untitled".
+## `title`
 
-The title template from SEOConfig is applied if set.
+Fallback chain: `SEOOverrides.meta_title` > `SEOEntity.title` > `"Untitled"`.
+
+After resolution the title template from config is applied.
 
 ```python
 config = SEOConfig(
+    ...,
     title_template="{title} - My Blog",
 )
-# Result: "My Post - My Blog"
 ```
 
-### description
+## `description`
 
-Resolved through the fallback chain.
-Override meta_description is checked first.
-Then entity excerpt is checked.
-Then the HTML body is converted to plain text and truncated to 160 characters.
-If all are missing, the result is an empty string.
+Fallback chain: `SEOOverrides.meta_description` > `SEOEntity.excerpt` > body snippet > `""`.
 
 The HTML body is only parsed when neither the override nor the excerpt is available.
 If you provide an explicit `excerpt` or `meta_description`, the `body_html` is never touched.
-This avoids expensive lxml parsing when the description is already determined.
+This avoids expensive HTML parsing when the description is already determined.
 
-### canonical
+The body snippet converts HTML to plain text and truncates at 160 characters.
 
-Resolved through the fallback chain.
-Override canonical_url is checked first.
-Then the normalized route path is used.
+## `canonical`
 
-The route path is passed through the full URL normalization pipeline.
+Fallback chain: `SEOOverrides.canonical_url` > normalized route path.
 
-### robots
+The route path runs through the full URL normalization pipeline.
 
-Resolved through the fallback chain.
-Override robots is checked first.
-Then the entity status determines the value.
-Published content gets "index,follow".
-Search entity types get the search_robots value from config.
-Other statuses use the default_robots value from config.
+## `robots`
 
-### og
+| `Robots` dataclass field   | Type      | Default |
+|----------------------------|-----------|---------|
+| `index`                    | `bool`    | `True`  |
+| `follow`                   | `bool`    | `True`  |
+| `max_snippet`              | `int \| None` | `None` |
+| `max_image_preview`        | `str \| None` | `None` |
+| `max_video_preview`        | `int \| None` | `None` |
 
-The Open Graph dictionary has five keys: type, title, description, url, and image.
-The og:type depends on entity type. Posts and videos use "article". Others use "website".
-The og:title falls back from override to the resolved title.
-The og:description falls back from override to the resolved description.
-The og:image falls back from override to entity featured_image to config default_og_image.
-If site_name is set in config, og:site_name is added.
+```python
+from seoslug import Robots
 
-### twitter
+# Structured
+config = SEOConfig(
+    ...,
+    default_robots=Robots(index=False, follow=False),
+    search_robots=Robots(index=False, follow=True, max_snippet=-1),
+)
 
-The Twitter dictionary has four keys: card, title, description, and image.
-The twitter:card defaults to "summary_large_image" and can be overridden.
-The twitter:title has its own override, then falls back to og:title.
-The twitter:description has its own override, then falls back to og:description.
-The twitter:image has its own override, then falls back to og:image.
+# Or string
+overrides = SEOOverrides(robots="noindex,nofollow")
+```
 
-### schema_jsonld
+The output is always a serialized string like `"index,follow"` or `"noindex,follow,max-snippet:-1"`.
 
-The schema is auto generated based on entity type.
-The entity type is mapped to a schema.org type via `schema_type_map`.
-The schema includes name, url, description, and image.
-Timestamps are added for published_at and updated_at.
-Author and publisher information is added when available.
-Article types include a mainEntityOfPage field.
+## `og` (Open Graph)
 
-Schema generation can be disabled globally via `auto_generate_schema`.
-Schema can be overridden per call via `SEOOverrides.schema_jsonld`.
-Schema can be omitted per call via `SEOOverrides.omit_schema`.
+| Key                | Type                 | Source |
+|--------------------|----------------------|--------|
+| `type`             | `str`                | `"article"` for post/video, `"website"` otherwise |
+| `title`            | `str \| None`        | Override > resolved title |
+| `description`      | `str \| None`        | Override > resolved description |
+| `url`              | `str \| None`        | Canonical URL |
+| `image`            | `str \| None`        | Override > entity.featured_image > config.default_og_image |
+| `image:width`      | `int \| None`        | From OGImage.width |
+| `image:height`     | `int \| None`        | From OGImage.height |
+| `image:alt`        | `str \| None`        | From OGImage.alt |
+| `site_name`        | `str \| None`        | From config.site_name |
+| `locale`           | `str \| None`        | From config.locale |
+| `locale:alternate` | `list[str] \| None`  | From config.locale_alternate |
+| `audio`            | `str \| None`        | Override og_audio |
+| `video`            | `str \| None`        | Override og_video |
+
+### OGImage dataclass
+
+```python
+from seoslug import OGImage
+
+img = OGImage(
+    url="https://cdn.example.com/hero.jpg",
+    width=1200,
+    height=630,
+    alt="Hero image",
+)
+```
+
+Accepted anywhere an image is: `entity.featured_image`, `overrides.og_image`, `overrides.twitter_image`, `config.default_og_image`.
+
+## `twitter` (Twitter Card)
+
+| Key           | Type                 | Source |
+|---------------|----------------------|--------|
+| `card`        | `str`                | Override > `"summary_large_image"` |
+| `title`       | `str \| None`        | Override > resolved og:title |
+| `description` | `str \| None`        | Override > resolved og:description |
+| `image`       | `str \| None`        | Override > resolved og:image |
+| `image:alt`   | `str \| None`        | From OGImage.alt |
+| `site`        | `str \| None`        | From config.twitter_site |
+| `creator`     | `str \| None`        | From override.twitter_creator |
+
+## `schema_jsonld`
+
+Auto-generated from entity type. See [Schema JSON-LD](schema-jsonld.md).
+
+Single schema is a dict. Multiple schemas (e.g. with breadcrumbs) is a list. `None` when omitted.
+
+## Social metadata fields
+
+`locale` and `locale:alternate` are set at config level and flow into the OG payload:
+
+```python
+config = SEOConfig(
+    ...,
+    locale="en_US",
+    locale_alternate=["es_ES", "fr_FR"],
+)
+```
+
+Accessible in the payload as:
+
+```python
+payload["og"]["locale"]           # "en_US"
+payload["og"]["locale:alternate"] # ["es_ES", "fr_FR"]
+```
+
+`og:audio` and `og:video` come from overrides:
+
+```python
+overrides = SEOOverrides(
+    og_audio="https://example.com/audio.mp3",
+    og_video="https://example.com/video.mp4",
+)
+```
+
+`twitter:site` is a config-level field:
+
+```python
+config = SEOConfig(..., twitter_site="@mysite")
+
+payload["twitter"]["site"]  # "@mysite"
+```
+
+`twitter:creator` is a per-entity override:
+
+```python
+overrides = SEOOverrides(twitter_creator="@janedoe")
+
+payload["twitter"]["creator"]  # "@janedoe"
+```

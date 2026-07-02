@@ -1,39 +1,44 @@
-# Integrations overview
+# Integrations
 
-seoslug works with many Python web frameworks.
-You can use it with FastAPI, Django, Flask, or any static site generator.
-The integrations section covers each of these with working code examples.
+seoslug is framework-agnostic. You can use it with any Python web framework, static site generator, or build pipeline.
 
-Each example shows how to call `build_seo_payload` in your specific framework.
-It also shows how to render the payload in templates and cache the results.
+The general pattern is always the same:
 
-## Available guides
+1. Build an `SEOEntity` from your content data.
+2. Create an `SEOConfig` that matches your deployment.
+3. Call `build_seo_payload` (or `build_seo_payload_async` for async frameworks).
+4. Inject the returned `SEOPayload` into your template or JSON response.
 
-- [FastAPI](fastapi.md). Async route handlers with ETag caching.
-- [Django](django.md). Views, templates, and framework caching.
-- [Static Site Generators](ssg.md). Hugo, Pelican, MkDocs, and build time generation.
+## Framework guides
 
-## General pattern
+| Framework | Guide | Notes |
+|-----------|-------|-------|
+| FastAPI / Starlette | [FastAPI integration](fastapi.md) | Async route handlers, dependency injection, ETag caching |
+| Django | [Django integration](django.md) | Class-based views, template context, Django REST Framework |
+| Static site generators | [SSG integration](ssg.md) | Build-time generation, JSON manifest, Pelican, MkDocs |
 
-The pattern is the same across all frameworks.
+## Other frameworks
 
-1. Create your SEOConfig once at application startup.
-2. Build an SEOEntity for each content item.
-3. Call `build_seo_payload` in your route handler or build step.
-4. Pass the payload to your template.
-5. Render the meta tags in the HTML head section.
+seoslug works anywhere Python runs. The integration pattern is the same:
 
 ```python
-from seoslug import SEOConfig, URLPolicy, SEOEntity, build_seo_payload
+from seoslug import SEOConfig, SEOEntity, build_seo_payload
 
-# Do this once
 config = SEOConfig(
-    canonical_host="blog.example.com",
-    public_base_url="https://blog.example.com",
-    url_policy=URLPolicy(),
+    canonical_host="yoursite.com",
+    public_base_url="https://yoursite.com",
+    url_policy=...,
 )
 
-# Do this per request
-entity = SEOEntity(entity_type="post", title="My Post")
-payload = build_seo_payload(entity, "/posts/my-post", config)
+entity = SEOEntity(
+    entity_type="page",
+    title="Hello",
+    status="published",
+)
+
+payload = build_seo_payload(entity, "/hello", config)
 ```
+
+Use `payload.to_dict()` when you need a plain dict for template engines or JSON serialization. Use `build_seo_payload_dict()` as a shorthand.
+
+For async frameworks, import from `seoslug.async_builder`:

@@ -1,12 +1,14 @@
 # Recipes
 
-This section contains ready to use patterns for real world scenarios.
+Ready-to-use patterns for real-world scenarios.
 Each recipe includes full code and the resulting SEO payload.
 
 ## Available recipes
 
-- [Blog Post](blog-post.md). Article schema with Open Graph tags.
-- [Product Page](product-page.md). Product schema with custom overrides.
-- [Category Page](category-page.md). CollectionPage schema with title templates.
-- [Search Results](search-results.md). SearchResultsPage with noindex.
-- [Multi Language Sites](multi-language.md). Hreflang tags and alternate URLs.
+| Recipe | Schema | Key features |
+|--------|--------|--------------|
+| [Blog Post](blog-post.md) | BlogPosting | OGImage with dimensions, breadcrumbs, author, SchemaRegistry |
+| [Product Page](product-page.md) | Product | SKU, price, availability, breadcrumbs, structured OGImage |
+| [Category Page](category-page.md) | CollectionPage | Taxonomy pages with title templates, default OG image |
+| [Search Results](search-results.md) | SearchResultsPage | noindex,follow, query params preserved, tracking stripped |
+| [Multi Language](multi-language.md) | Article | locale, locale:alternate, hreflang, per-language overrides |

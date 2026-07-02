@@ -1,9 +1,6 @@
 # Static site generators
 
-Static site generators benefit from deterministic SEO.
-Generate all SEO payloads at build time and write them to JSON files.
-In your templates, read the pre generated payload instead of calling seoslug at request time.
-This gives you complete SEO without runtime overhead.
+seoslug is deterministic. Generate all SEO payloads at build time and write them to JSON files. Your templates read the pre-generated payload instead of calling seoslug at request time. Zero runtime overhead.
 
 ## Hugo
 
@@ -644,9 +641,9 @@ This prevents SEO payloads from being generated for hidden draft directories, ar
 
 This exact setup runs in production on [egoblog](https://github.com/emiliano-go/egoblog), a Hugo blog deployed via GitHub Actions to GitHub Container Registry. The repo uses Strategy B (PaperMod handles og:/twitter:, seoslug provides canonical/description/robots/schema), a three-stage Dockerfile, and the full generation script from section 2.
 
-## Build time generation (generic)
+## Build-time generation
 
-Create a script that generates SEO payloads for all your content. This generic approach works with any SSG — the Hugo section below shows a production-ready version with frontmatter parsing and route derivation.
+Create a script that generates SEO payloads for all your content. Write each payload as a JSON file. This generic approach works with any SSG — the Hugo section below shows a production-ready version with frontmatter parsing and route derivation.
 
 ```python
 import json
@@ -660,8 +657,8 @@ config = SEOConfig(
 )
 
 posts = [
-    {"slug": "hello-world", "title": "Hello World"},
-    {"slug": "second-post", "title": "Second Post"},
+    {"slug": "hello-world", "title": "Hello World", "excerpt": "First post"},
+    {"slug": "second-post", "title": "Second Post", "excerpt": "Another post"},
 ]
 
 output_dir = Path("_data/seo")
@@ -671,16 +668,30 @@ for post in posts:
     entity = SEOEntity(
         entity_type="post",
         title=post["title"],
+        excerpt=post.get("excerpt"),
         status="published",
     )
     payload = build_seo_payload(entity, f"/posts/{post['slug']}", config)
     path = output_dir / f"{post['slug']}.json"
-    path.write_text(json.dumps(payload, indent=2))
+    path.write_text(json.dumps(payload.to_dict(), indent=2))
+```
+
+## JSON manifest
+
+Generate a single manifest file with all SEO payloads. Useful for SPA frameworks and client-side rendering.
+
+```python
+manifest = {}
+
+for post in posts:
+    entity = SEOEntity(entity_type="post", title=post["title"], status="published")
+    payload = build_seo_payload(entity, f"/posts/{post['slug']}", config)
+    manifest[f"/posts/{post['slug']}"] = payload.to_dict()
+
+Path("_data/seo-manifest.json").write_text(json.dumps(manifest, indent=2))
 ```
 
 ## Pelican plugin
-
-In Pelican, call seoslug during content generation.
 
 ```python
 from pelican import signals
@@ -699,17 +710,13 @@ def add_seo_metadata(content):
         excerpt=getattr(content, "summary", None),
         status="published",
     )
-    content.seo_payload = build_seo_payload(
-        entity, content.url, config,
-    )
+    content.seo_payload = build_seo_payload(entity, content.url, config)
 
 def register():
     signals.content_object_init.connect(add_seo_metadata)
 ```
 
 ## MkDocs plugin
-
-In MkDocs, use the `on_page_markdown` event.
 
 ```python
 from seoslug import SEOConfig, URLPolicy, SEOEntity, build_seo_payload
@@ -726,14 +733,12 @@ def on_page_markdown(markdown, page, config, files):
         title=page.title,
         status="published",
     )
-    page.seo_payload = build_seo_payload(
-        entity, page.url, config,
-    )
+    page.seo_payload = build_seo_payload(entity, page.url, config)
 ```
 
 ## Template usage
 
-In your templates, read the payload from the pre generated file.
+Read the pre-generated payload in your template.
 
 ### Jinja (Pelican, MkDocs)
 
@@ -742,6 +747,19 @@ In your templates, read the payload from the pre generated file.
     <title>{{ seo.title }}</title>
     <meta name="description" content="{{ seo.description }}">
     <link rel="canonical" href="{{ seo.canonical }}">
+    <meta name="robots" content="{{ seo.robots }}">
+
+    <meta property="og:title" content="{{ seo.og.title }}">
+    <meta property="og:description" content="{{ seo.og.description }}">
+    <meta property="og:url" content="{{ seo.og.url }}">
+    <meta property="og:image" content="{{ seo.og.image }}">
+
+    <meta name="twitter:card" content="{{ seo.twitter.card }}">
+    <meta name="twitter:title" content="{{ seo.twitter.title }}">
+    <meta name="twitter:description" content="{{ seo.twitter.description }}">
+    <meta name="twitter:image" content="{{ seo.twitter.image }}">
+
+    <script type="application/ld+json">{{ seo.schema_jsonld|safe }}</script>
 </head>
 ```
 
@@ -762,3 +780,15 @@ In your templates, read the payload from the pre generated file.
 Hugo automatically loads all JSON files under `data/` into `site.Data`.
 Use the `index` function for dynamic key lookups since Hugo maps don't support bracket notation.
 Wrap with `with .File` to skip virtual pages that have no backing content file.
+
+## CI verification
+
+Commit the generated JSON files to Git. CI can diff changes to verify SEO updates are intentional.
+
+```yaml
+# .github/workflows/seo-check.yml
+- run: python scripts/generate_seo.py
+- run: git diff --exit-code _data/seo/
+```
+
+If the diff is non-empty, the build fails. This catches accidental changes to SEO metadata before deployment.
