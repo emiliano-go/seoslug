@@ -1,13 +1,20 @@
 """SEO payload builder for seoslug."""
 
+from __future__ import annotations
+
 from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 from .config import SEOConfig
 from .hooks import run as run_hooks
-from .jsonld import build_schema, normalize_schema_jsonld
+from .jsonld import build_breadcrumb_list, build_schema, normalize_schema_jsonld
 from .normalization import normalize_public_url
-from .schemas import SEOEntity, SEOOverrides
+from .payload import OGPayload, SEOPayload, TwitterPayload
+from .schemas import OGImage, Robots, SEOEntity, SEOOverrides
 from .text import build_description_snippet
+
+if TYPE_CHECKING:
+    from .payload import SEOPayloadTypedDict
 
 
 _LazyValue = str | None | Callable[[], str | None]
@@ -22,7 +29,29 @@ def _pick(*values: _LazyValue) -> str | None:
     return None
 
 
-def _entity_default_robots(entity: SEOEntity, config: SEOConfig) -> str:
+def _pick_image(*values: str | OGImage | None) -> str | OGImage | None:
+    for value in values:
+        if value is not None:
+            if isinstance(value, str):
+                stripped = value.strip()
+                if stripped:
+                    return stripped
+            else:
+                return value
+    return None
+
+
+def _resolve_image_parts(
+    value: str | OGImage | None,
+) -> tuple[str | None, int | None, int | None, str | None]:
+    if value is None:
+        return (None, None, None, None)
+    if isinstance(value, str):
+        return (value, None, None, None)
+    return (value.url, value.width, value.height, value.alt)
+
+
+def _entity_default_robots(entity: SEOEntity, config: SEOConfig) -> str | Robots:
     if entity.entity_type == "search":
         return config.search_robots
     if (entity.status or "").lower() == "published":
@@ -36,16 +65,19 @@ def _og_type(entity: SEOEntity) -> str:
     return "website"
 
 
+_SENTINEL = SEOOverrides()
+
+
 def build_seo_payload(
     entity: SEOEntity,
     route_path: str,
     config: SEOConfig,
     overrides: SEOOverrides | None = None,
-) -> dict:
-    ov = overrides or SEOOverrides()
+) -> SEOPayload:
+    ov = overrides if overrides is not None else _SENTINEL
 
     title = _pick(ov.meta_title, entity.title, "Untitled")
-    if config.title_template:
+    if config.title_template and not ov.skip_title_template:
         title = config.title_template.format(title=title)
 
     description = _pick(
@@ -56,56 +88,113 @@ def build_seo_payload(
     )
 
     canonical = _pick(ov.canonical_url, normalize_public_url(route_path, config))
-    robots = _pick(ov.robots, _entity_default_robots(entity, config))
+
+    # Robots — handle both str and Robots
+    _raw_robots = ov.robots if ov.robots is not None else _entity_default_robots(entity, config)
+    robots: str = _raw_robots.serialize() if isinstance(_raw_robots, Robots) else _raw_robots
+
+    # OG / Twitter images — handle both str and OGImage
+    og_image = _pick_image(ov.og_image, entity.featured_image, config.default_og_image)
+    og_img_url, og_img_w, og_img_h, og_img_alt = _resolve_image_parts(og_image)
+
+    twitter_image = _pick_image(ov.twitter_image, og_image)
+    tw_img_url, tw_img_w, tw_img_h, tw_img_alt = _resolve_image_parts(twitter_image)
 
     og_title = _pick(ov.og_title, title)
     og_description = _pick(ov.og_description, description)
-    og_image = _pick(ov.og_image, entity.featured_image, config.default_og_image)
 
     twitter_title = _pick(ov.twitter_title, og_title)
     twitter_description = _pick(ov.twitter_description, og_description)
-    twitter_image = _pick(ov.twitter_image, og_image)
     twitter_card = _pick(ov.twitter_card, "summary_large_image")
 
-    og: dict = {
-        "type": _og_type(entity),
-        "title": og_title,
-        "description": og_description,
-        "url": canonical,
-        "image": og_image,
-    }
-    if config.site_name:
-        og["site_name"] = config.site_name
+    # OG dataclass
+    og = OGPayload(
+        type=_og_type(entity),
+        title=og_title,
+        description=og_description,
+        url=canonical,
+        image=og_img_url,
+        image_width=og_img_w,
+        image_height=og_img_h,
+        image_alt=og_img_alt,
+        site_name=config.site_name,
+        locale=config.locale,
+        locale_alternate=config.locale_alternate,
+        audio=ov.og_audio,
+        video=ov.og_video,
+    )
 
-    payload: dict = {
-        "title": title,
-        "description": description,
-        "canonical": canonical,
-        "robots": robots,
-        "og": og,
-        "twitter": {
-            "card": twitter_card,
-            "title": twitter_title,
-            "description": twitter_description,
-            "image": twitter_image,
-        },
-    }
+    # Twitter dataclass
+    twitter = TwitterPayload(
+        card=twitter_card,
+        title=twitter_title,
+        description=twitter_description,
+        image=tw_img_url,
+        image_alt=tw_img_alt,
+        site=config.twitter_site,
+        creator=ov.twitter_creator,
+    )
+
+    payload = SEOPayload(
+        title=title,
+        description=description,
+        canonical=canonical,
+        robots=robots,
+        og=og,
+        twitter=twitter,
+    )
+
+    # Schema JSON-LD (main + optional breadcrumbs)
+    schemas: list[dict] = []
 
     if ov.omit_schema:
         pass
     elif ov.schema_jsonld is not None:
-        payload["schema_jsonld"] = normalize_schema_jsonld(ov.schema_jsonld)
+        override = normalize_schema_jsonld(ov.schema_jsonld)
+        if isinstance(override, dict):
+            schemas.append(override)
+        else:
+            schemas.extend(override)
     elif config.auto_generate_schema:
-        schema = build_schema(
+        main_schema = build_schema(
             entity=entity,
             config=config,
             canonical=canonical,
             title=title,
             description=description,
-            og_image=og_image,
+            og_image=og_img_url,
         )
-        if schema is not None:
-            payload["schema_jsonld"] = schema
+        if main_schema is not None:
+            schemas.append(main_schema)
+
+    if entity.breadcrumbs:
+        schemas.append(build_breadcrumb_list(entity.breadcrumbs, config))
+
+    if len(schemas) == 1:
+        payload.schema_jsonld = schemas[0]
+    elif len(schemas) > 1:
+        payload.schema_jsonld = schemas
+
+    # Validation warnings
+    if config.emit_warnings:
+        from .validation import validate_payload
+        import warnings as _warnings
+        for warning in validate_payload(payload.to_dict(), config):
+            _warnings.warn(warning)
 
     payload = run_hooks("post_process", payload, entity, config)
     return payload
+
+
+def build_seo_payload_dict(
+    entity: SEOEntity,
+    route_path: str,
+    config: SEOConfig,
+    overrides: SEOOverrides | None = None,
+) -> dict:
+    """Same as ``build_seo_payload`` but returns a plain dict.
+
+    Convenience wrapper for template engines and JSON serialization
+    that expect a raw dictionary.
+    """
+    return build_seo_payload(entity, route_path, config, overrides).to_dict()
