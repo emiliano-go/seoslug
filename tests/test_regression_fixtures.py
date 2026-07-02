@@ -184,6 +184,138 @@ SEARCH_EXPECTED = {
     },
 }
 
+OTHER_EXPECTED = {
+    "title": "other title",
+    "description": "other excerpt",
+    "canonical": "https://portal.example.com/other",
+    "robots": "index,follow",
+    "og": {
+        "type": "website",
+        "title": "other title",
+        "description": "other excerpt",
+        "url": "https://portal.example.com/other",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+    "twitter": {
+        "card": "summary_large_image",
+        "title": "other title",
+        "description": "other excerpt",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+}
+
+PRODUCT_EXPECTED = {
+    "title": "product title",
+    "description": "product excerpt",
+    "canonical": "https://portal.example.com/products/widget",
+    "robots": "index,follow",
+    "og": {
+        "type": "website",
+        "title": "product title",
+        "description": "product excerpt",
+        "url": "https://portal.example.com/products/widget",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+    "twitter": {
+        "card": "summary_large_image",
+        "title": "product title",
+        "description": "product excerpt",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+    "schema_jsonld": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "product title",
+        "url": "https://portal.example.com/products/widget",
+        "description": "product excerpt",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+}
+
+ORGANIZATION_EXPECTED = {
+    "title": "organization title",
+    "description": "organization excerpt",
+    "canonical": "https://portal.example.com/about",
+    "robots": "index,follow",
+    "og": {
+        "type": "website",
+        "title": "organization title",
+        "description": "organization excerpt",
+        "url": "https://portal.example.com/about",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+    "twitter": {
+        "card": "summary_large_image",
+        "title": "organization title",
+        "description": "organization excerpt",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+    "schema_jsonld": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "organization title",
+        "url": "https://portal.example.com/about",
+        "description": "organization excerpt",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+}
+
+LOCAL_BUSINESS_EXPECTED = {
+    "title": "local_business title",
+    "description": "local_business excerpt",
+    "canonical": "https://portal.example.com/shop",
+    "robots": "index,follow",
+    "og": {
+        "type": "website",
+        "title": "local_business title",
+        "description": "local_business excerpt",
+        "url": "https://portal.example.com/shop",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+    "twitter": {
+        "card": "summary_large_image",
+        "title": "local_business title",
+        "description": "local_business excerpt",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+    "schema_jsonld": {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "local_business title",
+        "url": "https://portal.example.com/shop",
+        "description": "local_business excerpt",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+}
+
+FAQ_EXPECTED = {
+    "title": "faq title",
+    "description": "faq excerpt",
+    "canonical": "https://portal.example.com/faq",
+    "robots": "index,follow",
+    "og": {
+        "type": "website",
+        "title": "faq title",
+        "description": "faq excerpt",
+        "url": "https://portal.example.com/faq",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+    "twitter": {
+        "card": "summary_large_image",
+        "title": "faq title",
+        "description": "faq excerpt",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+    "schema_jsonld": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "name": "faq title",
+        "url": "https://portal.example.com/faq",
+        "description": "faq excerpt",
+        "image": "https://cdn.example.com/default.jpg",
+    },
+}
+
 
 @pytest.mark.parametrize(
     ("entity_type", "route", "expected"),
@@ -194,6 +326,11 @@ SEARCH_EXPECTED = {
         ("video", "/videos/v", VIDEO_EXPECTED),
         ("taxonomy", "/topics/python", TAXONOMY_EXPECTED),
         ("search", "/search?q=x", SEARCH_EXPECTED),
+        ("other", "/other", OTHER_EXPECTED),
+        ("product", "/products/widget", PRODUCT_EXPECTED),
+        ("organization", "/about", ORGANIZATION_EXPECTED),
+        ("local_business", "/shop", LOCAL_BUSINESS_EXPECTED),
+        ("faq", "/faq", FAQ_EXPECTED),
     ],
 )
 def test_regression_entity_type_snapshots(

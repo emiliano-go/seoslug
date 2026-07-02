@@ -1,6 +1,6 @@
 """Tests for SEO payload builder."""
 
-from seoslug import SEOConfig, SEOEntity, SEOOverrides, URLPolicy, build_seo_payload
+from seoslug import Breadcrumb, OGImage, Robots, SEOConfig, SEOEntity, SEOOverrides, URLPolicy, build_seo_payload
 
 
 def _config(**kwargs) -> SEOConfig:
@@ -147,6 +147,29 @@ def test_description_prefers_excerpt_over_body_snippet() -> None:
     assert payload["description"] == "Excerpt text"
 
 
+def test_sub_path_deployment_canonical() -> None:
+    config = SEOConfig(
+        canonical_host="example.com",
+        public_base_url="https://example.com/blog",
+        url_policy=URLPolicy(),
+    )
+    entity = SEOEntity(entity_type="page", title="About")
+    payload = build_seo_payload(entity, "/about", config)
+    assert payload["canonical"] == "https://example.com/blog/about"
+    assert payload["og"]["url"] == "https://example.com/blog/about"
+
+
+def test_sub_path_deployment_home_route() -> None:
+    config = SEOConfig(
+        canonical_host="example.com",
+        public_base_url="https://example.com/blog/",
+        url_policy=URLPolicy(),
+    )
+    entity = SEOEntity(entity_type="home", title="Home")
+    payload = build_seo_payload(entity, "/", config)
+    assert payload["canonical"] == "https://example.com/blog"
+
+
 def test_twitter_falls_back_to_og_values() -> None:
     entity = SEOEntity(entity_type="post", title="Entity")
     overrides = SEOOverrides(
@@ -158,3 +181,188 @@ def test_twitter_falls_back_to_og_values() -> None:
     assert payload["twitter"]["title"] == "OG T"
     assert payload["twitter"]["description"] == "OG D"
     assert payload["twitter"]["image"] == "https://cdn.example.com/og.jpg"
+
+
+# --- OGImage structured ---
+
+def test_og_image_with_dimensions() -> None:
+    img = OGImage(url="https://cdn.example.com/hero.jpg", width=1200, height=630, alt="Hero")
+    entity = SEOEntity(entity_type="post", title="Post", featured_image=img)
+    payload = build_seo_payload(entity, "/post", _config())
+    assert payload["og"]["image"] == "https://cdn.example.com/hero.jpg"
+    assert payload["og"]["image:width"] == 1200
+    assert payload["og"]["image:height"] == 630
+    assert payload["og"]["image:alt"] == "Hero"
+
+
+def test_og_image_string_still_works() -> None:
+    entity = SEOEntity(entity_type="post", title="Post", featured_image="https://cdn.example.com/img.jpg")
+    payload = build_seo_payload(entity, "/post", _config())
+    assert payload["og"]["image"] == "https://cdn.example.com/img.jpg"
+    assert "image:width" not in payload["og"]
+
+
+def test_twitter_image_alt_from_og_image() -> None:
+    img = OGImage(url="https://ex.com/img.jpg", alt="Alt text")
+    entity = SEOEntity(entity_type="post", title="Post", featured_image=img)
+    payload = build_seo_payload(entity, "/post", _config())
+    assert payload["twitter"]["image"] == "https://ex.com/img.jpg"
+    assert payload["twitter"]["image:alt"] == "Alt text"
+
+
+def test_og_image_override_structured() -> None:
+    img = OGImage(url="https://ex.com/og.jpg", width=800)
+    ov = SEOOverrides(og_image=img)
+    entity = SEOEntity(entity_type="post", title="Post")
+    payload = build_seo_payload(entity, "/post", _config(), ov)
+    assert payload["og"]["image"] == "https://ex.com/og.jpg"
+    assert payload["og"]["image:width"] == 800
+
+
+# --- Breadcrumb auto-generation ---
+
+def test_breadcrumbs_appended_to_schema() -> None:
+    entity = SEOEntity(
+        entity_type="post", title="Post", status="published",
+        breadcrumbs=[Breadcrumb(name="Home", url="/"), Breadcrumb(name="Blog", url="/blog")],
+    )
+    payload = build_seo_payload(entity, "/posts/my-post", _config())
+    assert isinstance(payload["schema_jsonld"], list)
+    assert len(payload["schema_jsonld"]) == 2
+    assert payload["schema_jsonld"][0]["@type"] == "Article"
+    assert payload["schema_jsonld"][1]["@type"] == "BreadcrumbList"
+
+
+def test_breadcrumbs_with_override_schema() -> None:
+    entity = SEOEntity(
+        entity_type="page", title="Page",
+        breadcrumbs=[Breadcrumb(name="Home", url="/")],
+    )
+    ov = SEOOverrides(schema_jsonld={"@type": "WebPage"})
+    payload = build_seo_payload(entity, "/page", _config(), ov)
+    assert isinstance(payload["schema_jsonld"], list)
+    assert len(payload["schema_jsonld"]) == 2
+    assert payload["schema_jsonld"][0]["@type"] == "WebPage"
+
+
+def test_breadcrumbs_omit_schema_still_adds_breadcrumbs() -> None:
+    entity = SEOEntity(
+        entity_type="page", title="Page",
+        breadcrumbs=[Breadcrumb(name="Home", url="/")],
+    )
+    ov = SEOOverrides(omit_schema=True)
+    payload = build_seo_payload(entity, "/page", _config(), ov)
+    assert payload["schema_jsonld"]["@type"] == "BreadcrumbList"
+
+
+def test_no_schema_no_breadcrumbs_omits_key() -> None:
+    entity = SEOEntity(entity_type="other", title="Other")
+    payload = build_seo_payload(entity, "/other", _config())
+    assert "schema_jsonld" not in payload
+
+
+# --- Social metadata ---
+
+def test_locale_in_og() -> None:
+    config = _config(locale="en_US")
+    entity = SEOEntity(entity_type="page", title="Page")
+    payload = build_seo_payload(entity, "/page", config)
+    assert payload["og"]["locale"] == "en_US"
+
+
+def test_locale_alternate_in_og() -> None:
+    config = _config(locale_alternate=["es_ES", "fr_FR"])
+    entity = SEOEntity(entity_type="page", title="Page")
+    payload = build_seo_payload(entity, "/page", config)
+    assert payload["og"]["locale:alternate"] == ["es_ES", "fr_FR"]
+
+
+def test_twitter_site() -> None:
+    config = _config(twitter_site="@mysite")
+    entity = SEOEntity(entity_type="page", title="Page")
+    payload = build_seo_payload(entity, "/page", config)
+    assert payload["twitter"]["site"] == "@mysite"
+
+
+def test_twitter_creator() -> None:
+    ov = SEOOverrides(twitter_creator="@janedoe")
+    entity = SEOEntity(entity_type="post", title="Post")
+    payload = build_seo_payload(entity, "/post", _config(), ov)
+    assert payload["twitter"]["creator"] == "@janedoe"
+
+
+def test_og_audio_video() -> None:
+    ov = SEOOverrides(og_audio="https://ex.com/a.mp3", og_video="https://ex.com/v.mp4")
+    entity = SEOEntity(entity_type="page", title="Page")
+    payload = build_seo_payload(entity, "/page", _config(), ov)
+    assert payload["og"]["audio"] == "https://ex.com/a.mp3"
+    assert payload["og"]["video"] == "https://ex.com/v.mp4"
+
+
+# --- Robots structured ---
+
+def test_robots_object_in_default_serialized() -> None:
+    config = _config(default_robots=Robots(index=False, follow=False))
+    entity = SEOEntity(entity_type="page", title="Page", status="draft")
+    payload = build_seo_payload(entity, "/page", config)
+    assert payload["robots"] == "noindex,nofollow"
+
+
+def test_robots_object_in_override_serialized() -> None:
+    ov = SEOOverrides(robots=Robots(index=True, follow=False))
+    entity = SEOEntity(entity_type="post", title="Post")
+    payload = build_seo_payload(entity, "/post", _config(), ov)
+    assert payload["robots"] == "index,nofollow"
+
+
+def test_robots_string_still_works() -> None:
+    ov = SEOOverrides(robots="noindex,nofollow")
+    entity = SEOEntity(entity_type="post", title="Post")
+    payload = build_seo_payload(entity, "/post", _config(), ov)
+    assert payload["robots"] == "noindex,nofollow"
+
+
+# --- Product schema end-to-end ---
+
+def test_product_schema_in_payload() -> None:
+    entity = SEOEntity(
+        entity_type="product", title="Widget", status="published",
+        sku="W-001", price="29.99", price_currency="USD", availability="InStock",
+    )
+    payload = build_seo_payload(entity, "/products/widget", _config())
+    assert payload["og"]["type"] == "website"
+    assert payload["schema_jsonld"]["@type"] == "Product"
+    assert payload["schema_jsonld"]["sku"] == "W-001"
+    assert payload["schema_jsonld"]["offers"]["price"] == "29.99"
+
+
+# --- FAQPage schema end-to-end ---
+
+def test_faq_schema_in_payload() -> None:
+    from seoslug import FAQItem
+    entity = SEOEntity(
+        entity_type="faq", title="FAQ", status="published",
+        faq_items=[FAQItem(question="Q?", answer="A.")],
+    )
+    payload = build_seo_payload(entity, "/faq", _config())
+    assert payload["schema_jsonld"]["@type"] == "FAQPage"
+    assert len(payload["schema_jsonld"]["mainEntity"]) == 1
+
+
+# --- build_seo_payload_dict ---
+
+def test_build_seo_payload_dict_returns_plain_dict() -> None:
+    from seoslug import build_seo_payload_dict
+    entity = SEOEntity(entity_type="page", title="About")
+    d = build_seo_payload_dict(entity, "/about", _config())
+    assert isinstance(d, dict)
+    assert d["title"] == "About"
+    assert d["canonical"] == "https://portal.example.com/about"
+
+
+def test_build_seo_payload_dict_matches_to_dict() -> None:
+    from seoslug import build_seo_payload_dict
+    entity = SEOEntity(entity_type="post", title="Post", excerpt="Desc")
+    d = build_seo_payload_dict(entity, "/post", _config())
+    p = build_seo_payload(entity, "/post", _config())
+    assert d == p.to_dict()

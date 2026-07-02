@@ -2,8 +2,8 @@
 
 import pytest
 
-from seoslug import SEOConfig, SEOEntity, SEOEntityError, URLPolicy
-from seoslug.jsonld import build_schema, normalize_schema_jsonld
+from seoslug import Breadcrumb, SEOConfig, SEOEntity, SEOEntityError, SchemaRegistry, URLPolicy
+from seoslug.jsonld import build_breadcrumb_list, build_schema, normalize_schema_jsonld
 
 
 def _config(**kwargs) -> SEOConfig:
@@ -200,3 +200,104 @@ class TestBuildSchema:
         )
         assert schema["publisher"] == {"@type": "Organization", "name": "Acme Corp"}
         assert "logo" not in schema["publisher"]
+
+
+# --- New schema builders ---
+
+class TestProductSchema:
+    def test_basic_product(self) -> None:
+        entity = _entity(entity_type="product", title="Widget", sku="W-001", price="29.99", price_currency="USD")
+        schema = build_schema(entity, _config(), "https://ex.com/p", "Widget", "A widget", None)
+        assert schema["@type"] == "Product"
+        assert schema["sku"] == "W-001"
+        assert schema["offers"]["price"] == "29.99"
+        assert schema["offers"]["priceCurrency"] == "USD"
+
+    def test_product_availability(self) -> None:
+        entity = _entity(entity_type="product", availability="InStock")
+        schema = build_schema(entity, _config(), "https://ex.com/p", "Product", None, None)
+        assert schema["offers"]["availability"] == "https://schema.org/InStock"
+
+    def test_product_no_offer_when_no_data(self) -> None:
+        entity = _entity(entity_type="product")
+        schema = build_schema(entity, _config(), "https://ex.com/p", "Product", None, None)
+        assert "offers" not in schema
+
+
+class TestOrganizationSchema:
+    def test_basic_organization(self) -> None:
+        entity = _entity(entity_type="organization", title="Acme Inc", same_as=["https://twitter.com/acme"])
+        schema = build_schema(entity, _config(), "https://ex.com", "Acme Inc", None, None)
+        assert schema["@type"] == "Organization"
+        assert schema["sameAs"] == ["https://twitter.com/acme"]
+
+    def test_org_with_logo(self) -> None:
+        entity = _entity(entity_type="organization")
+        schema = build_schema(entity, _config(publisher_logo="https://ex.com/logo.png"), "https://ex.com", "Acme", None, None)
+        assert schema["logo"] == "https://ex.com/logo.png"
+
+
+class TestLocalBusinessSchema:
+    def test_basic_local_business(self) -> None:
+        entity = _entity(entity_type="local_business", title="My Shop", address="123 Main St")
+        schema = build_schema(entity, _config(), "https://ex.com/shop", "My Shop", None, None)
+        assert schema["@type"] == "LocalBusiness"
+        assert schema["address"]["streetAddress"] == "123 Main St"
+        assert "sameAs" not in schema  # inherits from Organization builder
+
+    def test_local_business_with_same_as(self) -> None:
+        entity = _entity(entity_type="local_business", same_as=["https://fb.me/shop"])
+        schema = build_schema(entity, _config(), "https://ex.com/shop", "Shop", None, None)
+        assert schema["sameAs"] == ["https://fb.me/shop"]
+
+
+class TestFAQPageSchema:
+    def test_basic_faq(self) -> None:
+        from seoslug import FAQItem
+        entity = _entity(entity_type="faq", title="FAQ", faq_items=[FAQItem(question="Q1?", answer="A1.")])
+        schema = build_schema(entity, _config(), "https://ex.com/faq", "FAQ", None, None)
+        assert schema["@type"] == "FAQPage"
+        assert len(schema["mainEntity"]) == 1
+        assert schema["mainEntity"][0]["@type"] == "Question"
+        assert schema["mainEntity"][0]["name"] == "Q1?"
+        assert schema["mainEntity"][0]["acceptedAnswer"]["text"] == "A1."
+
+    def test_faq_no_items(self) -> None:
+        entity = _entity(entity_type="faq")
+        schema = build_schema(entity, _config(), "https://ex.com/faq", "FAQ", None, None)
+        assert "mainEntity" not in schema
+
+
+class TestBreadcrumbListSchema:
+    def test_basic_breadcrumbs(self) -> None:
+        bcs = [Breadcrumb(name="Home", url="/"), Breadcrumb(name="Blog", url="/blog")]
+        schema = build_breadcrumb_list(bcs, _config())
+        assert schema["@type"] == "BreadcrumbList"
+        assert len(schema["itemListElement"]) == 2
+        assert schema["itemListElement"][0]["position"] == 1
+        assert schema["itemListElement"][0]["name"] == "Home"
+        assert schema["itemListElement"][0]["item"] == "https://example.com/"
+        assert schema["itemListElement"][1]["item"] == "https://example.com/blog"
+
+
+class TestSchemaRegistry:
+    def test_registry_called_when_registered(self) -> None:
+        registry = SchemaRegistry()
+        called = False
+        def podcast_gen(entity, config, canonical, title, description, og_image):
+            nonlocal called
+            called = True
+            return {"@type": "Podcast", "name": title}
+        registry.register("Podcast", podcast_gen)
+        config = _config(schema_type_map={"other": "Podcast"}, schema_registry=registry)
+        entity = _entity(entity_type="other", title="My Podcast")
+        schema = build_schema(entity, config, "https://ex.com/pod", "My Podcast", None, None)
+        assert called
+        assert schema["@type"] == "Podcast"
+
+    def test_registry_falls_back_to_builtin(self) -> None:
+        registry = SchemaRegistry()
+        config = _config(schema_registry=registry)
+        entity = _entity(entity_type="post")
+        schema = build_schema(entity, config, "https://ex.com/p", "Post", "Desc", None)
+        assert schema["@type"] == "Article"

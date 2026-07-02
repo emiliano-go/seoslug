@@ -84,3 +84,102 @@ def test_host_is_always_enforced_for_absolute_input() -> None:
 def test_can_disable_duplicate_slash_collapse_and_lowercase() -> None:
     policy = URLPolicy(collapse_duplicate_slashes=False, lowercase_paths=False, trailing_slash="preserve")
     assert normalize_path("//Blog//Post//", policy) == "//Blog//Post//"
+
+
+# --- Sub-path public_base_url tests (issue #1 / #9) ---
+
+def _subpath_config(**kwargs) -> SEOConfig:
+    defaults = dict(
+        canonical_host="example.com",
+        public_base_url="https://example.com/blog",
+        url_policy=URLPolicy(),
+    )
+    defaults.update(kwargs)
+    return SEOConfig(**defaults)
+
+
+def test_subpath_prepends_base_path() -> None:
+    config = _subpath_config()
+    assert normalize_public_url("/page", config) == "https://example.com/blog/page"
+
+
+def test_subpath_root_route() -> None:
+    config = _subpath_config()
+    assert normalize_public_url("/", config) == "https://example.com/blog"
+
+
+def test_subpath_trailing_slash_always() -> None:
+    config = _subpath_config(url_policy=URLPolicy(trailing_slash="always"))
+    assert normalize_public_url("/page", config) == "https://example.com/blog/page/"
+
+
+def test_subpath_preserves_base_path_with_absolute_input() -> None:
+    config = _subpath_config()
+    assert normalize_public_url("https://evil.org/path?q=1", config) == "https://example.com/blog/path?q=1"
+
+
+def test_subpath_idempotent() -> None:
+    config = _subpath_config()
+    first = normalize_public_url("/A//B/", config)
+    second = normalize_public_url(first, config)
+    assert first == second
+
+
+def test_subpath_with_trailing_slash_in_public_base_url() -> None:
+    config = SEOConfig(
+        canonical_host="example.com",
+        public_base_url="https://example.com/blog/",
+        url_policy=URLPolicy(),
+    )
+    assert normalize_public_url("/page", config) == "https://example.com/blog/page"
+
+
+def test_subpath_relative_path() -> None:
+    config = _subpath_config()
+    assert normalize_public_url("page", config) == "https://example.com/blog/page"
+
+
+def test_subpath_double_slash_input_preserves_netloc() -> None:
+    config = _subpath_config()
+    assert normalize_public_url("//Page//Sub", config) == "https://example.com/blog/sub"
+
+
+# --- Property-based normalization tests (issue #10) ---
+
+def test_idempotency_multiple_inputs() -> None:
+    config = _config()
+    inputs = [
+        "/A//B/?utm_campaign=x",
+        "https://evil.com/Path/?fbclid=1&q=2",
+        "/",
+        "relative/path?gclid=abc",
+    ]
+    for url in inputs:
+        first = normalize_public_url(url, config)
+        second = normalize_public_url(first, config)
+        assert first == second, f"Idempotency failed for {url}"
+
+
+def test_scheme_uniformity_enforce_https() -> None:
+    config = _config()
+    inputs = [
+        "http://other.com/a",
+        "https://other.com/b",
+        "/c",
+        "//d",
+    ]
+    for url in inputs:
+        result = normalize_public_url(url, config)
+        assert result.startswith("https://"), f"Scheme not https for {url}: {result}"
+
+
+def test_host_always_enforced() -> None:
+    config = _config()
+    inputs = [
+        "https://evil.com/path",
+        "http://malicious.org/other",
+        "/relative",
+    ]
+    for url in inputs:
+        result = normalize_public_url(url, config)
+        assert result.startswith("https://portal.example.com/"), f"Host not enforced for {url}: {result}"
