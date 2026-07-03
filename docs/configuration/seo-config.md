@@ -1,3 +1,65 @@
+---
+seo:
+  title: SEOConfig reference - seoslug
+  canonical: https://seoslug.emiliano-go.com/configuration/seo-config/
+  robots: index,follow
+  og:
+    type: website
+    title: SEOConfig reference - seoslug
+    description: SEOConfig is the global configuration object. You create one per
+      site and pass it to every buildseopayload call.
+    url: https://seoslug.emiliano-go.com/configuration/seo-config/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: SEOConfig reference - seoslug
+    description: SEOConfig is the global configuration object. You create one per
+      site and pass it to every buildseopayload call.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: SEOConfig is the global configuration object. You create one per site
+    and pass it to every buildseopayload call.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: SEOConfig reference - seoslug
+    url: https://seoslug.emiliano-go.com/configuration/seo-config/
+    description: SEOConfig is the global configuration object. You create one per
+      site and pass it to every buildseopayload call.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>SEOConfig reference - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"SEOConfig is the global configuration object. You create one per site\
+  \ and pass it to every buildseopayload call.\">\n<link rel=\"canonical\" href=\"\
+  https://seoslug.emiliano-go.com/configuration/seo-config/\">\n<meta name=\"robots\"\
+  \ content=\"index,follow\">\n<meta property=\"og:type\" content=\"website\">\n<meta\
+  \ property=\"og:title\" content=\"SEOConfig reference - seoslug\">\n<meta property=\"\
+  og:description\" content=\"SEOConfig is the global configuration object. You create\
+  \ one per site and pass it to every buildseopayload call.\">\n<meta property=\"\
+  og:url\" content=\"https://seoslug.emiliano-go.com/configuration/seo-config/\">\n\
+  <meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
+  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
+  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
+  summary_large_image\">\n<meta name=\"twitter:title\" content=\"SEOConfig reference\
+  \ - seoslug\">\n<meta name=\"twitter:description\" content=\"SEOConfig is the global\
+  \ configuration object. You create one per site and pass it to every buildseopayload\
+  \ call.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"SEOConfig reference - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/configuration/seo-config/\"\
+  ,\n  \"description\": \"SEOConfig is the global configuration object. You create\
+  \ one per site and pass it to every buildseopayload call.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+---
+
 # SEOConfig reference
 
 `SEOConfig` is the global configuration object. You create one per site and pass it to every `build_seo_payload` call.

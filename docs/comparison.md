@@ -1,3 +1,70 @@
+---
+seo:
+  title: seoslug vs manual SEO - seoslug
+  canonical: https://seoslug.emiliano-go.com/comparison/
+  robots: index,follow
+  og:
+    type: website
+    title: seoslug vs manual SEO - seoslug
+    description: Manual SEO metadata is repetitive, error-prone, and hard to maintain
+      across a growing site. Here is exactly what seoslug removes from your to-do
+      list.
+    url: https://seoslug.emiliano-go.com/comparison/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: seoslug vs manual SEO - seoslug
+    description: Manual SEO metadata is repetitive, error-prone, and hard to maintain
+      across a growing site. Here is exactly what seoslug removes from your to-do
+      list.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: Manual SEO metadata is repetitive, error-prone, and hard to maintain
+    across a growing site. Here is exactly what seoslug removes from your to-do list.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: seoslug vs manual SEO - seoslug
+    url: https://seoslug.emiliano-go.com/comparison/
+    description: Manual SEO metadata is repetitive, error-prone, and hard to maintain
+      across a growing site. Here is exactly what seoslug removes from your to-do
+      list.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>seoslug vs manual SEO - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"Manual SEO metadata is repetitive, error-prone, and hard to maintain\
+  \ across a growing site. Here is exactly what seoslug removes from your to-do list.\"\
+  >\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/comparison/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"seoslug vs manual SEO - seoslug\"\
+  >\n<meta property=\"og:description\" content=\"Manual SEO metadata is repetitive,\
+  \ error-prone, and hard to maintain across a growing site. Here is exactly what\
+  \ seoslug removes from your to-do list.\">\n<meta property=\"og:url\" content=\"\
+  https://seoslug.emiliano-go.com/comparison/\">\n<meta property=\"og:image\" content=\"\
+  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"og:image:width\"\
+  \ content=\"225\">\n<meta property=\"og:image:height\" content=\"225\">\n<meta property=\"\
+  og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"en_US\"\
+  >\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"twitter:title\"\
+  \ content=\"seoslug vs manual SEO - seoslug\">\n<meta name=\"twitter:description\"\
+  \ content=\"Manual SEO metadata is repetitive, error-prone, and hard to maintain\
+  \ across a growing site. Here is exactly what seoslug removes from your to-do list.\"\
+  >\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"seoslug vs manual SEO - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/comparison/\"\
+  ,\n  \"description\": \"Manual SEO metadata is repetitive, error-prone, and hard\
+  \ to maintain across a growing site. Here is exactly what seoslug removes from your\
+  \ to-do list.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+---
+
 # seoslug vs manual SEO
 
 Manual SEO metadata is repetitive, error-prone, and hard to maintain across

@@ -1,3 +1,71 @@
+---
+seo:
+  title: SEOEntity reference - seoslug
+  canonical: https://seoslug.emiliano-go.com/configuration/seo-entity/
+  robots: index,follow
+  og:
+    type: website
+    title: SEOEntity reference - seoslug
+    description: SEOEntity represents a single piece of content. It holds the raw
+      data seoslug uses to generate every SEO field. Create one per page, pass it
+      to buildseopayload.
+    url: https://seoslug.emiliano-go.com/configuration/seo-entity/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: SEOEntity reference - seoslug
+    description: SEOEntity represents a single piece of content. It holds the raw
+      data seoslug uses to generate every SEO field. Create one per page, pass it
+      to buildseopayload.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: SEOEntity represents a single piece of content. It holds the raw data
+    seoslug uses to generate every SEO field. Create one per page, pass it to buildseopayload.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: SEOEntity reference - seoslug
+    url: https://seoslug.emiliano-go.com/configuration/seo-entity/
+    description: SEOEntity represents a single piece of content. It holds the raw
+      data seoslug uses to generate every SEO field. Create one per page, pass it
+      to buildseopayload.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>SEOEntity reference - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"SEOEntity represents a single piece of content. It holds the raw data\
+  \ seoslug uses to generate every SEO field. Create one per page, pass it to buildseopayload.\"\
+  >\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/configuration/seo-entity/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"SEOEntity reference - seoslug\"\
+  >\n<meta property=\"og:description\" content=\"SEOEntity represents a single piece\
+  \ of content. It holds the raw data seoslug uses to generate every SEO field. Create\
+  \ one per page, pass it to buildseopayload.\">\n<meta property=\"og:url\" content=\"\
+  https://seoslug.emiliano-go.com/configuration/seo-entity/\">\n<meta property=\"\
+  og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"\
+  og:image:width\" content=\"225\">\n<meta property=\"og:image:height\" content=\"\
+  225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"\
+  og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"SEOEntity reference - seoslug\">\n<meta\
+  \ name=\"twitter:description\" content=\"SEOEntity represents a single piece of\
+  \ content. It holds the raw data seoslug uses to generate every SEO field. Create\
+  \ one per page, pass it to buildseopayload.\">\n<meta name=\"twitter:image\" content=\"\
+  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta name=\"twitter:site\"\
+  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
+  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"SEOEntity reference\
+  \ - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/configuration/seo-entity/\"\
+  ,\n  \"description\": \"SEOEntity represents a single piece of content. It holds\
+  \ the raw data seoslug uses to generate every SEO field. Create one per page, pass\
+  \ it to buildseopayload.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+---
+
 # SEOEntity reference
 
 `SEOEntity` represents a single piece of content. It holds the raw data seoslug uses to generate every SEO field. Create one per page, pass it to `build_seo_payload`.

@@ -1,3 +1,67 @@
+---
+seo:
+  title: Core concepts - seoslug
+  canonical: https://seoslug.emiliano-go.com/core-concepts/
+  robots: index,follow
+  og:
+    type: website
+    title: Core concepts - seoslug
+    description: seoslug is built on determinism, single responsibility, and pure
+      functions. These principles make your SEO layer testable, cacheable, and predictable.
+    url: https://seoslug.emiliano-go.com/core-concepts/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Core concepts - seoslug
+    description: seoslug is built on determinism, single responsibility, and pure
+      functions. These principles make your SEO layer testable, cacheable, and predictable.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: seoslug is built on determinism, single responsibility, and pure functions.
+    These principles make your SEO layer testable, cacheable, and predictable.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Core concepts - seoslug
+    url: https://seoslug.emiliano-go.com/core-concepts/
+    description: seoslug is built on determinism, single responsibility, and pure
+      functions. These principles make your SEO layer testable, cacheable, and predictable.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>Core concepts - seoslug</title>\n<meta name=\"description\" content=\"\
+  seoslug is built on determinism, single responsibility, and pure functions. These\
+  \ principles make your SEO layer testable, cacheable, and predictable.\">\n<link\
+  \ rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/core-concepts/\">\n<meta\
+  \ name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"Core concepts - seoslug\">\n<meta\
+  \ property=\"og:description\" content=\"seoslug is built on determinism, single\
+  \ responsibility, and pure functions. These principles make your SEO layer testable,\
+  \ cacheable, and predictable.\">\n<meta property=\"og:url\" content=\"https://seoslug.emiliano-go.com/core-concepts/\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
+  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
+  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
+  summary_large_image\">\n<meta name=\"twitter:title\" content=\"Core concepts - seoslug\"\
+  >\n<meta name=\"twitter:description\" content=\"seoslug is built on determinism,\
+  \ single responsibility, and pure functions. These principles make your SEO layer\
+  \ testable, cacheable, and predictable.\">\n<meta name=\"twitter:image\" content=\"\
+  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta name=\"twitter:site\"\
+  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
+  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"Core concepts\
+  \ - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/core-concepts/\",\n\
+  \  \"description\": \"seoslug is built on determinism, single responsibility, and\
+  \ pure functions. These principles make your SEO layer testable, cacheable, and\
+  \ predictable.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+---
+
 # Core concepts
 
 seoslug is built on determinism, single responsibility, and pure functions.

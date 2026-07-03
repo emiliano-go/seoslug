@@ -1,3 +1,64 @@
+---
+seo:
+  title: Fallback Chains - seoslug
+  canonical: https://seoslug.emiliano-go.com/fallback-chains/
+  robots: index,follow
+  og:
+    type: website
+    title: Fallback Chains - seoslug
+    description: Every field in the SEO payload resolves through a fallback chain.
+      The first non-empty value wins.
+    url: https://seoslug.emiliano-go.com/fallback-chains/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Fallback Chains - seoslug
+    description: Every field in the SEO payload resolves through a fallback chain.
+      The first non-empty value wins.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: Every field in the SEO payload resolves through a fallback chain. The
+    first non-empty value wins.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Fallback Chains - seoslug
+    url: https://seoslug.emiliano-go.com/fallback-chains/
+    description: Every field in the SEO payload resolves through a fallback chain.
+      The first non-empty value wins.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>Fallback Chains - seoslug</title>\n<meta name=\"description\" content=\"\
+  Every field in the SEO payload resolves through a fallback chain. The first non-empty\
+  \ value wins.\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/fallback-chains/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"Fallback Chains - seoslug\">\n\
+  <meta property=\"og:description\" content=\"Every field in the SEO payload resolves\
+  \ through a fallback chain. The first non-empty value wins.\">\n<meta property=\"\
+  og:url\" content=\"https://seoslug.emiliano-go.com/fallback-chains/\">\n<meta property=\"\
+  og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"\
+  og:image:width\" content=\"225\">\n<meta property=\"og:image:height\" content=\"\
+  225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"\
+  og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"Fallback Chains - seoslug\">\n<meta name=\"\
+  twitter:description\" content=\"Every field in the SEO payload resolves through\
+  \ a fallback chain. The first non-empty value wins.\">\n<meta name=\"twitter:image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta name=\"twitter:site\"\
+  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
+  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"Fallback Chains\
+  \ - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/fallback-chains/\"\
+  ,\n  \"description\": \"Every field in the SEO payload resolves through a fallback\
+  \ chain. The first non-empty value wins.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+---
+
 # Fallback Chains
 
 Every field in the SEO payload resolves through a fallback chain.

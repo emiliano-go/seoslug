@@ -1,3 +1,66 @@
+---
+seo:
+  title: Configuration overview - seoslug
+  canonical: https://seoslug.emiliano-go.com/configuration/
+  robots: index,follow
+  og:
+    type: website
+    title: Configuration overview - seoslug
+    description: seoslug uses four dataclasses to configure SEO output. Each one has
+      a single responsibility. You compose them together at build time.
+    url: https://seoslug.emiliano-go.com/configuration/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Configuration overview - seoslug
+    description: seoslug uses four dataclasses to configure SEO output. Each one has
+      a single responsibility. You compose them together at build time.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: seoslug uses four dataclasses to configure SEO output. Each one has
+    a single responsibility. You compose them together at build time.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Configuration overview - seoslug
+    url: https://seoslug.emiliano-go.com/configuration/
+    description: seoslug uses four dataclasses to configure SEO output. Each one has
+      a single responsibility. You compose them together at build time.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>Configuration overview - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"seoslug uses four dataclasses to configure SEO output. Each one has\
+  \ a single responsibility. You compose them together at build time.\">\n<link rel=\"\
+  canonical\" href=\"https://seoslug.emiliano-go.com/configuration/\">\n<meta name=\"\
+  robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"website\"\
+  >\n<meta property=\"og:title\" content=\"Configuration overview - seoslug\">\n<meta\
+  \ property=\"og:description\" content=\"seoslug uses four dataclasses to configure\
+  \ SEO output. Each one has a single responsibility. You compose them together at\
+  \ build time.\">\n<meta property=\"og:url\" content=\"https://seoslug.emiliano-go.com/configuration/\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
+  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
+  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
+  summary_large_image\">\n<meta name=\"twitter:title\" content=\"Configuration overview\
+  \ - seoslug\">\n<meta name=\"twitter:description\" content=\"seoslug uses four dataclasses\
+  \ to configure SEO output. Each one has a single responsibility. You compose them\
+  \ together at build time.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"Configuration overview - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/configuration/\"\
+  ,\n  \"description\": \"seoslug uses four dataclasses to configure SEO output. Each\
+  \ one has a single responsibility. You compose them together at build time.\",\n\
+  \  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\",\n  \"publisher\"\
+  : {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\
+  \n  }\n}\n</script>\n"
+---
+
 # Configuration overview
 
 seoslug uses four dataclasses to configure SEO output. Each one has a single responsibility. You compose them together at build time.

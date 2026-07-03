@@ -1,3 +1,66 @@
+---
+seo:
+  title: Changelog - seoslug
+  canonical: https://seoslug.emiliano-go.com/changelog/
+  robots: index,follow
+  og:
+    type: website
+    title: Changelog - seoslug
+    description: All notable changes to seoslug are documented here. The format is
+      based on Keep a Changelog. The project follows semantic versioning.
+    url: https://seoslug.emiliano-go.com/changelog/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Changelog - seoslug
+    description: All notable changes to seoslug are documented here. The format is
+      based on Keep a Changelog. The project follows semantic versioning.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: All notable changes to seoslug are documented here. The format is based
+    on Keep a Changelog. The project follows semantic versioning.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Changelog - seoslug
+    url: https://seoslug.emiliano-go.com/changelog/
+    description: All notable changes to seoslug are documented here. The format is
+      based on Keep a Changelog. The project follows semantic versioning.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>Changelog - seoslug</title>\n<meta name=\"description\" content=\"\
+  All notable changes to seoslug are documented here. The format is based on Keep\
+  \ a Changelog. The project follows semantic versioning.\">\n<link rel=\"canonical\"\
+  \ href=\"https://seoslug.emiliano-go.com/changelog/\">\n<meta name=\"robots\" content=\"\
+  index,follow\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"\
+  og:title\" content=\"Changelog - seoslug\">\n<meta property=\"og:description\" content=\"\
+  All notable changes to seoslug are documented here. The format is based on Keep\
+  \ a Changelog. The project follows semantic versioning.\">\n<meta property=\"og:url\"\
+  \ content=\"https://seoslug.emiliano-go.com/changelog/\">\n<meta property=\"og:image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"\
+  og:image:width\" content=\"225\">\n<meta property=\"og:image:height\" content=\"\
+  225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"\
+  og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"Changelog - seoslug\">\n<meta name=\"\
+  twitter:description\" content=\"All notable changes to seoslug are documented here.\
+  \ The format is based on Keep a Changelog. The project follows semantic versioning.\"\
+  >\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"Changelog - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/changelog/\"\
+  ,\n  \"description\": \"All notable changes to seoslug are documented here. The\
+  \ format is based on Keep a Changelog. The project follows semantic versioning.\"\
+  ,\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\",\n  \"publisher\"\
+  : {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\
+  \n  }\n}\n</script>\n"
+---
+
 # Changelog
 
 All notable changes to seoslug are documented here. The format is based on Keep a Changelog. The project follows semantic versioning.

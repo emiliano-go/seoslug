@@ -1,3 +1,64 @@
+---
+seo:
+  title: URL Normalization - seoslug
+  canonical: https://seoslug.emiliano-go.com/url-normalization/
+  robots: index,follow
+  og:
+    type: website
+    title: URL Normalization - seoslug
+    description: seoslug normalizes URLs through a deterministic pipeline. The output
+      is always a clean canonical URL.
+    url: https://seoslug.emiliano-go.com/url-normalization/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: URL Normalization - seoslug
+    description: seoslug normalizes URLs through a deterministic pipeline. The output
+      is always a clean canonical URL.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: seoslug normalizes URLs through a deterministic pipeline. The output
+    is always a clean canonical URL.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: URL Normalization - seoslug
+    url: https://seoslug.emiliano-go.com/url-normalization/
+    description: seoslug normalizes URLs through a deterministic pipeline. The output
+      is always a clean canonical URL.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>URL Normalization - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"seoslug normalizes URLs through a deterministic pipeline. The output\
+  \ is always a clean canonical URL.\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/url-normalization/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"URL Normalization - seoslug\"\
+  >\n<meta property=\"og:description\" content=\"seoslug normalizes URLs through a\
+  \ deterministic pipeline. The output is always a clean canonical URL.\">\n<meta\
+  \ property=\"og:url\" content=\"https://seoslug.emiliano-go.com/url-normalization/\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
+  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
+  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
+  summary_large_image\">\n<meta name=\"twitter:title\" content=\"URL Normalization\
+  \ - seoslug\">\n<meta name=\"twitter:description\" content=\"seoslug normalizes\
+  \ URLs through a deterministic pipeline. The output is always a clean canonical\
+  \ URL.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"URL Normalization - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/url-normalization/\"\
+  ,\n  \"description\": \"seoslug normalizes URLs through a deterministic pipeline.\
+  \ The output is always a clean canonical URL.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+---
+
 # URL Normalization
 
 seoslug normalizes URLs through a deterministic pipeline.

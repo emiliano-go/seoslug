@@ -1,3 +1,65 @@
+---
+seo:
+  title: Getting started - seoslug
+  canonical: https://seoslug.emiliano-go.com/getting-started/
+  robots: index,follow
+  og:
+    type: website
+    title: Getting started - seoslug
+    description: Install seoslug, configure your site, define your first entity, generate
+      a payload, and inject it into an HTML template.
+    url: https://seoslug.emiliano-go.com/getting-started/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Getting started - seoslug
+    description: Install seoslug, configure your site, define your first entity, generate
+      a payload, and inject it into an HTML template.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: Install seoslug, configure your site, define your first entity, generate
+    a payload, and inject it into an HTML template.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Getting started - seoslug
+    url: https://seoslug.emiliano-go.com/getting-started/
+    description: Install seoslug, configure your site, define your first entity, generate
+      a payload, and inject it into an HTML template.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>Getting started - seoslug</title>\n<meta name=\"description\" content=\"\
+  Install seoslug, configure your site, define your first entity, generate a payload,\
+  \ and inject it into an HTML template.\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/getting-started/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"Getting started - seoslug\">\n\
+  <meta property=\"og:description\" content=\"Install seoslug, configure your site,\
+  \ define your first entity, generate a payload, and inject it into an HTML template.\"\
+  >\n<meta property=\"og:url\" content=\"https://seoslug.emiliano-go.com/getting-started/\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
+  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
+  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
+  summary_large_image\">\n<meta name=\"twitter:title\" content=\"Getting started -\
+  \ seoslug\">\n<meta name=\"twitter:description\" content=\"Install seoslug, configure\
+  \ your site, define your first entity, generate a payload, and inject it into an\
+  \ HTML template.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"Getting started - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/getting-started/\"\
+  ,\n  \"description\": \"Install seoslug, configure your site, define your first\
+  \ entity, generate a payload, and inject it into an HTML template.\",\n  \"image\"\
+  : \"https://seoslug.emiliano-go.com/assets/icon.png\",\n  \"publisher\": {\n   \
+  \ \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\n  }\n\
+  }\n</script>\n"
+---
+
 # Getting started
 
 Install seoslug, configure your site, define your first entity, generate a

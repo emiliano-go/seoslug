@@ -1,3 +1,63 @@
+---
+seo:
+  title: SEO Payload - seoslug
+  canonical: https://seoslug.emiliano-go.com/seo-payload/
+  robots: index,follow
+  og:
+    type: website
+    title: SEO Payload - seoslug
+    description: buildseopayload returns a SEOPayload dataclass. It behaves like a
+      dict for most use cases.
+    url: https://seoslug.emiliano-go.com/seo-payload/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: SEO Payload - seoslug
+    description: buildseopayload returns a SEOPayload dataclass. It behaves like a
+      dict for most use cases.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: buildseopayload returns a SEOPayload dataclass. It behaves like a dict
+    for most use cases.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: SEO Payload - seoslug
+    url: https://seoslug.emiliano-go.com/seo-payload/
+    description: buildseopayload returns a SEOPayload dataclass. It behaves like a
+      dict for most use cases.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>SEO Payload - seoslug</title>\n<meta name=\"description\" content=\"\
+  buildseopayload returns a SEOPayload dataclass. It behaves like a dict for most\
+  \ use cases.\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/seo-payload/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"SEO Payload - seoslug\">\n<meta\
+  \ property=\"og:description\" content=\"buildseopayload returns a SEOPayload dataclass.\
+  \ It behaves like a dict for most use cases.\">\n<meta property=\"og:url\" content=\"\
+  https://seoslug.emiliano-go.com/seo-payload/\">\n<meta property=\"og:image\" content=\"\
+  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"og:image:width\"\
+  \ content=\"225\">\n<meta property=\"og:image:height\" content=\"225\">\n<meta property=\"\
+  og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"en_US\"\
+  >\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"twitter:title\"\
+  \ content=\"SEO Payload - seoslug\">\n<meta name=\"twitter:description\" content=\"\
+  buildseopayload returns a SEOPayload dataclass. It behaves like a dict for most\
+  \ use cases.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"SEO Payload - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/seo-payload/\"\
+  ,\n  \"description\": \"buildseopayload returns a SEOPayload dataclass. It behaves\
+  \ like a dict for most use cases.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+---
+
 # SEO Payload
 
 `build_seo_payload()` returns a `SEOPayload` dataclass.

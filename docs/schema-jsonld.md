@@ -1,3 +1,66 @@
+---
+seo:
+  title: Schema.org JSON-LD - seoslug
+  canonical: https://seoslug.emiliano-go.com/schema-jsonld/
+  robots: index,follow
+  og:
+    type: website
+    title: Schema.org JSON-LD - seoslug
+    description: seoslug auto-generates Schema.org JSON-LD based on entitytype. The
+      mapping from entity type to schema.org type lives in schematypemap.
+    url: https://seoslug.emiliano-go.com/schema-jsonld/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Schema.org JSON-LD - seoslug
+    description: seoslug auto-generates Schema.org JSON-LD based on entitytype. The
+      mapping from entity type to schema.org type lives in schematypemap.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: seoslug auto-generates Schema.org JSON-LD based on entitytype. The
+    mapping from entity type to schema.org type lives in schematypemap.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Schema.org JSON-LD - seoslug
+    url: https://seoslug.emiliano-go.com/schema-jsonld/
+    description: seoslug auto-generates Schema.org JSON-LD based on entitytype. The
+      mapping from entity type to schema.org type lives in schematypemap.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>Schema.org JSON-LD - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"seoslug auto-generates Schema.org JSON-LD based on entitytype. The mapping\
+  \ from entity type to schema.org type lives in schematypemap.\">\n<link rel=\"canonical\"\
+  \ href=\"https://seoslug.emiliano-go.com/schema-jsonld/\">\n<meta name=\"robots\"\
+  \ content=\"index,follow\">\n<meta property=\"og:type\" content=\"website\">\n<meta\
+  \ property=\"og:title\" content=\"Schema.org JSON-LD - seoslug\">\n<meta property=\"\
+  og:description\" content=\"seoslug auto-generates Schema.org JSON-LD based on entitytype.\
+  \ The mapping from entity type to schema.org type lives in schematypemap.\">\n<meta\
+  \ property=\"og:url\" content=\"https://seoslug.emiliano-go.com/schema-jsonld/\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
+  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
+  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
+  summary_large_image\">\n<meta name=\"twitter:title\" content=\"Schema.org JSON-LD\
+  \ - seoslug\">\n<meta name=\"twitter:description\" content=\"seoslug auto-generates\
+  \ Schema.org JSON-LD based on entitytype. The mapping from entity type to schema.org\
+  \ type lives in schematypemap.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"Schema.org JSON-LD - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/schema-jsonld/\"\
+  ,\n  \"description\": \"seoslug auto-generates Schema.org JSON-LD based on entitytype.\
+  \ The mapping from entity type to schema.org type lives in schematypemap.\",\n \
+  \ \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\",\n  \"publisher\"\
+  : {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\
+  \n  }\n}\n</script>\n"
+---
+
 # Schema.org JSON-LD
 
 seoslug auto-generates Schema.org JSON-LD based on `entity_type`.

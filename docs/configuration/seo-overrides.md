@@ -1,3 +1,67 @@
+---
+seo:
+  title: SEOOverrides reference - seoslug
+  canonical: https://seoslug.emiliano-go.com/configuration/seo-overrides/
+  robots: index,follow
+  og:
+    type: website
+    title: SEOOverrides reference - seoslug
+    description: SEOOverrides lets you override any generated SEO field for a single
+      call. Pass it as the fourth argument to buildseopayload. Every field is optional.
+    url: https://seoslug.emiliano-go.com/configuration/seo-overrides/
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image:width: 225
+    image:height: 225
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: SEOOverrides reference - seoslug
+    description: SEOOverrides lets you override any generated SEO field for a single
+      call. Pass it as the fourth argument to buildseopayload. Every field is optional.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    site: '@emiliano_gando'
+  description: SEOOverrides lets you override any generated SEO field for a single
+    call. Pass it as the fourth argument to buildseopayload. Every field is optional.
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: SEOOverrides reference - seoslug
+    url: https://seoslug.emiliano-go.com/configuration/seo-overrides/
+    description: SEOOverrides lets you override any generated SEO field for a single
+      call. Pass it as the fourth argument to buildseopayload. Every field is optional.
+    image: https://seoslug.emiliano-go.com/assets/icon.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+seo_html: "<title>SEOOverrides reference - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"SEOOverrides lets you override any generated SEO field for a single\
+  \ call. Pass it as the fourth argument to buildseopayload. Every field is optional.\"\
+  >\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/configuration/seo-overrides/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"SEOOverrides reference - seoslug\"\
+  >\n<meta property=\"og:description\" content=\"SEOOverrides lets you override any\
+  \ generated SEO field for a single call. Pass it as the fourth argument to buildseopayload.\
+  \ Every field is optional.\">\n<meta property=\"og:url\" content=\"https://seoslug.emiliano-go.com/configuration/seo-overrides/\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
+  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
+  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
+  summary_large_image\">\n<meta name=\"twitter:title\" content=\"SEOOverrides reference\
+  \ - seoslug\">\n<meta name=\"twitter:description\" content=\"SEOOverrides lets you\
+  \ override any generated SEO field for a single call. Pass it as the fourth argument\
+  \ to buildseopayload. Every field is optional.\">\n<meta name=\"twitter:image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta name=\"twitter:site\"\
+  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
+  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"SEOOverrides\
+  \ reference - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/configuration/seo-overrides/\"\
+  ,\n  \"description\": \"SEOOverrides lets you override any generated SEO field for\
+  \ a single call. Pass it as the fourth argument to buildseopayload. Every field\
+  \ is optional.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+---
+
 # SEOOverrides reference
 
 `SEOOverrides` lets you override any generated SEO field for a single call. Pass it as the fourth argument to `build_seo_payload`. Every field is optional.
