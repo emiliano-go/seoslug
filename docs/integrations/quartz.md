@@ -66,13 +66,36 @@ seo_html: "<title>Quartz integration - seoslug</title>\n<meta name=\"description
 
 [Quartz](https://quartz.jzhao.xyz) is a static site generator for Obsidian vaults, built with TypeScript and Preact. Use seoslug at build time to add JSON-LD structured data, Open Graph, Twitter Card, canonical, and robots metadata to every page.
 
-## How it works
+## Built-in builder (recommended)
+
+seoslug ships a `QuartzBuilder` class at `seoslug.contrib.quartz` that handles content scanning, YAML frontmatter parsing, SEO payload building, and frontmatter injection in a single call:
+
+```python
+from seoslug.contrib.quartz import QuartzBuilder
+
+builder = QuartzBuilder(
+    content_dir="content",
+    site_url="https://yoursite.com",
+    site_name="Your Site",
+)
+builder.build()
+```
+
+The class accepts all `SEOConfig` fields as keyword arguments and exposes `dry_run` and `debug_dir` modes. The `debug_dir` option (e.g. `debug_dir=".seo-debug"`) writes a per-page JSON file with the SEO payload dict, matching the Zensical extension behaviour.
+
+See the `QuartzBuilder` API reference for all options.
+
+## Manual pre-build script (alternative)
+
+If you prefer full control over the generation logic, write a custom script that imports seoslug directly.
+
+### How it works
 
 A pre-build Python script iterates all Markdown files in your vault, builds an SEO payload for each page using seoslug, and writes the rendered HTML into the file's frontmatter under a `seo_html` key. A small modification to Quartz's `Head.tsx` component checks for this key and injects the tags when present, falling back to Quartz's built-in generation otherwise.
 
-## Setup
+### Setup
 
-### 1. Write the SEO generation script
+#### 1. Write the SEO generation script
 
 Create `scripts/generate_seo.py`. This script handles Obsidian-flavored Markdown (frontmatter delimited with `---`) and maps file paths to page URLs:
 
@@ -213,7 +236,7 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-### 2. Modify the Head component
+#### 2. Modify the Head component
 
 Edit `quartz/components/Head.tsx` to check for `seo_html` in the page frontmatter. When present, inject it directly. Otherwise, fall back to the default Quartz head logic:
 
@@ -293,7 +316,7 @@ export default (() => {
 
 When `frontmatter.seo_html` is present, seoslug provides the complete set of tags (title, description, canonical, robots, Open Graph, Twitter Card, JSON-LD). Pages without it use Quartz's default generation.
 
-### 3. Add to package.json
+#### 3. Add to package.json
 
 Add the pre-build step to your `package.json` scripts:
 
@@ -307,7 +330,7 @@ Add the pre-build step to your `package.json` scripts:
 }
 ```
 
-### 4. Update the CI workflow
+#### 4. Update the CI workflow
 
 Add the Python setup and seoslug install to your deployment pipeline:
 

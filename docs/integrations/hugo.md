@@ -69,13 +69,28 @@ seo_html: "<title>Hugo integration - seoslug</title>\n<meta name=\"description\"
 
 [Hugo](https://gohugo.io) is a fast static site generator written in Go. Use seoslug at build time to generate Open Graph, Twitter Card, JSON-LD, and robots metadata for every page, then inject it via a template override.
 
-## How it works
+## Built-in builder (recommended)
 
-A pre-build Python script iterates all content files, builds an SEO payload for each page using seoslug, and writes the rendered HTML into the file's YAML frontmatter under a `seo_html` key. A custom Hugo template override (`layouts/_partials/head.html`) checks for this key and replaces the theme's built-in SEO tags when present.
+seoslug ships a `HugoBuilder` class at `seoslug.contrib.hugo` that handles content scanning, frontmatter parsing (TOML and YAML), SEO payload building, and frontmatter injection in a single call:
 
-The same approach works with any Hugo theme. You override the `head.html` partial in your project's `layouts/` directory, and Hugo's lookup order finds your version before the theme's.
+```python
+from seoslug.contrib.hugo import HugoBuilder
 
-## Setup
+builder = HugoBuilder(
+    content_dir="content",
+    site_url="https://yoursite.com",
+    site_name="Your Site",
+)
+builder.build()
+```
+
+The class accepts all `SEOConfig` fields as keyword arguments and exposes a `dry_run` mode for inspection.
+
+See the `HugoBuilder` API reference for all options.
+
+## Manual pre-build script (alternative)
+
+If you prefer full control over the generation logic, write a custom script that imports seoslug directly.
 
 ### 1. Write the SEO generation script
 
