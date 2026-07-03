@@ -134,7 +134,7 @@ toc = { permalink = true }
   default_og_image = "https://seoslug.emiliano-go.com/assets/icon.png",
   publisher_name = "Emiliano Gandini Outeda",
   locale = "en_US",
-  twitter_site = "@emiliano_gando",
+  twitter_site = "@emiliano_go_",
   auto_generate_schema = true,
   debug_dir = ".seo-debug",
 }
