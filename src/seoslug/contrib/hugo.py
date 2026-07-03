@@ -19,6 +19,14 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+
+try:
+    import tomllib
+except ImportError:
+    try:
+        import tomli as tomllib
+    except ImportError:
+        tomllib = None
 from pathlib import Path
 from typing import Any
 
@@ -152,10 +160,6 @@ class HugoBuilder:
         """
         m = _FM_TOML_RE.match(text)
         if m:
-            try:
-                import tomllib
-            except ImportError:
-                tomllib = None
             if tomllib is not None:
                 try:
                     meta = tomllib.loads(m.group(1))
