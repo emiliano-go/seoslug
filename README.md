@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png" alt="seoslug" width="128"/>
+  <img src="https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png" alt="seoslug" width="225"/>
 </p>
 <p align="center">
   <h1 align="center">seoslug</h1>
