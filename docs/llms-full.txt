@@ -1,7 +1,7 @@
 # seoslug Documentation
 > Full documentation for seoslug: a Python SEO toolkit
 > Source: https://seoslug.emiliano-go.com
-> Pages: 43
+> Pages: 49
 
 ========================================================================
 PAGE: https://seoslug.emiliano-go.com/api-reference/
@@ -201,6 +201,7 @@ class SEOConfig:
     locale_alternate: list[str] | None = None
     twitter_site: str | None = None
     schema_registry: SchemaRegistry | None = None
+    hooks: HookRegistry | None = None
     emit_warnings: bool = False
 ```
 
@@ -225,6 +226,7 @@ in `__post_init__`.
 | `locale_alternate` | `list[str] \| None` | `None` | `og:locale:alternate` values |
 | `twitter_site` | `str \| None` | `None` | `twitter:site` value |
 | `schema_registry` | `SchemaRegistry \| None` | `None` | Custom schema generators |
+| `hooks` | `HookRegistry \| None` | `None` | Instance-scoped hooks for this config; global hooks run first |
 | `emit_warnings` | `bool` | `False` | Emit `warnings.warn` for validation issues |
 
 Default `schema_type_map`:
@@ -1157,6 +1159,53 @@ PAGE: https://seoslug.emiliano-go.com/changelog/
 # Changelog
 
 All notable changes to seoslug are documented here. The format is based on Keep a Changelog. The project follows semantic versioning.
+
+## 2.2.0 (2026-07-03)
+
+### Fixed
+
+- Python 3.10 compatibility: lazy import tomllib, fall back to tomli.
+- Lazy import pyyaml in HugoBuilder and QuartzBuilder; add pyyaml to test deps.
+- Correct twitter_site handle from @emiliano_gando to @emiliano_go_.
+
+### Docs
+
+- Replace OG image with 1408x768 Discord-friendly version.
+- Add PyPI badge to README.
+- Add favicon to docs site.
+- Replace em dashes and prose dashes with colons in llms.txt and llms-full.txt.
+- Replace em dashes with colons in doc source files.
+
+### Chore
+
+- Update .gitignore.
+
+## 2.1.0 (2026-07-03)
+
+### Added
+
+- HugoBuilder and QuartzBuilder for static site generator SEO file generation.
+- Zensical Markdown extension for inline SEO generation within Markdown docs.
+- Favicon for documentation site.
+
+### Docs
+
+- New integration guides: Next.js, Gatsby, Astro, Nuxt, SvelteKit, Strapi.
+- Add Flask and Starlette integration guides, split Starlette into dedicated page.
+- Add PyPI badge to README.
+
+## 2.0.1 (2026-07-03)
+
+### Fixed
+
+- Python 3.10 compatibility: lazy import `tomllib`, fall back to `tomli`.
+- Lazy import `pyyaml` in HugoBuilder and QuartzBuilder; add `pyyaml` to test dependencies.
+
+### Docs
+
+- Replace OG image with 1408x768 Discord-friendly version.
+- Add robots.txt, llms.txt, llms-full.txt.
+- Add icon, centered heading, and catchphrase to landing page.
 
 ## 2.0.0 (2026-07-02)
 
@@ -3633,6 +3682,250 @@ zero-cost repeated lookups on the same input.
 - [Hooks](hooks.md): extend seoslug with custom post-processing
 
 ========================================================================
+PAGE: https://seoslug.emiliano-go.com/integrations/astro/
+========================================================================
+
+# Astro integration
+
+[Astro](https://astro.build) is a modern static site generator that ships zero JavaScript by default. Use seoslug at build time to generate SEO metadata, then render it via an Astro component in your layout.
+
+## How it works
+
+A pre-build Python script generates a JSON manifest of SEO payloads for all routes. A reusable `<Seo />` Astro component reads the manifest at build time and injects the tags into `<head>`. Place the component in your base layout and every page gets full SEO coverage with zero runtime overhead.
+
+## Setup
+
+### 1. Write the SEO generation script
+
+Create `scripts/generate_seo.py`. This script walks your `src/content/` or `src/pages/` directory, builds an SEO payload per route, and writes a JSON manifest:
+
+```python
+"""Pre-build: generates SEO JSON manifest for Astro."""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from pathlib import Path
+
+import yaml
+from seoslug import (
+    SEOConfig,
+    URLPolicy,
+    SEOEntity,
+    OGImage,
+    Robots,
+    build_seo_payload,
+)
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CONTENT_DIR = PROJECT_ROOT / "src" / "content"
+PAGES_DIR = PROJECT_ROOT / "src" / "pages"
+SITE_URL = "https://yoursite.com"
+SITE_NAME = "Your Site"
+
+SEO_CONFIG = SEOConfig(
+    canonical_host="yoursite.com",
+    public_base_url=SITE_URL,
+    url_policy=URLPolicy(
+        enforce_https=True,
+        lowercase_paths=True,
+        trailing_slash="always",
+    ),
+    site_name=SITE_NAME,
+    default_og_image=OGImage(
+        url=f"{SITE_URL}/images/default-og.png",
+        width=1200,
+        height=630,
+    ),
+    publisher_name="Your Name",
+    title_template="{title} | Your Site",
+    default_robots=Robots(index=True, follow=True),
+    locale="en_US",
+    twitter_site="@yourhandle",
+)
+
+FM_RE = re.compile(
+    r"^-{3}[ \r\t]*?\n(.*?\r?\n)(?:\.{3}|-{3})[ \r\t]*\n",
+    re.UNICODE | re.DOTALL,
+)
+
+
+def route_path_from_file(filepath: Path) -> str:
+    rel = filepath.relative_to(PAGES_DIR)
+    parts = list(rel.parts)
+    if parts[-1] in ("index.md", "_index.md"):
+        parts.pop()
+        if not parts:
+            return "/"
+        return "/" + "/".join(parts) + "/"
+    stem = Path(*parts).with_suffix("")
+    return "/" + str(stem) + "/"
+
+
+def extract_excerpt(body: str, max_chars: int = 160) -> str:
+    body = re.sub(r"^#\s+.*\n?", "", body, count=1).strip()
+    para = re.split(r"\n\s*\n", body, maxsplit=1)[0].strip()
+    clean = re.sub(r"[`*_\[\]()>|#{}]", "", para)
+    clean = re.sub(r"\s+", " ", clean).strip()
+    if not clean:
+        return ""
+    if len(clean) <= max_chars:
+        return clean
+    break_at = clean.rfind(" ", 0, max_chars)
+    return clean[:break_at] + "..." if break_at > 0 else clean[:max_chars] + "..."
+
+
+def main() -> int:
+    manifest: dict[str, dict] = {}
+    sources = []
+    if CONTENT_DIR.exists():
+        sources.extend(CONTENT_DIR.rglob("*.md"))
+    if PAGES_DIR.exists():
+        sources.extend(PAGES_DIR.rglob("*.md"))
+        sources.extend(PAGES_DIR.rglob("*.mdx"))
+        sources.extend(PAGES_DIR.rglob("*.astro"))
+
+    for f in sorted(sources):
+        route = route_path_from_file(f)
+        text = f.read_text(encoding="utf-8")
+        meta: dict = {}
+        body = text
+        if text.startswith("---"):
+            m = FM_RE.match(text)
+            if m:
+                try:
+                    parsed = yaml.safe_load(m.group(1))
+                    if isinstance(parsed, dict):
+                        meta = parsed
+                except Exception:
+                    pass
+                body = text[m.end():].lstrip("\n")
+
+        title = meta.get("title") or ""
+        if not title:
+            m = re.search(r"^#\s+(.+)", body, re.MULTILINE)
+            if m:
+                title = re.sub(r"[`*_]", "", m.group(1).strip())
+        description = meta.get("description") or extract_excerpt(body)
+
+        entity = SEOEntity(
+            entity_type="page",
+            title=title or SITE_NAME,
+            excerpt=description or None,
+        )
+        payload = build_seo_payload(entity, route, SEO_CONFIG)
+        if payload is None:
+            continue
+        manifest[route] = payload.to_dict()
+
+    output = PROJECT_ROOT / "public" / "seo-manifest.json"
+    output.write_text(json.dumps(manifest, indent=2, ensure_ascii=False))
+    print(f"Written {output} ({len(manifest)} routes)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+### 2. Create the `<Seo />` component
+
+Create `src/components/Seo.astro` that loads the manifest and renders the tags for the current route:
+
+```astro
+---
+import seoManifest from "../../public/seo-manifest.json";
+
+export interface Props {
+  route?: string;
+  fallbackTitle?: string;
+}
+
+const { route = Astro.url.pathname, fallbackTitle = "Default Title" } = Astro.props;
+const seo = seoManifest[route];
+---
+
+{seo ? (
+  <>
+    <title>{seo.title}</title>
+    <link rel="canonical" href={seo.canonical} />
+    <meta name="robots" content={seo.robots} />
+    <meta property="og:type" content={seo.og.type} />
+    <meta property="og:title" content={seo.og.title} />
+    <meta property="og:description" content={seo.og.description} />
+    <meta property="og:url" content={seo.og.url} />
+    <meta property="og:image" content={seo.og.image} />
+    <meta property="og:site_name" content={seo.og.site_name} />
+    <meta property="og:locale" content={seo.og.locale} />
+    <meta name="twitter:card" content={seo.twitter.card} />
+    <meta name="twitter:title" content={seo.twitter.title} />
+    <meta name="twitter:description" content={seo.twitter.description} />
+    <meta name="twitter:image" content={seo.twitter.image} />
+    {seo.schema_jsonld && (
+      <script type="application/ld+json" set:html={JSON.stringify(seo.schema_jsonld)} />
+    )}
+  </>
+) : (
+  <>
+    <title>{fallbackTitle}</title>
+    <meta name="robots" content="index,follow" />
+  </>
+)}
+```
+
+### 3. Use in your layout
+
+Place `<Seo />` in your base layout so every page inherits the SEO tags:
+
+```astro
+---
+import Seo from "../components/Seo.astro";
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Seo route={Astro.url.pathname} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+```
+
+For content routes with `getStaticPaths`, pass the route explicitly:
+
+```astro
+---
+import Seo from "../../components/Seo.astro";
+export async function getStaticPaths() {
+  return [
+    { params: { slug: "hello" } },
+    { params: { slug: "world" } },
+  ];
+}
+const { slug } = Astro.params;
+---
+<Seo route={`/${slug}/`} />
+```
+
+## CI/CD
+
+Add the generation step before the Astro build:
+
+```yaml
+- uses: actions/setup-python@v5
+  with:
+    python-version: "3.x"
+- run: pip install "seoslug>=2.0.1" pyyaml
+- run: python scripts/generate_seo.py
+- run: npm ci
+- run: npm run build
+```
+
+========================================================================
 PAGE: https://seoslug.emiliano-go.com/integrations/django/
 ========================================================================
 
@@ -4208,6 +4501,251 @@ def post_detail(slug):
 ```
 
 ========================================================================
+PAGE: https://seoslug.emiliano-go.com/integrations/gatsby/
+========================================================================
+
+# Gatsby integration
+
+[Gatsby](https://www.gatsbyjs.com) is a React-based static site generator with a rich plugin ecosystem. Use seoslug at build time via `gatsby-node.js` to generate SEO metadata for every page and inject it through the Gatsby Head API or `react-helmet`.
+
+## How it works
+
+A pre-build Python script generates a JSON manifest of SEO payloads for all routes. The `gatsby-node.js` `onCreatePage` hook reads the manifest and attaches the SEO data to each page's context. Your layout or page component renders the tags using the Gatsby Head API (Gatsby 5+) or `react-helmet`.
+
+## Setup
+
+### 1. Write the SEO generation script
+
+Create `scripts/generate_seo.py`. This script walks your `content/` or `src/pages/` directory, builds an SEO payload per route, and writes a JSON manifest:
+
+```python
+"""Pre-build: generates SEO JSON manifest for Gatsby."""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from pathlib import Path
+
+import yaml
+from seoslug import (
+    SEOConfig,
+    URLPolicy,
+    SEOEntity,
+    OGImage,
+    Robots,
+    build_seo_payload,
+)
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CONTENT_DIR = PROJECT_ROOT / "content"
+SITE_URL = "https://yoursite.com"
+SITE_NAME = "Your Site"
+
+SEO_CONFIG = SEOConfig(
+    canonical_host="yoursite.com",
+    public_base_url=SITE_URL,
+    url_policy=URLPolicy(
+        enforce_https=True,
+        lowercase_paths=True,
+        trailing_slash="always",
+    ),
+    site_name=SITE_NAME,
+    default_og_image=OGImage(
+        url=f"{SITE_URL}/images/default-og.png",
+        width=1200,
+        height=630,
+    ),
+    publisher_name="Your Name",
+    title_template="{title} | Your Site",
+    default_robots=Robots(index=True, follow=True),
+    locale="en_US",
+    twitter_site="@yourhandle",
+)
+
+FM_RE = re.compile(
+    r"^-{3}[ \r\t]*?\n(.*?\r?\n)(?:\.{3}|-{3})[ \r\t]*\n",
+    re.UNICODE | re.DOTALL,
+)
+
+
+def route_path_from_file(filepath: Path) -> str:
+    rel = filepath.relative_to(CONTENT_DIR)
+    parts = list(rel.parts)
+    if parts[-1] in ("index.md", "_index.md"):
+        parts.pop()
+        if not parts:
+            return "/"
+        return "/" + "/".join(parts) + "/"
+    stem = Path(*parts).with_suffix("")
+    return "/" + str(stem) + "/"
+
+
+def extract_excerpt(body: str, max_chars: int = 160) -> str:
+    body = re.sub(r"^#\s+.*\n?", "", body, count=1).strip()
+    para = re.split(r"\n\s*\n", body, maxsplit=1)[0].strip()
+    clean = re.sub(r"[`*_\[\]()>|#{}]", "", para)
+    clean = re.sub(r"\s+", " ", clean).strip()
+    if not clean:
+        return ""
+    if len(clean) <= max_chars:
+        return clean
+    break_at = clean.rfind(" ", 0, max_chars)
+    return clean[:break_at] + "..." if break_at > 0 else clean[:max_chars] + "..."
+
+
+def main() -> int:
+    manifest: dict[str, dict] = {}
+    for md_file in sorted(CONTENT_DIR.rglob("*.md")):
+        text = md_file.read_text(encoding="utf-8")
+        meta: dict = {}
+        body = text
+        if text.startswith("---"):
+            m = FM_RE.match(text)
+            if m:
+                try:
+                    parsed = yaml.safe_load(m.group(1))
+                    if isinstance(parsed, dict):
+                        meta = parsed
+                except Exception:
+                    pass
+                body = text[m.end():].lstrip("\n")
+
+        route = route_path_from_file(md_file)
+        title = meta.get("title") or ""
+        if not title:
+            m = re.search(r"^#\s+(.+)", body, re.MULTILINE)
+            if m:
+                title = re.sub(r"[`*_]", "", m.group(1).strip())
+        description = meta.get("description") or extract_excerpt(body)
+
+        entity = SEOEntity(
+            entity_type="page",
+            title=title or SITE_NAME,
+            excerpt=description or None,
+        )
+        payload = build_seo_payload(entity, route, SEO_CONFIG)
+        if payload is None:
+            continue
+        manifest[route] = payload.to_dict()
+
+    output = PROJECT_ROOT / "static" / "seo-manifest.json"
+    output.write_text(json.dumps(manifest, indent=2, ensure_ascii=False))
+    print(f"Written {output} ({len(manifest)} routes)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+### 2. Wire up `gatsby-node.js`
+
+Use the `onCreatePage` API to attach SEO data from the manifest to each page's context:
+
+```javascript
+const seoManifest = require("./static/seo-manifest.json");
+
+exports.onCreatePage = ({ page, actions }) => {
+  const { setPageContext } = actions;
+  const seo = seoManifest[page.path];
+  if (seo) {
+    setPageContext({ seo });
+  }
+};
+```
+
+### 3. Create an SEO component
+
+Create `src/components/seo.js` that renders the SEO tags using the Gatsby Head API:
+
+```jsx
+import React from "react";
+
+export function Seo({ seo, fallbackTitle = "Default Title" }) {
+  if (!seo) {
+    return (
+      <>
+        <title>{fallbackTitle}</title>
+        <meta name="robots" content="index,follow" />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <title>{seo.title}</title>
+      <link rel="canonical" href={seo.canonical} />
+      <meta name="robots" content={seo.robots} />
+      <meta property="og:type" content={seo.og.type} />
+      <meta property="og:title" content={seo.og.title} />
+      <meta property="og:description" content={seo.og.description} />
+      <meta property="og:url" content={seo.og.url} />
+      <meta property="og:image" content={seo.og.image} />
+      <meta property="og:site_name" content={seo.og.site_name} />
+      <meta property="og:locale" content={seo.og.locale} />
+      <meta name="twitter:card" content={seo.twitter.card} />
+      <meta name="twitter:title" content={seo.twitter.title} />
+      <meta name="twitter:description" content={seo.twitter.description} />
+      <meta name="twitter:image" content={seo.twitter.image} />
+      {seo.schema_jsonld && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(seo.schema_jsonld),
+          }}
+        />
+      )}
+    </>
+  );
+}
+```
+
+### 4. Use the Head API in your template
+
+In any page or template that receives `pageContext.seo`, export a `Head` function:
+
+```jsx
+import { Seo } from "../components/seo";
+
+export function Head({ pageContext }) {
+  return <Seo seo={pageContext.seo} />;
+}
+```
+
+For `react-helmet` (Gatsby 4 and below), use `<Helmet>` instead:
+
+```jsx
+import { Helmet } from "react-helmet";
+import { Seo } from "../components/seo";
+
+export default function Page({ pageContext, children }) {
+  return (
+    <>
+      <Helmet>
+        <Seo seo={pageContext.seo} />
+      </Helmet>
+      {children}
+    </>
+  );
+}
+```
+
+## CI/CD
+
+Add the generation step before the Gatsby build:
+
+```yaml
+- uses: actions/setup-python@v5
+  with:
+    python-version: "3.x"
+- run: pip install "seoslug>=2.0.1" pyyaml
+- run: python scripts/generate_seo.py
+- run: npm ci
+- run: npm run build
+```
+
+========================================================================
 PAGE: https://seoslug.emiliano-go.com/integrations/hugo/
 ========================================================================
 
@@ -4215,13 +4753,28 @@ PAGE: https://seoslug.emiliano-go.com/integrations/hugo/
 
 [Hugo](https://gohugo.io) is a fast static site generator written in Go. Use seoslug at build time to generate Open Graph, Twitter Card, JSON-LD, and robots metadata for every page, then inject it via a template override.
 
-## How it works
+## Built-in builder (recommended)
 
-A pre-build Python script iterates all content files, builds an SEO payload for each page using seoslug, and writes the rendered HTML into the file's YAML frontmatter under a `seo_html` key. A custom Hugo template override (`layouts/_partials/head.html`) checks for this key and replaces the theme's built-in SEO tags when present.
+seoslug ships a `HugoBuilder` class at `seoslug.contrib.hugo` that handles content scanning, frontmatter parsing (TOML and YAML), SEO payload building, and frontmatter injection in a single call:
 
-The same approach works with any Hugo theme. You override the `head.html` partial in your project's `layouts/` directory, and Hugo's lookup order finds your version before the theme's.
+```python
+from seoslug.contrib.hugo import HugoBuilder
 
-## Setup
+builder = HugoBuilder(
+    content_dir="content",
+    site_url="https://yoursite.com",
+    site_name="Your Site",
+)
+builder.build()
+```
+
+The class accepts all `SEOConfig` fields as keyword arguments and exposes a `dry_run` mode for inspection.
+
+See the `HugoBuilder` API reference for all options.
+
+## Manual pre-build script (alternative)
+
+If you prefer full control over the generation logic, write a custom script that imports seoslug directly.
 
 ### 1. Write the SEO generation script
 
@@ -4437,6 +4990,58 @@ Note that PaperMod's default `head.html` also generates Open Graph and Twitter C
 PAGE: https://seoslug.emiliano-go.com/integrations/
 ========================================================================
 
+'
+    url: https://seoslug.emiliano-go.com/integrations/
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Integrations - seoslug
+    description: '---'
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
+    site: '@emiliano_gando'
+  description: '---'
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Integrations - seoslug
+    url: https://seoslug.emiliano-go.com/integrations/
+    description: '---'
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
+seo_html: "<title>Integrations - seoslug</title>\n<meta name=\"description\" content=\"\
+  ---\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/integrations/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"Integrations - seoslug\">\n<meta\
+  \ property=\"og:description\" content=\"---\">\n<meta property=\"og:url\" content=\"\
+  https://seoslug.emiliano-go.com/integrations/\">\n<meta property=\"og:image\" content=\"\
+  https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta property=\"\
+  og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\" content=\"\
+  768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\">\n<meta\
+  \ property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"\
+  en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"\
+  twitter:title\" content=\"Integrations - seoslug\">\n<meta name=\"twitter:description\"\
+  \ content=\"---\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"Integrations - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/integrations/\"\
+  ,\n  \"description\": \"---\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
+---
+
+---
+
 # Integrations
 
 seoslug is framework-agnostic. You can use it with any Python web framework, static site generator, or build pipeline.
@@ -4456,10 +5061,26 @@ The general pattern is always the same:
 | Starlette | [Starlette integration](starlette.md) | Async endpoints, path params, middleware, Jinja2Templates |
 | Django | [Django integration](django.md) | Class-based views, template context, Django REST Framework |
 | Flask | [Flask integration](flask.md) | Route handlers, Jinja2 templates, JSON APIs, extension pattern |
-| Zensical | [Zensical integration](zensical.md) | Pre-build script + template override, works with any MkDocs theme |
+| Nuxt | [Nuxt integration](nuxt.md) | `useHead` composable + `asyncData` in Nuxt 3, static or SSR |
+| SvelteKit | [SvelteKit integration](sveltekit.md) | `load` function in `+page.js` + `<svelte:head>`, static or SSR |
+
+## SSG guides
+
+| SSG | Guide | Notes |
+|-----|-------|-------|
 | Hugo | [Hugo integration](hugo.md) | Pre-build frontmatter injection + head partial, works with any theme |
 | Quartz | [Quartz integration](quartz.md) | Pre-build frontmatter injection + Head component mod |
+| Next.js | [Next.js integration](nextjs.md) | `getStaticProps` + `next/head`, or `generateMetadata` in App Router |
+| Gatsby | [Gatsby integration](gatsby.md) | `onCreatePage` in `gatsby-node.js` + Gatsby Head API |
+| Astro | [Astro integration](astro.md) | `<Seo />` component via `Astro.glob` or JSON manifest |
+| Zensical | [Zensical integration](zensical.md) | Inline Markdown extension + template override, or pre-build script |
 | Static site generators | [SSG integration](ssg.md) | Build-time generation, JSON manifest, Pelican, MkDocs |
+
+## CMS guides
+
+| CMS | Guide | Notes |
+|-----|-------|-------|
+| Strapi | [Strapi integration](strapi.md) | Custom middleware to enrich API responses with SEO payloads |
 
 ## Other frameworks
 
@@ -4488,6 +5109,534 @@ Use `payload.to_dict()` when you need a plain dict for template engines or JSON 
 For async frameworks, import from `seoslug.async_builder`:
 
 ========================================================================
+PAGE: https://seoslug.emiliano-go.com/integrations/nextjs/
+========================================================================
+
+# Next.js integration
+
+[Next.js](https://nextjs.org) is a React framework for production. Use seoslug at build time with the Pages Router or at render time with the App Router to inject Open Graph, Twitter Card, JSON-LD, canonical, and robots metadata into every page.
+
+## How it works
+
+Next.js supports two routing models. For static export (Pages Router with `getStaticProps`), a pre-build Python script generates SEO payloads and writes them to a JSON manifest. Your page component imports the manifest and renders tags via `next/head`. For the App Router, call seoslug inside `generateMetadata` or a Server Component.
+
+## Pages Router (static export)
+
+### 1. Write the SEO generation script
+
+Create `scripts/generate_seo.py`. This script walks your content or pages directory, builds an SEO payload for each route, and writes a single JSON manifest:
+
+```python
+"""Pre-build: generates SEO JSON manifest for Next.js."""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from pathlib import Path
+
+import yaml
+from seoslug import (
+    SEOConfig,
+    URLPolicy,
+    SEOEntity,
+    OGImage,
+    Robots,
+    build_seo_payload,
+)
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CONTENT_DIR = PROJECT_ROOT / "content"
+SITE_URL = "https://yoursite.com"
+SITE_NAME = "Your Site"
+
+SEO_CONFIG = SEOConfig(
+    canonical_host="yoursite.com",
+    public_base_url=SITE_URL,
+    url_policy=URLPolicy(
+        enforce_https=True,
+        lowercase_paths=True,
+        trailing_slash="always",
+    ),
+    site_name=SITE_NAME,
+    default_og_image=OGImage(
+        url=f"{SITE_URL}/images/default-og.png",
+        width=1200,
+        height=630,
+    ),
+    publisher_name="Your Name",
+    title_template="{title} | Your Site",
+    default_robots=Robots(index=True, follow=True),
+    locale="en_US",
+    twitter_site="@yourhandle",
+)
+
+FM_RE = re.compile(
+    r"^-{3}[ \r\t]*?\n(.*?\r?\n)(?:\.{3}|-{3})[ \r\t]*\n",
+    re.UNICODE | re.DOTALL,
+)
+
+
+def route_path_from_file(filepath: Path) -> str:
+    rel = filepath.relative_to(CONTENT_DIR)
+    parts = list(rel.parts)
+    if parts[-1] in ("index.md", "_index.md"):
+        parts.pop()
+        if not parts:
+            return "/"
+        return "/" + "/".join(parts) + "/"
+    stem = Path(*parts).with_suffix("")
+    return "/" + str(stem) + "/"
+
+
+def extract_excerpt(body: str, max_chars: int = 160) -> str:
+    body = re.sub(r"^#\s+.*\n?", "", body, count=1).strip()
+    para = re.split(r"\n\s*\n", body, maxsplit=1)[0].strip()
+    clean = re.sub(r"[`*_\[\]()>|#{}]", "", para)
+    clean = re.sub(r"\s+", " ", clean).strip()
+    if not clean:
+        return ""
+    if len(clean) <= max_chars:
+        return clean
+    break_at = clean.rfind(" ", 0, max_chars)
+    return clean[:break_at] + "..." if break_at > 0 else clean[:max_chars] + "..."
+
+
+def main() -> int:
+    manifest: dict[str, dict] = {}
+    for md_file in sorted(CONTENT_DIR.rglob("*.md")):
+        text = md_file.read_text(encoding="utf-8")
+        meta: dict = {}
+        body = text
+        if text.startswith("---"):
+            m = FM_RE.match(text)
+            if m:
+                try:
+                    parsed = yaml.safe_load(m.group(1))
+                    if isinstance(parsed, dict):
+                        meta = parsed
+                except Exception:
+                    pass
+                body = text[m.end():].lstrip("\n")
+
+        route = route_path_from_file(md_file)
+        title = meta.get("title") or ""
+        if not title:
+            m = re.search(r"^#\s+(.+)", body, re.MULTILINE)
+            if m:
+                title = re.sub(r"[`*_]", "", m.group(1).strip())
+        description = meta.get("description") or extract_excerpt(body)
+
+        entity = SEOEntity(
+            entity_type="page",
+            title=title or SITE_NAME,
+            excerpt=description or None,
+        )
+        payload = build_seo_payload(entity, route, SEO_CONFIG)
+        if payload is None:
+            continue
+        manifest[route] = payload.to_dict()
+
+    output = PROJECT_ROOT / "public" / "seo-manifest.json"
+    output.write_text(json.dumps(manifest, indent=2, ensure_ascii=False))
+    print(f"Written {output} ({len(manifest)} routes)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+### 2. Load the manifest in `getStaticProps`
+
+In your page component, import the manifest and select the entry for the current route:
+
+```jsx
+import seoManifest from "../../public/seo-manifest.json";
+
+export async function getStaticProps({ params }) {
+  const route = `/${params.slug}/`;
+  const seo = seoManifest[route] || null;
+  return { props: { seo } };
+}
+```
+
+### 3. Render tags with `next/head`
+
+Use `next/head` in your layout or page component to render the SEO tags:
+
+```jsx
+import Head from "next/head";
+
+export default function Page({ seo, children }) {
+  return (
+    <>
+      <Head>
+        {seo ? (
+          <>
+            <title>{seo.title}</title>
+            <link rel="canonical" href={seo.canonical} />
+            <meta name="robots" content={seo.robots} />
+            <meta property="og:type" content={seo.og.type} />
+            <meta property="og:title" content={seo.og.title} />
+            <meta property="og:description" content={seo.og.description} />
+            <meta property="og:url" content={seo.og.url} />
+            <meta property="og:image" content={seo.og.image} />
+            <meta property="og:site_name" content={seo.og.site_name} />
+            <meta property="og:locale" content={seo.og.locale} />
+            <meta name="twitter:card" content={seo.twitter.card} />
+            <meta name="twitter:title" content={seo.twitter.title} />
+            <meta name="twitter:description" content={seo.twitter.description} />
+            <meta name="twitter:image" content={seo.twitter.image} />
+            {seo.schema_jsonld && (
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify(seo.schema_jsonld),
+                }}
+              />
+            )}
+          </>
+        ) : (
+          <>
+            <title>Default title</title>
+            <meta name="robots" content="index,follow" />
+          </>
+        )}
+      </Head>
+      {children}
+    </>
+  );
+}
+```
+
+For repeated usage, extract the `Head` block into a reusable `<SeoHead seo={seo} />` component.
+
+## App Router (runtime)
+
+In the App Router, use `generateMetadata` to set metadata per route:
+
+```typescript
+import type { Metadata } from "next";
+import { SEOConfig, SEOEntity, build_seo_payload } from "seoslug";
+
+const SEO_CONFIG = new SEOConfig({
+  canonical_host: "yoursite.com",
+  public_base_url: "https://yoursite.com/",
+  site_name: "Your Site",
+  title_template: "{title} | Your Site",
+});
+
+export async function generateMetadata({ params }): Promise<Metadata> {
+  const entity = new SEOEntity({
+    entity_type: "page",
+    title: "Page Title",
+    excerpt: "Page description...",
+  });
+  const payload = build_seo_payload(entity, `/${params.slug}/`, SEO_CONFIG);
+  if (!payload) return {};
+
+  return {
+    title: payload.title,
+    description: payload.description,
+    robots: payload.robots,
+    openGraph: payload.og,
+    twitter: payload.twitter,
+    other: {
+      "application/ld+json": JSON.stringify(payload.schema_jsonld),
+    },
+  };
+}
+```
+
+The canonical link tag is rendered automatically by Next.js when you set `alternates.canonical`.
+
+## CI/CD
+
+Add the pre-build script to your deployment pipeline:
+
+```yaml
+- uses: actions/setup-python@v5
+  with:
+    python-version: "3.x"
+- run: pip install "seoslug>=2.0.1" pyyaml
+- run: python scripts/generate_seo.py
+- run: npm ci
+- run: npm run build
+```
+
+For the App Router approach with runtime calls, install seoslug as a regular dependency (`npm install seoslug` or `pip install seoslug` in your Dockerfile) and import it directly in your Next.js API routes or Server Components.
+
+========================================================================
+PAGE: https://seoslug.emiliano-go.com/integrations/nuxt/
+========================================================================
+
+# Nuxt integration
+
+[Nuxt 3](https://nuxt.com) is a Vue.js framework with hybrid rendering, auto-imports, and a rich module ecosystem. Use seoslug during build or render time to populate Open Graph, Twitter Card, JSON-LD, canonical, and robots metadata via the `useHead` composable.
+
+## How it works
+
+Two approaches are available. For static sites, a pre-build Python script generates a JSON manifest that your Nuxt module reads at build time. For SSR/ISR, call seoslug directly inside `asyncData`, `useFetch`, or a server route. Both approaches use `useHead` to inject the tags into `<head>`.
+
+## Static export (pre-build manifest)
+
+### 1. Write the SEO generation script
+
+Create `scripts/generate_seo.py`. This script walks your `content/` directory, builds an SEO payload per route, and writes a JSON manifest to `public/seo-manifest.json`:
+
+```python
+"""Pre-build: generates SEO JSON manifest for Nuxt."""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from pathlib import Path
+
+import yaml
+from seoslug import (
+    SEOConfig,
+    URLPolicy,
+    SEOEntity,
+    OGImage,
+    Robots,
+    build_seo_payload,
+)
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CONTENT_DIR = PROJECT_ROOT / "content"
+SITE_URL = "https://yoursite.com"
+SITE_NAME = "Your Site"
+
+SEO_CONFIG = SEOConfig(
+    canonical_host="yoursite.com",
+    public_base_url=SITE_URL,
+    url_policy=URLPolicy(
+        enforce_https=True,
+        lowercase_paths=True,
+        trailing_slash="always",
+    ),
+    site_name=SITE_NAME,
+    default_og_image=OGImage(
+        url=f"{SITE_URL}/images/default-og.png",
+        width=1200,
+        height=630,
+    ),
+    publisher_name="Your Name",
+    title_template="{title} | Your Site",
+    default_robots=Robots(index=True, follow=True),
+    locale="en_US",
+    twitter_site="@yourhandle",
+)
+
+FM_RE = re.compile(
+    r"^-{3}[ \r\t]*?\n(.*?\r?\n)(?:\.{3}|-{3})[ \r\t]*\n",
+    re.UNICODE | re.DOTALL,
+)
+
+
+def route_path_from_file(filepath: Path) -> str:
+    rel = filepath.relative_to(CONTENT_DIR)
+    parts = list(rel.parts)
+    if parts[-1] in ("index.md", "_index.md"):
+        parts.pop()
+        if not parts:
+            return "/"
+        return "/" + "/".join(parts) + "/"
+    stem = Path(*parts).with_suffix("")
+    return "/" + str(stem) + "/"
+
+
+def extract_excerpt(body: str, max_chars: int = 160) -> str:
+    body = re.sub(r"^#\s+.*\n?", "", body, count=1).strip()
+    para = re.split(r"\n\s*\n", body, maxsplit=1)[0].strip()
+    clean = re.sub(r"[`*_\[\]()>|#{}]", "", para)
+    clean = re.sub(r"\s+", " ", clean).strip()
+    if not clean:
+        return ""
+    if len(clean) <= max_chars:
+        return clean
+    break_at = clean.rfind(" ", 0, max_chars)
+    return clean[:break_at] + "..." if break_at > 0 else clean[:max_chars] + "..."
+
+
+def main() -> int:
+    manifest: dict[str, dict] = {}
+    for md_file in sorted(CONTENT_DIR.rglob("*.md")):
+        text = md_file.read_text(encoding="utf-8")
+        meta: dict = {}
+        body = text
+        if text.startswith("---"):
+            m = FM_RE.match(text)
+            if m:
+                try:
+                    parsed = yaml.safe_load(m.group(1))
+                    if isinstance(parsed, dict):
+                        meta = parsed
+                except Exception:
+                    pass
+                body = text[m.end():].lstrip("\n")
+
+        route = route_path_from_file(md_file)
+        title = meta.get("title") or ""
+        if not title:
+            m = re.search(r"^#\s+(.+)", body, re.MULTILINE)
+            if m:
+                title = re.sub(r"[`*_]", "", m.group(1).strip())
+        description = meta.get("description") or extract_excerpt(body)
+
+        entity = SEOEntity(
+            entity_type="page",
+            title=title or SITE_NAME,
+            excerpt=description or None,
+        )
+        payload = build_seo_payload(entity, route, SEO_CONFIG)
+        if payload is None:
+            continue
+        manifest[route] = payload.to_dict()
+
+    output = PROJECT_ROOT / "public" / "seo-manifest.json"
+    output.write_text(json.dumps(manifest, indent=2, ensure_ascii=False))
+    print(f"Written {output} ({len(manifest)} routes)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+### 2. Create a composable
+
+Create `composables/useSeo.ts` that loads the manifest and returns `useHead` calls:
+
+```typescript
+import seoManifest from "../public/seo-manifest.json";
+
+export function useSeo(route?: string) {
+  const path = route || useRoute().path;
+  const seo = (seoManifest as Record<string, any>)[path];
+
+  if (!seo) return;
+
+  useHead({
+    title: seo.title,
+    meta: [
+      { name: "robots", content: seo.robots },
+      { property: "og:type", content: seo.og.type },
+      { property: "og:title", content: seo.og.title },
+      { property: "og:description", content: seo.og.description },
+      { property: "og:url", content: seo.og.url },
+      { property: "og:image", content: seo.og.image },
+      { property: "og:site_name", content: seo.og.site_name },
+      { property: "og:locale", content: seo.og.locale },
+      { name: "twitter:card", content: seo.twitter.card },
+      { name: "twitter:title", content: seo.twitter.title },
+      { name: "twitter:description", content: seo.twitter.description },
+      { name: "twitter:image", content: seo.twitter.image },
+    ],
+    link: [{ rel: "canonical", href: seo.canonical }],
+    script: seo.schema_jsonld
+      ? [
+          {
+            type: "application/ld+json",
+            children: JSON.stringify(seo.schema_jsonld),
+          },
+        ]
+      : [],
+  });
+}
+```
+
+### 3. Call the composable in a page
+
+In any page or layout, call `useSeo`:
+
+```vue
+<script setup>
+useSeo();
+</script>
+
+<template>
+  <div>
+    <h1>My Page</h1>
+  </div>
+</template>
+```
+
+For dynamic routes where the manifest key differs from the URL, pass the route explicitly:
+
+```vue
+<script setup>
+const { slug } = useRoute().params;
+const { data } = await useFetch(`/api/posts/${slug}`);
+useSeo(`/blog/${slug}/`);
+</script>
+```
+
+### 4. Nuxt module (optional)
+
+For a reusable integration, wrap the logic in a Nuxt module. Create `modules/seo.ts`:
+
+```typescript
+import { defineNuxtModule, addImports } from "@nuxt/kit";
+
+export default defineNuxtModule({
+  meta: { name: "seoslug", version: "1.0.0" },
+  setup() {
+    addImports({ name: "useSeo", from: "./composables/useSeo" });
+  },
+});
+```
+
+Register it in `nuxt.config.ts`:
+
+```typescript
+export default defineNuxtConfig({
+  modules: ["./modules/seo"],
+});
+```
+
+## Runtime approach (SSR/ISR)
+
+For dynamic content, call seoslug directly inside `asyncData` or a server route:
+
+```python
+# server/api/seo.py
+from seoslug import SEOConfig, SEOEntity, build_seo_payload
+
+config = SEOConfig(
+    canonical_host="yoursite.com",
+    public_base_url="https://yoursite.com/",
+    site_name="Your Site",
+    title_template="{title} | Your Site",
+)
+
+def get_page_seo(title: str, description: str, route: str) -> dict:
+    entity = SEOEntity(entity_type="page", title=title, excerpt=description)
+    payload = build_seo_payload(entity, route, config)
+    return payload.to_dict() if payload else {}
+```
+
+Then call it from a Nitro server route or `asyncData` and pass the result to `useHead`.
+
+## CI/CD
+
+For the static manifest approach:
+
+```yaml
+- uses: actions/setup-python@v5
+  with:
+    python-version: "3.x"
+- run: pip install "seoslug>=2.0.1" pyyaml
+- run: python scripts/generate_seo.py
+- run: npm ci
+- run: npm run generate
+```
+
+For SSR, install seoslug in your deployment image and import directly.
+
+========================================================================
 PAGE: https://seoslug.emiliano-go.com/integrations/quartz/
 ========================================================================
 
@@ -4495,13 +5644,36 @@ PAGE: https://seoslug.emiliano-go.com/integrations/quartz/
 
 [Quartz](https://quartz.jzhao.xyz) is a static site generator for Obsidian vaults, built with TypeScript and Preact. Use seoslug at build time to add JSON-LD structured data, Open Graph, Twitter Card, canonical, and robots metadata to every page.
 
-## How it works
+## Built-in builder (recommended)
+
+seoslug ships a `QuartzBuilder` class at `seoslug.contrib.quartz` that handles content scanning, YAML frontmatter parsing, SEO payload building, and frontmatter injection in a single call:
+
+```python
+from seoslug.contrib.quartz import QuartzBuilder
+
+builder = QuartzBuilder(
+    content_dir="content",
+    site_url="https://yoursite.com",
+    site_name="Your Site",
+)
+builder.build()
+```
+
+The class accepts all `SEOConfig` fields as keyword arguments and exposes `dry_run` and `debug_dir` modes. The `debug_dir` option (e.g. `debug_dir=".seo-debug"`) writes a per-page JSON file with the SEO payload dict, matching the Zensical extension behaviour.
+
+See the `QuartzBuilder` API reference for all options.
+
+## Manual pre-build script (alternative)
+
+If you prefer full control over the generation logic, write a custom script that imports seoslug directly.
+
+### How it works
 
 A pre-build Python script iterates all Markdown files in your vault, builds an SEO payload for each page using seoslug, and writes the rendered HTML into the file's frontmatter under a `seo_html` key. A small modification to Quartz's `Head.tsx` component checks for this key and injects the tags when present, falling back to Quartz's built-in generation otherwise.
 
-## Setup
+### Setup
 
-### 1. Write the SEO generation script
+#### 1. Write the SEO generation script
 
 Create `scripts/generate_seo.py`. This script handles Obsidian-flavored Markdown (frontmatter delimited with `---`) and maps file paths to page URLs:
 
@@ -4642,7 +5814,7 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-### 2. Modify the Head component
+#### 2. Modify the Head component
 
 Edit `quartz/components/Head.tsx` to check for `seo_html` in the page frontmatter. When present, inject it directly. Otherwise, fall back to the default Quartz head logic:
 
@@ -4722,7 +5894,7 @@ export default (() => {
 
 When `frontmatter.seo_html` is present, seoslug provides the complete set of tags (title, description, canonical, robots, Open Graph, Twitter Card, JSON-LD). Pages without it use Quartz's default generation.
 
-### 3. Add to package.json
+#### 3. Add to package.json
 
 Add the pre-build step to your `package.json` scripts:
 
@@ -4736,7 +5908,7 @@ Add the pre-build step to your `package.json` scripts:
 }
 ```
 
-### 4. Update the CI workflow
+#### 4. Update the CI workflow
 
 Add the Python setup and seoslug install to your deployment pipeline:
 
@@ -5794,6 +6966,480 @@ set_executor(executor)
 Call `set_executor(None)` to reset to the default 4-worker pool.
 
 ========================================================================
+PAGE: https://seoslug.emiliano-go.com/integrations/strapi/
+========================================================================
+
+# Strapi integration
+
+[Strapi](https://strapi.io) is an open-source headless CMS built with Node.js. Use seoslug in a custom plugin or middleware to enrich your API responses with Open Graph, Twitter Card, JSON-LD, canonical, and robots metadata.
+
+## How it works
+
+A custom Strapi middleware intercepts responses for content types that include seoslug fields. It reads the content title, excerpt, and metadata from the entity, builds an SEO payload with seoslug, and appends a `seo` key to the response body. The frontend receives structured SEO data alongside the content with zero extra requests.
+
+## Setup
+
+### 1. Create the seoslug middleware
+
+Run `npm run strapi generate -- middleware seoslug` or create `src/middlewares/seoslug.js`:
+
+```javascript
+"use strict";
+
+const { SEOConfig, SEOEntity, build_seo_payload_dict } = require("seoslug");
+
+const CONFIG = new SEOConfig({
+  canonical_host: "yoursite.com",
+  public_base_url: "https://yoursite.com/",
+  site_name: "Your Site",
+  title_template: "{title} | Your Site",
+  default_og_image: "https://yoursite.com/images/default-og.png",
+  publisher_name: "Your Name",
+  locale: "en_US",
+  twitter_site: "@yourhandle",
+});
+
+module.exports = (config, { strapi }) => {
+  return async (ctx, next) => {
+    await next();
+
+    const { response } = ctx;
+    if (!response.body || typeof response.body !== "object") return;
+
+    const data = response.body.data || response.body;
+    const entities = Array.isArray(data) ? data : [data];
+
+    for (const entity of entities) {
+      const attrs = entity.attributes || entity;
+      const title =
+        attrs.seoTitle || attrs.title || attrs.name || ctx.request.path;
+      const description =
+        attrs.seoDescription || attrs.description || attrs.excerpt || "";
+
+      const seoEntity = new SEOEntity({
+        entity_type: "page",
+        title,
+        excerpt: description || undefined,
+      });
+
+      const seo = build_seo_payload_dict(
+        seoEntity,
+        ctx.request.path,
+        CONFIG,
+      );
+
+      if (seo) {
+        attrs.seo = seo;
+      }
+    }
+  };
+};
+```
+
+### 2. Enable the middleware
+
+Register the middleware in `config/middlewares.js`:
+
+```javascript
+module.exports = [
+  "strapi::logger",
+  "strapi::errors",
+  "strapi::security",
+  "strapi::cors",
+  "strapi::poweredBy",
+  "strapi::query",
+  "strapi::body",
+  "strapi::session",
+  "strapi::favicon",
+  "strapi::public",
+  {
+    name: "global::seoslug",
+    config: {},
+  },
+];
+```
+
+### 3. Custom plugin (alternative)
+
+For more control, create a plugin instead. Run `npm run strapi generate -- plugin seoslug` and edit `src/plugins/seoslug/server/services/seoslug-service.js`:
+
+```javascript
+"use strict";
+
+const { SEOConfig, SEOEntity, build_seo_payload_dict } = require("seoslug");
+
+module.exports = ({ strapi }) => ({
+  getConfig() {
+    return new SEOConfig({
+      canonical_host: strapi.config.get("server.host"),
+      public_base_url: `${strapi.config.get("server.protocol")}://${strapi.config.get("server.host")}:${strapi.config.get("server.port")}/`,
+      site_name: strapi.config.get("custom.seo.siteName", "Your Site"),
+      title_template: "{title} | Your Site",
+      publisher_name: strapi.config.get("custom.seo.publisherName", ""),
+      locale: strapi.config.get("custom.seo.locale", "en_US"),
+    });
+  },
+
+  buildSeo(entity, route) {
+    const attrs = entity.attributes || entity;
+    const title = attrs.seoTitle || attrs.title || attrs.name || "Page";
+    const description = attrs.seoDescription || attrs.description || "";
+
+    const seoEntity = new SEOEntity({
+      entity_type: attrs.seoType || "page",
+      title,
+      excerpt: description || undefined,
+      image: attrs.image?.url
+        ? { url: attrs.image.url, width: 1200, height: 630 }
+        : undefined,
+      published_time: attrs.publishedAt || attrs.createdAt,
+      modified_time: attrs.updatedAt,
+    });
+
+    return build_seo_payload_dict(seoEntity, route, this.getConfig());
+  },
+});
+```
+
+Then use the service in a controller or lifecycle hook:
+
+```javascript
+module.exports = ({ strapi }) => ({
+  async find(ctx) {
+    const entities = await strapi.entityService.findMany(ctx.query);
+    const route = ctx.request.path;
+
+    const enriched = entities.map((entity) => {
+      const seo = strapi
+        .plugin("seoslug")
+        .service("seoslugService")
+        .buildSeo(entity, route);
+      return { ...entity, seo };
+    });
+
+    return enriched;
+  },
+});
+```
+
+### 4. Add SEO fields to content types
+
+In the Strapi admin panel, add these fields to your content types:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `seoTitle` | Text | Override for the page title (falls back to `title`) |
+| `seoDescription` | Text | Override for the meta description (falls back to `description`) |
+| `seoType` | Enumeration | Entity type for JSON-LD: `page`, `article`, `product` |
+
+For per-content-type SEO, create a repeatable component called `seo` with these fields and reuse it across your collection types.
+
+### 5. Frontend consumption
+
+The enriched response includes a `seo` key on every entity:
+
+```json
+{
+  "id": 1,
+  "attributes": {
+    "title": "Hello World",
+    "seoTitle": "Hello World",
+    "seoDescription": "A brief introduction",
+    "seo": {
+      "title": "Hello World | Your Site",
+      "canonical": "https://yoursite.com/api/posts/1",
+      "robots": "index,follow",
+      "og": {
+        "type": "website",
+        "title": "Hello World | Your Site",
+        "description": "A brief introduction",
+        "url": "https://yoursite.com/api/posts/1",
+        "image": "https://yoursite.com/images/default-og.png",
+        "site_name": "Your Site",
+        "locale": "en_US"
+      },
+      "twitter": {
+        "card": "summary_large_image",
+        "title": "Hello World | Your Site",
+        "description": "A brief introduction",
+        "image": "https://yoursite.com/images/default-og.png"
+      },
+      "schema_jsonld": {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Hello World | Your Site",
+        "url": "https://yoursite.com/api/posts/1",
+        "description": "A brief introduction",
+        "publisher": { "@type": "Organization", "name": "Your Name" }
+      }
+    }
+  }
+}
+```
+
+Your frontend reads `entity.attributes.seo` and renders the tags using the framework's head API (Next.js Head, Gatsby Head API, SvelteKit `<svelte:head>`, etc.).
+
+## Deploy
+
+Install seoslug in your Strapi deployment:
+
+```yaml
+# Dockerfile or CI
+RUN pip install "seoslug>=2.0.1"
+```
+
+Or if using npm:
+
+```yaml
+RUN npm install seoslug
+```
+
+Install seoslug as a runtime dependency in your deployment environment.
+
+========================================================================
+PAGE: https://seoslug.emiliano-go.com/integrations/sveltekit/
+========================================================================
+
+# SvelteKit integration
+
+[SvelteKit](https://kit.svelte.dev) is a framework for building Svelte applications with file-based routing, SSR, and static export. Use seoslug in your `load` functions to generate SEO metadata and render it via `<svelte:head>`.
+
+## How it works
+
+Two approaches are available. For SSG, a pre-build Python script generates a JSON manifest that your `+layout.js` load function reads and exposes as page data. For SSR, call seoslug directly in `+page.js` or `+page.server.js` and return the payload alongside your content data. Both use `<svelte:head>` in the page or layout component to render the tags.
+
+## Setup
+
+### 1. Write the SEO generation script (static export)
+
+Create `scripts/generate_seo.py`. This script walks your `src/content/` or `src/routes/` directory, builds an SEO payload per route, and writes a JSON manifest:
+
+```python
+"""Pre-build: generates SEO JSON manifest for SvelteKit."""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from pathlib import Path
+
+import yaml
+from seoslug import (
+    SEOConfig,
+    URLPolicy,
+    SEOEntity,
+    OGImage,
+    Robots,
+    build_seo_payload,
+)
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CONTENT_DIR = PROJECT_ROOT / "src" / "content"
+SITE_URL = "https://yoursite.com"
+SITE_NAME = "Your Site"
+
+SEO_CONFIG = SEOConfig(
+    canonical_host="yoursite.com",
+    public_base_url=SITE_URL,
+    url_policy=URLPolicy(
+        enforce_https=True,
+        lowercase_paths=True,
+        trailing_slash="always",
+    ),
+    site_name=SITE_NAME,
+    default_og_image=OGImage(
+        url=f"{SITE_URL}/images/default-og.png",
+        width=1200,
+        height=630,
+    ),
+    publisher_name="Your Name",
+    title_template="{title} | Your Site",
+    default_robots=Robots(index=True, follow=True),
+    locale="en_US",
+    twitter_site="@yourhandle",
+)
+
+FM_RE = re.compile(
+    r"^-{3}[ \r\t]*?\n(.*?\r?\n)(?:\.{3}|-{3})[ \r\t]*\n",
+    re.UNICODE | re.DOTALL,
+)
+
+
+def route_path_from_file(filepath: Path) -> str:
+    rel = filepath.relative_to(CONTENT_DIR)
+    parts = list(rel.parts)
+    if parts[-1] in ("index.md", "_index.md"):
+        parts.pop()
+        if not parts:
+            return "/"
+        return "/" + "/".join(parts) + "/"
+    stem = Path(*parts).with_suffix("")
+    return "/" + str(stem) + "/"
+
+
+def extract_excerpt(body: str, max_chars: int = 160) -> str:
+    body = re.sub(r"^#\s+.*\n?", "", body, count=1).strip()
+    para = re.split(r"\n\s*\n", body, maxsplit=1)[0].strip()
+    clean = re.sub(r"[`*_\[\]()>|#{}]", "", para)
+    clean = re.sub(r"\s+", " ", clean).strip()
+    if not clean:
+        return ""
+    if len(clean) <= max_chars:
+        return clean
+    break_at = clean.rfind(" ", 0, max_chars)
+    return clean[:break_at] + "..." if break_at > 0 else clean[:max_chars] + "..."
+
+
+def main() -> int:
+    manifest: dict[str, dict] = {}
+    for md_file in sorted(CONTENT_DIR.rglob("*.md")):
+        text = md_file.read_text(encoding="utf-8")
+        meta: dict = {}
+        body = text
+        if text.startswith("---"):
+            m = FM_RE.match(text)
+            if m:
+                try:
+                    parsed = yaml.safe_load(m.group(1))
+                    if isinstance(parsed, dict):
+                        meta = parsed
+                except Exception:
+                    pass
+                body = text[m.end():].lstrip("\n")
+
+        route = route_path_from_file(md_file)
+        title = meta.get("title") or ""
+        if not title:
+            m = re.search(r"^#\s+(.+)", body, re.MULTILINE)
+            if m:
+                title = re.sub(r"[`*_]", "", m.group(1).strip())
+        description = meta.get("description") or extract_excerpt(body)
+
+        entity = SEOEntity(
+            entity_type="page",
+            title=title or SITE_NAME,
+            excerpt=description or None,
+        )
+        payload = build_seo_payload(entity, route, SEO_CONFIG)
+        if payload is None:
+            continue
+        manifest[route] = payload.to_dict()
+
+    output = PROJECT_ROOT / "static" / "seo-manifest.json"
+    output.write_text(json.dumps(manifest, indent=2, ensure_ascii=False))
+    print(f"Written {output} ({len(manifest)} routes)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+### 2. Load the manifest in a layout
+
+Create `src/routes/+layout.js` (or `+layout.server.js`) that imports the manifest and makes it available:
+
+```javascript
+import seoManifest from "$static/seo-manifest.json";
+
+export function load({ url }) {
+  const seo = seoManifest[url.pathname] || null;
+  return { seo };
+}
+```
+
+### 3. Render tags with `<svelte:head>`
+
+In your layout component (`src/routes/+layout.svelte`), use `<svelte:head>` to inject the SEO tags:
+
+```svelte
+<script>
+  export let data;
+  $: seo = data.seo;
+</script>
+
+<svelte:head>
+  {#if seo}
+    <title>{seo.title}</title>
+    <link rel="canonical" href={seo.canonical} />
+    <meta name="robots" content={seo.robots} />
+    <meta property="og:type" content={seo.og.type} />
+    <meta property="og:title" content={seo.og.title} />
+    <meta property="og:description" content={seo.og.description} />
+    <meta property="og:url" content={seo.og.url} />
+    <meta property="og:image" content={seo.og.image} />
+    <meta property="og:site_name" content={seo.og.site_name} />
+    <meta property="og:locale" content={seo.og.locale} />
+    <meta name="twitter:card" content={seo.twitter.card} />
+    <meta name="twitter:title" content={seo.twitter.title} />
+    <meta name="twitter:description" content={seo.twitter.description} />
+    <meta name="twitter:image" content={seo.twitter.image} />
+    {#if seo.schema_jsonld}
+      <script type="application/ld+json">
+        {JSON.stringify(seo.schema_jsonld)}
+      </script>
+    {/if}
+  {:else}
+    <title>Default Title</title>
+    <meta name="robots" content="index,follow" />
+  {/if}
+</svelte:head>
+
+<slot />
+```
+
+## Runtime approach (SSR)
+
+For dynamic content, call seoslug directly inside a `+page.js` load function:
+
+```python
+# api/seo_builder.py
+from seoslug import SEOConfig, SEOEntity, build_seo_payload
+
+config = SEOConfig(
+    canonical_host="yoursite.com",
+    public_base_url="https://yoursite.com/",
+    site_name="Your Site",
+    title_template="{title} | Your Site",
+)
+
+def page_seo(title: str, description: str, route: str) -> dict:
+    entity = SEOEntity(entity_type="page", title=title, excerpt=description)
+    payload = build_seo_payload(entity, route, config)
+    return payload.to_dict() if payload else {}
+```
+
+Then import it in `+page.server.js`:
+
+```javascript
+import { page_seo } from "$lib/seo_builder";
+
+export async function load({ params, fetch }) {
+  const post = await fetch(`/api/posts/${params.slug}`).then(r => r.json());
+  const seo = page_seo(post.title, post.excerpt, `/blog/${params.slug}/`);
+  return { post, seo };
+}
+```
+
+The same `<svelte:head>` snippet renders the result in the page component.
+
+## CI/CD
+
+For the static manifest approach:
+
+```yaml
+- uses: actions/setup-python@v5
+  with:
+    python-version: "3.x"
+- run: pip install "seoslug>=2.0.1" pyyaml
+- run: python scripts/generate_seo.py
+- run: npm ci
+- run: npm run build
+```
+
+For SSR, install seoslug in your deployment image and import directly in `+page.server.js`.
+
+========================================================================
 PAGE: https://seoslug.emiliano-go.com/integrations/zensical/
 ========================================================================
 
@@ -5906,7 +7552,7 @@ When `debug_dir` is set, the extension writes one JSON file per page with the fu
 }
 ```
 
-Add `.seo-debug/` to your `.gitignore`: these files are for local inspection, not committed.
+Add `.seo-debug/` to your `.gitignore`; these files are for local inspection, not committed.
 
 ## Alternative: pre-build script
 

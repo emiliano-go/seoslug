@@ -71,6 +71,26 @@ seo_html: "<title>Changelog - seoslug</title>\n<meta name=\"description\" conten
 
 All notable changes to seoslug are documented here. The format is based on Keep a Changelog. The project follows semantic versioning.
 
+## 2.2.0 (2026-07-03)
+
+### Fixed
+
+- Python 3.10 compatibility: lazy import tomllib, fall back to tomli.
+- Lazy import pyyaml in HugoBuilder and QuartzBuilder; add pyyaml to test deps.
+- Correct twitter_site handle from @emiliano_gando to @emiliano_go_.
+
+### Docs
+
+- Replace OG image with 1408x768 Discord-friendly version.
+- Add PyPI badge to README.
+- Add favicon to docs site.
+- Replace em dashes and prose dashes with colons in llms.txt and llms-full.txt.
+- Replace em dashes with colons in doc source files.
+
+### Chore
+
+- Update .gitignore.
+
 ## 2.1.0 (2026-07-03)
 
 ### Added

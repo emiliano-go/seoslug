@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "seoslug"
-version = "2.1.0"
+version = "2.2.0"
 description = "Framework-agnostic canonical URL normalization and deterministic SEO payload generation"
 readme = "README.md"
 requires-python = ">=3.10"
