@@ -264,7 +264,7 @@ def generate_for_config(
         route = route_for(md_file, content_dir)
         entity_type = entity_type_for(md_file)
 
-        # Respect Hugo draft status — mark drafts as "draft" so seoslug
+        # Respect Hugo draft status: mark drafts as "draft" so seoslug
         # generates noindex directives and skips schema output.
         status = "draft" if meta.get("draft", False) else "published"
 
@@ -305,7 +305,7 @@ def main() -> None:
 
     log.info("Starting SEO payload generation")
     count = generate_for_config(config_path)
-    log.info("Done — generated %d SEO payloads", count)
+    log.info("Done: generated %d SEO payloads", count)
 
 
 if __name__ == "__main__":
@@ -317,7 +317,7 @@ Key details about the script:
 - **Logging**: Structured output with timestamps so build logs are debuggable. Set `SEOSLUG_LOG=debug` for verbose output if needed.
 - **Error isolation**: Each file is processed in a try/except so a single broken frontmatter block won't halt the entire build.
 - **Draft support**: Hugo's `draft: true` frontmatter is mapped to seoslug's `draft` status, which generates `noindex,nofollow` robots directives and suppresses JSON-LD schema output.
-- **Key derivation**: `content/studies/howistudy.md` → `studies_howistudy`. This must match the key derivation in your Hugo template exactly — both use the same transformation.
+- **Key derivation**: `content/studies/howistudy.md` → `studies_howistudy`. This must match the key derivation in your Hugo template exactly; both use the same transformation.
 - **Route derivation**: `content/posts/_index.md` → `/posts/` (section listing), `content/posts/hello-world.md` → `/posts/hello-world/` (individual page). The script handles both `_index.md` (Hugo's branch bundle convention) and `index.md` (leaf bundle convention).
 - **Trailing newline**: JSON files end with `\n` so they play nicely with POSIX tooling and `cat` in CI debugging.
 
@@ -361,7 +361,7 @@ After running the script, each content file has a corresponding JSON file under 
 }
 ```
 
-A section listing page (`data/seo/posts_index.json`) uses `@type: WebPage` instead of `Article`, and the homepage (`data/seo/_index.json`) uses `@type: WebSite` with a `potentialAction` for search. Every field is deterministic — same content always produces the same payload.
+A section listing page (`data/seo/posts_index.json`) uses `@type: WebPage` instead of `Article`, and the homepage (`data/seo/_index.json`) uses `@type: WebSite` with a `potentialAction` for search. Every field is deterministic: same content always produces the same payload.
 
 ### 4. Dependencies
 
@@ -386,7 +386,7 @@ The `entity_type_for()` function in the script determines which seoslug entity t
 | `content/about.md` | Standalone page | `post` | `Article` |
 | `content/blog/post/index.md` | Leaf bundle | `post` | `Article` |
 
-The default mapping treats everything below section level as `post` (Article schema). If you have content sections that should use different entity types — for example, `content/reviews/` mapped to `review` (Review schema) — override `entity_type_for`:
+The default mapping treats everything below section level as `post` (Article schema). If you have content sections that should use different entity types, for example `content/reviews/` mapped to `review` (Review schema), override `entity_type_for`:
 
 ```python
 CUSTOM_SECTION_TYPES = {
@@ -412,7 +412,7 @@ The entity type affects every field the payload generates:
 - **`home`** → `WebSite` schema with `potentialAction` for search, `og:type: website`
 - **`review`** → `Review` schema, `og:type: article`
 
-Add the same overrides to the default mapping above and seoslug handles the rest — every JSON-LD field and meta tag is adapted to the chosen type automatically.
+Add the same overrides to the default mapping above and seoslug handles the rest: every JSON-LD field and meta tag is adapted to the chosen type automatically.
 
 ### 6. Hugo templates
 
@@ -473,14 +473,14 @@ Use this when your theme already emits `og:`, `twitter:`, and basic meta tags (P
 
 How the partial works:
 
-1. `{{- with .File }}` guards against virtual pages (taxonomies, pagination) that have no backing file — they simply skip the block.
+1. `{{- with .File }}` guards against virtual pages (taxonomies, pagination) that have no backing file; they simply skip the block.
 2. Key derivation mirrors the generation script: `.Path` gives `content/studies/howistudy.md`, the pipe strips `.md` and replaces `/` with `_` to produce `studies_howistudy`.
 3. `index (site.Data).seo $key` performs the dynamic map lookup. Hugo built the map from all JSON files in `data/seo/` at startup.
 4. Every field is guaranteed present because seoslug filled all values with deterministic defaults during generation.
 
 #### Multilingual sites
 
-For Hugo sites with multiple languages, seoslug generates a separate payload per language (each language variant is a distinct content file with its own key). Use Hugo's `.Translations` to render `<link rel="alternate" hreflang="...">` tags natively — this is more reliable than trying to derive alternates from the SEO payload.
+For Hugo sites with multiple languages, seoslug generates a separate payload per language (each language variant is a distinct content file with its own key). Use Hugo's `.Translations` to render `<link rel="alternate" hreflang="...">` tags natively; this is more reliable than trying to derive alternates from the SEO payload.
 
 ```go-html-template
 {{- if .IsTranslated }}
@@ -490,7 +490,7 @@ For Hugo sites with multiple languages, seoslug generates a separate payload per
 {{- end }}
 ```
 
-Add this to your theme's `head.html` or `extend_head.html` alongside the SEO tags. Hugo's `.Translations` is populated automatically from the content tree — no script changes needed.
+Add this to your theme's `head.html` or `extend_head.html` alongside the SEO tags. Hugo's `.Translations` is populated automatically from the content tree; no script changes needed.
 
 <div class="admonition tip">
 <p class="admonition-title">Which strategy should I use?</p>
@@ -503,7 +503,7 @@ Add this to your theme's `head.html` or `extend_head.html` alongside the SEO tag
 A three-stage Dockerfile integrates seoslug into your Hugo build pipeline without adding Python to the final image.
 
 ```dockerfile
-# Stage 1 — SEO payload generation
+# Stage 1: SEO payload generation
 FROM python:3.12-alpine AS seo
 WORKDIR /src
 
@@ -518,7 +518,7 @@ COPY content/ content/
 # Generate deterministic SEO payloads
 RUN python scripts/generate_seo.py
 
-# Stage 2 — Hugo build
+# Stage 2: Hugo build
 FROM hugomods/hugo:exts AS builder
 WORKDIR /src
 
@@ -531,7 +531,7 @@ COPY . .
 # Build the static site
 RUN hugo --minify --gc
 
-# Stage 3 — nginx serving
+# Stage 3: nginx serving
 FROM nginx:alpine
 COPY --from=builder /src/public /usr/share/nginx/html
 ```
@@ -669,7 +669,7 @@ Hugo leaf bundles store content in `index.md` inside a directory (e.g. `content/
 - **Key**: `posts/my-post/index.md` → `posts_my-post_index` (matches the Hugo template derivation exactly)
 - **Entity type**: Non-`_index.md` files → `post` (Article schema)
 
-No special handling needed — the script's existing logic for `_index.md` and `index.md` covers both branch and leaf bundles.
+No special handling needed: the script's existing logic for `_index.md` and `index.md` covers both branch and leaf bundles.
 
 #### Headless bundles
 
@@ -687,11 +687,11 @@ Add this check after the `draft` check in `generate_for_config()`.
 
 #### Paths with spaces
 
-Hugo and the filesystem support spaces in content paths (e.g. `content/posts/my first post.md`). The script handles these transparently — `Path` objects, relative-to, and string replacements all preserve spaces. The generated route becomes `/posts/my first post/` and the key becomes `posts_my first post`. Make sure your Hugo template's `replaceRE` regex doesn't assume space-free paths — it doesn't, since `/` is the only replaced character.
+Hugo and the filesystem support spaces in content paths (e.g. `content/posts/my first post.md`). The script handles these transparently: `Path` objects, relative-to, and string replacements all preserve spaces. The generated route becomes `/posts/my first post/` and the key becomes `posts_my first post`. Make sure your Hugo template's `replaceRE` regex doesn't assume space-free paths; it doesn't, since `/` is the only replaced character.
 
 #### Missing slug
 
-If a content file has no `slug` in frontmatter, `SEOEntity.slug` is `None`. seoslug falls back to deriving the slug from the route, which Hugo infers from the filename. This means a file `content/posts/hello-world.md` with no `slug` will still get the correct canonical URL `/posts/hello-world/` — no action needed.
+If a content file has no `slug` in frontmatter, `SEOEntity.slug` is `None`. seoslug falls back to deriving the slug from the route, which Hugo infers from the filename. This means a file `content/posts/hello-world.md` with no `slug` will still get the correct canonical URL `/posts/hello-world/`; no action needed.
 
 #### Hidden files
 
@@ -712,7 +712,7 @@ This exact setup runs in production on [egoblog](https://github.com/emiliano-go/
 
 ## Build-time generation
 
-Create a script that generates SEO payloads for all your content. Write each payload as a JSON file. This generic approach works with any SSG — the Hugo section below shows a production-ready version with frontmatter parsing and route derivation.
+Create a script that generates SEO payloads for all your content. Write each payload as a JSON file. This generic approach works with any SSG: the Hugo section below shows a production-ready version with frontmatter parsing and route derivation.
 
 ```python
 import json

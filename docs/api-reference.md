@@ -828,7 +828,7 @@ Return a copy of all registered hooks keyed by hook point name. Useful for inspe
 run_hooks(name, payload, entity, config) -> dict
 ```
 
-Run all hooks registered under *name* in registration order. Each hook receives the current payload and must return the (possibly modified) payload. Typically not called directly — `build_seo_payload` already calls `run_hooks("post_process", ...)` after building the payload.
+Run all hooks registered under *name* in registration order. Each hook receives the current payload and must return the (possibly modified) payload. Typically not called directly; `build_seo_payload` already calls `run_hooks("post_process", ...)` after building the payload.
 
 ---
 
@@ -855,7 +855,7 @@ Which access pattern to use:
 |---------|-----|
 | `payload.title` (attribute) | Type-safe Python code with IDE autocomplete |
 | `payload["title"]` (bracket) | Template engines that expect dicts |
-| `payload["og"]["image:width"]` (colon key) | Template loops over OG/Twitter tags -- key matches the HTML attribute |
+| `payload["og"]["image:width"]` (colon key) | Template loops over OG/Twitter tags: key matches the HTML attribute |
 | `payload.to_dict()` | JSON serialization, API responses, caching |
 | `build_seo_payload_dict()` | Bypass the dataclass when you only need a dict |
 

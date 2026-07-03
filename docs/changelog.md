@@ -181,7 +181,7 @@ entity = (
 ### Changed
 
 - `build_seo_payload` now runs `post_process` hooks before returning.
-- HTML body description extraction is now lazy — only parsed when no higher-precedence source is available.
+- HTML body description extraction is now lazy: only parsed when no higher-precedence source is available.
 
 ## 1.0.2 (2026-06-??)
 

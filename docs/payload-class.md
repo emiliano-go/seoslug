@@ -73,7 +73,7 @@ Use the access pattern that matches your environment:
 |---------|-----------|
 | `payload.title` (attribute) | Python code where type safety matters |
 | `payload["title"]` (bracket) | Template engines that expect dicts |
-| `payload.og["image:width"]` (colon key) | Template loops over OG/Twitter tags -- the key matches the HTML `property`/`name` attribute |
+| `payload.og["image:width"]` (colon key) | Template loops over OG/Twitter tags: the key matches the HTML `property`/`name` attribute |
 | `payload.to_dict()` | JSON serialization, API responses, caching |
 | `build_seo_payload_dict()` | Same as `to_dict()` but returns a plain dict directly without the intermediate dataclass |
 

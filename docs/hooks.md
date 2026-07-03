@@ -156,7 +156,7 @@ If multiple hooks modify the same field, the last one wins.
 
 The module-level ``register()`` is safe for import-time registration (the
 common case).  Runtime ``register()`` calls from multiple threads are not
-locked -- for concurrent registration, use a ``HookRegistry`` instance
+locked; for concurrent registration, use a ``HookRegistry`` instance
 attached to ``SEOConfig``, which protects writes with ``threading.Lock``.
 
 Reads (``run()``) iterate a list that is typically populated at import time
