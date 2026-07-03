@@ -182,7 +182,7 @@ When `debug_dir` is set, the extension writes one JSON file per page with the fu
 }
 ```
 
-Add `.seo-debug/` to your `.gitignore` -- these files are for local inspection, not committed.
+Add `.seo-debug/` to your `.gitignore`; these files are for local inspection, not committed.
 
 ## Alternative: pre-build script
 
