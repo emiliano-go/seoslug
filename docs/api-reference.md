@@ -8,16 +8,18 @@ seo:
     title: API reference - seoslug
     description: Complete reference for all public classes, functions, and dataclasses.
     url: https://seoslug.emiliano-go.com/api-reference/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
     card: summary_large_image
     title: API reference - seoslug
     description: Complete reference for all public classes, functions, and dataclasses.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: Complete reference for all public classes, functions, and dataclasses.
   schema_jsonld:
@@ -26,10 +28,11 @@ seo:
     name: API reference - seoslug
     url: https://seoslug.emiliano-go.com/api-reference/
     description: Complete reference for all public classes, functions, and dataclasses.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>API reference - seoslug</title>\n<meta name=\"description\" content=\"\
   Complete reference for all public classes, functions, and dataclasses.\">\n<link\
   \ rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/api-reference/\">\n<meta\
@@ -37,21 +40,23 @@ seo_html: "<title>API reference - seoslug</title>\n<meta name=\"description\" co
   website\">\n<meta property=\"og:title\" content=\"API reference - seoslug\">\n<meta\
   \ property=\"og:description\" content=\"Complete reference for all public classes,\
   \ functions, and dataclasses.\">\n<meta property=\"og:url\" content=\"https://seoslug.emiliano-go.com/api-reference/\"\
-  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
-  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
-  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
-  summary_large_image\">\n<meta name=\"twitter:title\" content=\"API reference - seoslug\"\
-  >\n<meta name=\"twitter:description\" content=\"Complete reference for all public\
-  \ classes, functions, and dataclasses.\">\n<meta name=\"twitter:image\" content=\"\
-  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta name=\"twitter:site\"\
-  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
-  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"API reference\
-  \ - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/api-reference/\",\n\
-  \  \"description\": \"Complete reference for all public classes, functions, and\
-  \ dataclasses.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"API reference - seoslug\">\n<meta name=\"\
+  twitter:description\" content=\"Complete reference for all public classes, functions,\
+  \ and dataclasses.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"API reference - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/api-reference/\"\
+  ,\n  \"description\": \"Complete reference for all public classes, functions, and\
+  \ dataclasses.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
   ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
 ---
 
 # API reference

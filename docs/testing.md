@@ -9,9 +9,10 @@ seo:
     description: seoslug is deterministic. Same inputs always produce the same outputs.
       This makes your SEO layer fully snapshot-testable.
     url: https://seoslug.emiliano-go.com/testing/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -19,7 +20,8 @@ seo:
     title: Testing and CI/CD - seoslug
     description: seoslug is deterministic. Same inputs always produce the same outputs.
       This makes your SEO layer fully snapshot-testable.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: seoslug is deterministic. Same inputs always produce the same outputs.
     This makes your SEO layer fully snapshot-testable.
@@ -30,10 +32,11 @@ seo:
     url: https://seoslug.emiliano-go.com/testing/
     description: seoslug is deterministic. Same inputs always produce the same outputs.
       This makes your SEO layer fully snapshot-testable.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>Testing and CI/CD - seoslug</title>\n<meta name=\"description\"\
   \ content=\"seoslug is deterministic. Same inputs always produce the same outputs.\
   \ This makes your SEO layer fully snapshot-testable.\">\n<link rel=\"canonical\"\
@@ -43,22 +46,25 @@ seo_html: "<title>Testing and CI/CD - seoslug</title>\n<meta name=\"description\
   \ content=\"seoslug is deterministic. Same inputs always produce the same outputs.\
   \ This makes your SEO layer fully snapshot-testable.\">\n<meta property=\"og:url\"\
   \ content=\"https://seoslug.emiliano-go.com/testing/\">\n<meta property=\"og:image\"\
-  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"\
-  og:image:width\" content=\"225\">\n<meta property=\"og:image:height\" content=\"\
-  225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"\
-  og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta\
+  \ property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
   >\n<meta name=\"twitter:title\" content=\"Testing and CI/CD - seoslug\">\n<meta\
   \ name=\"twitter:description\" content=\"seoslug is deterministic. Same inputs always\
   \ produce the same outputs. This makes your SEO layer fully snapshot-testable.\"\
-  >\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
   >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
   : \"Testing and CI/CD - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/testing/\"\
   ,\n  \"description\": \"seoslug is deterministic. Same inputs always produce the\
   \ same outputs. This makes your SEO layer fully snapshot-testable.\",\n  \"image\"\
-  : \"https://seoslug.emiliano-go.com/assets/icon.png\",\n  \"publisher\": {\n   \
-  \ \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\n  }\n\
-  }\n</script>\n"
+  : \"https://seoslug.emiliano-go.com/assets/images/og-image.png\",\n  \"publisher\"\
+  : {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\
+  ,\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\n\
+  \  }\n}\n</script>\n"
 ---
 
 # Testing and CI/CD

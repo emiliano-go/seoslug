@@ -1,3 +1,77 @@
+---
+seo:
+  title: SvelteKit integration - seoslug
+  canonical: https://seoslug.emiliano-go.com/integrations/sveltekit/
+  robots: index,follow
+  og:
+    type: website
+    title: SvelteKit integration - seoslug
+    description: SvelteKithttps://kit.svelte.dev is a framework for building Svelte
+      applications with file-based routing, SSR, and static export. Use seoslug in
+      your load...
+    url: https://seoslug.emiliano-go.com/integrations/sveltekit/
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: SvelteKit integration - seoslug
+    description: SvelteKithttps://kit.svelte.dev is a framework for building Svelte
+      applications with file-based routing, SSR, and static export. Use seoslug in
+      your load...
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
+    site: '@emiliano_gando'
+  description: SvelteKithttps://kit.svelte.dev is a framework for building Svelte
+    applications with file-based routing, SSR, and static export. Use seoslug in your
+    load...
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: SvelteKit integration - seoslug
+    url: https://seoslug.emiliano-go.com/integrations/sveltekit/
+    description: SvelteKithttps://kit.svelte.dev is a framework for building Svelte
+      applications with file-based routing, SSR, and static export. Use seoslug in
+      your load...
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
+seo_html: "<title>SvelteKit integration - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"SvelteKithttps://kit.svelte.dev is a framework for building Svelte applications\
+  \ with file-based routing, SSR, and static export. Use seoslug in your load...\"\
+  >\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/integrations/sveltekit/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"SvelteKit integration - seoslug\"\
+  >\n<meta property=\"og:description\" content=\"SvelteKithttps://kit.svelte.dev is\
+  \ a framework for building Svelte applications with file-based routing, SSR, and\
+  \ static export. Use seoslug in your load...\">\n<meta property=\"og:url\" content=\"\
+  https://seoslug.emiliano-go.com/integrations/sveltekit/\">\n<meta property=\"og:image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta\
+  \ property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"SvelteKit integration - seoslug\">\n<meta\
+  \ name=\"twitter:description\" content=\"SvelteKithttps://kit.svelte.dev is a framework\
+  \ for building Svelte applications with file-based routing, SSR, and static export.\
+  \ Use seoslug in your load...\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"SvelteKit integration - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/integrations/sveltekit/\"\
+  ,\n  \"description\": \"SvelteKithttps://kit.svelte.dev is a framework for building\
+  \ Svelte applications with file-based routing, SSR, and static export. Use seoslug\
+  \ in your load...\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
+---
+
 # SvelteKit integration
 
 [SvelteKit](https://kit.svelte.dev) is a framework for building Svelte applications with file-based routing, SSR, and static export. Use seoslug in your `load` functions to generate SEO metadata and render it via `<svelte:head>`.

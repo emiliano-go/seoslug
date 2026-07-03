@@ -8,16 +8,18 @@ seo:
     title: 'Migration guide: 1.x to 2.0.0 - seoslug'
     description: This guide covers breaking changes between seoslug 1.x and 2.0.0.
     url: https://seoslug.emiliano-go.com/migration/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
     card: summary_large_image
     title: 'Migration guide: 1.x to 2.0.0 - seoslug'
     description: This guide covers breaking changes between seoslug 1.x and 2.0.0.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: This guide covers breaking changes between seoslug 1.x and 2.0.0.
   schema_jsonld:
@@ -26,10 +28,11 @@ seo:
     name: 'Migration guide: 1.x to 2.0.0 - seoslug'
     url: https://seoslug.emiliano-go.com/migration/
     description: This guide covers breaking changes between seoslug 1.x and 2.0.0.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>Migration guide: 1.x to 2.0.0 - seoslug</title>\n<meta name=\"description\"\
   \ content=\"This guide covers breaking changes between seoslug 1.x and 2.0.0.\"\
   >\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/migration/\">\n\
@@ -38,20 +41,23 @@ seo_html: "<title>Migration guide: 1.x to 2.0.0 - seoslug</title>\n<meta name=\"
   \ - seoslug\">\n<meta property=\"og:description\" content=\"This guide covers breaking\
   \ changes between seoslug 1.x and 2.0.0.\">\n<meta property=\"og:url\" content=\"\
   https://seoslug.emiliano-go.com/migration/\">\n<meta property=\"og:image\" content=\"\
-  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"og:image:width\"\
-  \ content=\"225\">\n<meta property=\"og:image:height\" content=\"225\">\n<meta property=\"\
-  og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"en_US\"\
-  >\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"twitter:title\"\
-  \ content=\"Migration guide: 1.x to 2.0.0 - seoslug\">\n<meta name=\"twitter:description\"\
-  \ content=\"This guide covers breaking changes between seoslug 1.x and 2.0.0.\"\
-  >\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta property=\"\
+  og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\" content=\"\
+  768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\">\n<meta\
+  \ property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"\
+  en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"\
+  twitter:title\" content=\"Migration guide: 1.x to 2.0.0 - seoslug\">\n<meta name=\"\
+  twitter:description\" content=\"This guide covers breaking changes between seoslug\
+  \ 1.x and 2.0.0.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
   >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
   : \"Migration guide: 1.x to 2.0.0 - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/migration/\"\
   ,\n  \"description\": \"This guide covers breaking changes between seoslug 1.x and\
-  \ 2.0.0.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\",\n\
-  \  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  \ 2.0.0.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
 ---
 
 # Migration guide: 1.x to 2.0.0

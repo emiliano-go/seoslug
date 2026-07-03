@@ -9,9 +9,10 @@ seo:
     description: A category page with CollectionPage schema, title template, and default
       OG image.
     url: https://seoslug.emiliano-go.com/recipes/category-page/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -19,7 +20,8 @@ seo:
     title: 'Recipe: Category / Taxonomy Page - seoslug'
     description: A category page with CollectionPage schema, title template, and default
       OG image.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: A category page with CollectionPage schema, title template, and default
     OG image.
@@ -30,10 +32,11 @@ seo:
     url: https://seoslug.emiliano-go.com/recipes/category-page/
     description: A category page with CollectionPage schema, title template, and default
       OG image.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>Recipe: Category / Taxonomy Page - seoslug</title>\n<meta name=\"\
   description\" content=\"A category page with CollectionPage schema, title template,\
   \ and default OG image.\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/recipes/category-page/\"\
@@ -42,21 +45,24 @@ seo_html: "<title>Recipe: Category / Taxonomy Page - seoslug</title>\n<meta name
   \ - seoslug\">\n<meta property=\"og:description\" content=\"A category page with\
   \ CollectionPage schema, title template, and default OG image.\">\n<meta property=\"\
   og:url\" content=\"https://seoslug.emiliano-go.com/recipes/category-page/\">\n<meta\
-  \ property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
-  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
-  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
-  summary_large_image\">\n<meta name=\"twitter:title\" content=\"Recipe: Category\
-  \ / Taxonomy Page - seoslug\">\n<meta name=\"twitter:description\" content=\"A category\
-  \ page with CollectionPage schema, title template, and default OG image.\">\n<meta\
-  \ name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
-  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
-  : \"Recipe: Category / Taxonomy Page - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/recipes/category-page/\"\
+  \ property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"Recipe: Category / Taxonomy Page - seoslug\"\
+  >\n<meta name=\"twitter:description\" content=\"A category page with CollectionPage\
+  \ schema, title template, and default OG image.\">\n<meta name=\"twitter:image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta\
+  \ name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"twitter:site\"\
+  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
+  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"Recipe: Category\
+  \ / Taxonomy Page - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/recipes/category-page/\"\
   ,\n  \"description\": \"A category page with CollectionPage schema, title template,\
-  \ and default OG image.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  \ and default OG image.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
   ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
 ---
 
 # Recipe: Category / Taxonomy Page

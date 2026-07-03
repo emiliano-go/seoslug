@@ -9,9 +9,10 @@ seo:
     description: buildseopayload returns a SEOPayload dataclass. It behaves like a
       dict for most use cases.
     url: https://seoslug.emiliano-go.com/seo-payload/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -19,7 +20,8 @@ seo:
     title: SEO Payload - seoslug
     description: buildseopayload returns a SEOPayload dataclass. It behaves like a
       dict for most use cases.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: buildseopayload returns a SEOPayload dataclass. It behaves like a dict
     for most use cases.
@@ -30,10 +32,11 @@ seo:
     url: https://seoslug.emiliano-go.com/seo-payload/
     description: buildseopayload returns a SEOPayload dataclass. It behaves like a
       dict for most use cases.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>SEO Payload - seoslug</title>\n<meta name=\"description\" content=\"\
   buildseopayload returns a SEOPayload dataclass. It behaves like a dict for most\
   \ use cases.\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/seo-payload/\"\
@@ -42,20 +45,23 @@ seo_html: "<title>SEO Payload - seoslug</title>\n<meta name=\"description\" cont
   \ property=\"og:description\" content=\"buildseopayload returns a SEOPayload dataclass.\
   \ It behaves like a dict for most use cases.\">\n<meta property=\"og:url\" content=\"\
   https://seoslug.emiliano-go.com/seo-payload/\">\n<meta property=\"og:image\" content=\"\
-  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"og:image:width\"\
-  \ content=\"225\">\n<meta property=\"og:image:height\" content=\"225\">\n<meta property=\"\
-  og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"en_US\"\
-  >\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"twitter:title\"\
-  \ content=\"SEO Payload - seoslug\">\n<meta name=\"twitter:description\" content=\"\
-  buildseopayload returns a SEOPayload dataclass. It behaves like a dict for most\
-  \ use cases.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta property=\"\
+  og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\" content=\"\
+  768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\">\n<meta\
+  \ property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"\
+  en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"\
+  twitter:title\" content=\"SEO Payload - seoslug\">\n<meta name=\"twitter:description\"\
+  \ content=\"buildseopayload returns a SEOPayload dataclass. It behaves like a dict\
+  \ for most use cases.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
   >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
   : \"SEO Payload - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/seo-payload/\"\
   ,\n  \"description\": \"buildseopayload returns a SEOPayload dataclass. It behaves\
-  \ like a dict for most use cases.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  \ like a dict for most use cases.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
   ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
 ---
 
 # SEO Payload

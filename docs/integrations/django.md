@@ -10,9 +10,10 @@ seo:
       context. Use buildseopayloaddict when you need a plain dict Django REST Framework,
       JSON...
     url: https://seoslug.emiliano-go.com/integrations/django/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -21,7 +22,8 @@ seo:
     description: Call buildseopayload in your view and pass the result as template
       context. Use buildseopayloaddict when you need a plain dict Django REST Framework,
       JSON...
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: Call buildseopayload in your view and pass the result as template context.
     Use buildseopayloaddict when you need a plain dict Django REST Framework, JSON...
@@ -33,10 +35,11 @@ seo:
     description: Call buildseopayload in your view and pass the result as template
       context. Use buildseopayloaddict when you need a plain dict Django REST Framework,
       JSON...
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>Django integration - seoslug</title>\n<meta name=\"description\"\
   \ content=\"Call buildseopayload in your view and pass the result as template context.\
   \ Use buildseopayloaddict when you need a plain dict Django REST Framework, JSON...\"\
@@ -47,23 +50,26 @@ seo_html: "<title>Django integration - seoslug</title>\n<meta name=\"description
   \ and pass the result as template context. Use buildseopayloaddict when you need\
   \ a plain dict Django REST Framework, JSON...\">\n<meta property=\"og:url\" content=\"\
   https://seoslug.emiliano-go.com/integrations/django/\">\n<meta property=\"og:image\"\
-  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"\
-  og:image:width\" content=\"225\">\n<meta property=\"og:image:height\" content=\"\
-  225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"\
-  og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta\
+  \ property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
   >\n<meta name=\"twitter:title\" content=\"Django integration - seoslug\">\n<meta\
   \ name=\"twitter:description\" content=\"Call buildseopayload in your view and pass\
   \ the result as template context. Use buildseopayloaddict when you need a plain\
   \ dict Django REST Framework, JSON...\">\n<meta name=\"twitter:image\" content=\"\
-  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta name=\"twitter:site\"\
-  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
-  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"Django integration\
-  \ - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/integrations/django/\"\
-  ,\n  \"description\": \"Call buildseopayload in your view and pass the result as\
-  \ template context. Use buildseopayloaddict when you need a plain dict Django REST\
-  \ Framework, JSON...\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta name=\"twitter:image:alt\"\
+  \ content=\"seoslug documentation\">\n<meta name=\"twitter:site\" content=\"@emiliano_gando\"\
+  >\n<script type=\"application/ld+json\">\n{\n  \"@context\": \"https://schema.org\"\
+  ,\n  \"@type\": \"WebPage\",\n  \"name\": \"Django integration - seoslug\",\n  \"\
+  url\": \"https://seoslug.emiliano-go.com/integrations/django/\",\n  \"description\"\
+  : \"Call buildseopayload in your view and pass the result as template context. Use\
+  \ buildseopayloaddict when you need a plain dict Django REST Framework, JSON...\"\
+  ,\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\",\n\
+  \  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
 ---
 
 # Django integration

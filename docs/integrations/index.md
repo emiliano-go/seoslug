@@ -1,4 +1,62 @@
 ---
+seo:
+  title: Integrations - seoslug
+  canonical: https://seoslug.emiliano-go.com/integrations/
+  robots: index,follow
+  og:
+    type: website
+    title: Integrations - seoslug
+    description: '---'
+    url: https://seoslug.emiliano-go.com/integrations/
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Integrations - seoslug
+    description: '---'
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
+    site: '@emiliano_gando'
+  description: '---'
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Integrations - seoslug
+    url: https://seoslug.emiliano-go.com/integrations/
+    description: '---'
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
+seo_html: "<title>Integrations - seoslug</title>\n<meta name=\"description\" content=\"\
+  ---\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/integrations/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"Integrations - seoslug\">\n<meta\
+  \ property=\"og:description\" content=\"---\">\n<meta property=\"og:url\" content=\"\
+  https://seoslug.emiliano-go.com/integrations/\">\n<meta property=\"og:image\" content=\"\
+  https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta property=\"\
+  og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\" content=\"\
+  768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\">\n<meta\
+  \ property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"\
+  en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"\
+  twitter:title\" content=\"Integrations - seoslug\">\n<meta name=\"twitter:description\"\
+  \ content=\"---\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"Integrations - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/integrations/\"\
+  ,\n  \"description\": \"---\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
+---
+
+---
 
 # Integrations
 

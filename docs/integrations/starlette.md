@@ -10,9 +10,10 @@ seo:
       from seoslug.asyncbuilder in your endpoints. It runs the synchronous builder
       in a thread pool...
     url: https://seoslug.emiliano-go.com/integrations/starlette/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -21,7 +22,8 @@ seo:
     description: Starlette is an async Python framework. Use buildseopayloadasync
       from seoslug.asyncbuilder in your endpoints. It runs the synchronous builder
       in a thread pool...
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: Starlette is an async Python framework. Use buildseopayloadasync from
     seoslug.asyncbuilder in your endpoints. It runs the synchronous builder in a thread
@@ -34,10 +36,11 @@ seo:
     description: Starlette is an async Python framework. Use buildseopayloadasync
       from seoslug.asyncbuilder in your endpoints. It runs the synchronous builder
       in a thread pool...
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>Starlette integration - seoslug</title>\n<meta name=\"description\"\
   \ content=\"Starlette is an async Python framework. Use buildseopayloadasync from\
   \ seoslug.asyncbuilder in your endpoints. It runs the synchronous builder in a thread\
@@ -48,23 +51,26 @@ seo_html: "<title>Starlette integration - seoslug</title>\n<meta name=\"descript
   \ Use buildseopayloadasync from seoslug.asyncbuilder in your endpoints. It runs\
   \ the synchronous builder in a thread pool...\">\n<meta property=\"og:url\" content=\"\
   https://seoslug.emiliano-go.com/integrations/starlette/\">\n<meta property=\"og:image\"\
-  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"\
-  og:image:width\" content=\"225\">\n<meta property=\"og:image:height\" content=\"\
-  225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"\
-  og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta\
+  \ property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
   >\n<meta name=\"twitter:title\" content=\"Starlette integration - seoslug\">\n<meta\
   \ name=\"twitter:description\" content=\"Starlette is an async Python framework.\
   \ Use buildseopayloadasync from seoslug.asyncbuilder in your endpoints. It runs\
   \ the synchronous builder in a thread pool...\">\n<meta name=\"twitter:image\" content=\"\
-  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta name=\"twitter:site\"\
-  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
-  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"Starlette integration\
-  \ - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/integrations/starlette/\"\
-  ,\n  \"description\": \"Starlette is an async Python framework. Use buildseopayloadasync\
-  \ from seoslug.asyncbuilder in your endpoints. It runs the synchronous builder in\
-  \ a thread pool...\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta name=\"twitter:image:alt\"\
+  \ content=\"seoslug documentation\">\n<meta name=\"twitter:site\" content=\"@emiliano_gando\"\
+  >\n<script type=\"application/ld+json\">\n{\n  \"@context\": \"https://schema.org\"\
+  ,\n  \"@type\": \"WebPage\",\n  \"name\": \"Starlette integration - seoslug\",\n\
+  \  \"url\": \"https://seoslug.emiliano-go.com/integrations/starlette/\",\n  \"description\"\
+  : \"Starlette is an async Python framework. Use buildseopayloadasync from seoslug.asyncbuilder\
+  \ in your endpoints. It runs the synchronous builder in a thread pool...\",\n  \"\
+  image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\",\n  \"publisher\"\
+  : {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\
+  ,\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\n\
+  \  }\n}\n</script>\n"
 ---
 
 # Starlette integration

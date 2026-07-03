@@ -38,15 +38,18 @@ SEO_CONFIG = SEOConfig(
     ),
     site_name=SITE_NAME,
     default_og_image=OGImage(
-        url=f"{SITE_URL}/assets/icon.png",
-        width=225,
-        height=225,
+        url=f"{SITE_URL}/assets/images/og-image.png",
+        width=1408,
+        height=768,
+        alt="seoslug documentation",
     ),
     publisher_name="Emiliano Gandini Outeda",
+    publisher_logo=f"{SITE_URL}/assets/images/og-image.png",
     title_template="{title} - seoslug",
     default_robots=Robots(index=True, follow=True),
     locale="en_US",
     twitter_site="@emiliano_gando",
+    emit_warnings=True,
 )
 
 FM_RE = re.compile(

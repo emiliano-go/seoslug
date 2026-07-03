@@ -9,9 +9,10 @@ seo:
     description: A search results page with SearchResultsPage schema and noindex directive.
       Tracking params are stripped from the canonical URL.
     url: https://seoslug.emiliano-go.com/recipes/search-results/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -19,7 +20,8 @@ seo:
     title: 'Recipe: Search Results - seoslug'
     description: A search results page with SearchResultsPage schema and noindex directive.
       Tracking params are stripped from the canonical URL.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: A search results page with SearchResultsPage schema and noindex directive.
     Tracking params are stripped from the canonical URL.
@@ -30,10 +32,11 @@ seo:
     url: https://seoslug.emiliano-go.com/recipes/search-results/
     description: A search results page with SearchResultsPage schema and noindex directive.
       Tracking params are stripped from the canonical URL.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>Recipe: Search Results - seoslug</title>\n<meta name=\"description\"\
   \ content=\"A search results page with SearchResultsPage schema and noindex directive.\
   \ Tracking params are stripped from the canonical URL.\">\n<link rel=\"canonical\"\
@@ -43,21 +46,24 @@ seo_html: "<title>Recipe: Search Results - seoslug</title>\n<meta name=\"descrip
   \ property=\"og:description\" content=\"A search results page with SearchResultsPage\
   \ schema and noindex directive. Tracking params are stripped from the canonical\
   \ URL.\">\n<meta property=\"og:url\" content=\"https://seoslug.emiliano-go.com/recipes/search-results/\"\
-  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
-  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
-  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
-  summary_large_image\">\n<meta name=\"twitter:title\" content=\"Recipe: Search Results\
-  \ - seoslug\">\n<meta name=\"twitter:description\" content=\"A search results page\
-  \ with SearchResultsPage schema and noindex directive. Tracking params are stripped\
-  \ from the canonical URL.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"Recipe: Search Results - seoslug\">\n\
+  <meta name=\"twitter:description\" content=\"A search results page with SearchResultsPage\
+  \ schema and noindex directive. Tracking params are stripped from the canonical\
+  \ URL.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
   >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
   : \"Recipe: Search Results - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/recipes/search-results/\"\
   ,\n  \"description\": \"A search results page with SearchResultsPage schema and\
   \ noindex directive. Tracking params are stripped from the canonical URL.\",\n \
-  \ \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\",\n  \"publisher\"\
-  : {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\
+  \ \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\",\n \
+  \ \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini\
+  \ Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
   \n  }\n}\n</script>\n"
 ---
 

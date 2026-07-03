@@ -1,3 +1,78 @@
+---
+seo:
+  title: Gatsby integration - seoslug
+  canonical: https://seoslug.emiliano-go.com/integrations/gatsby/
+  robots: index,follow
+  og:
+    type: website
+    title: Gatsby integration - seoslug
+    description: Gatsbyhttps://www.gatsbyjs.com is a React-based static site generator
+      with a rich plugin ecosystem. Use seoslug at build time via gatsby-node.js to
+      generate...
+    url: https://seoslug.emiliano-go.com/integrations/gatsby/
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Gatsby integration - seoslug
+    description: Gatsbyhttps://www.gatsbyjs.com is a React-based static site generator
+      with a rich plugin ecosystem. Use seoslug at build time via gatsby-node.js to
+      generate...
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
+    site: '@emiliano_gando'
+  description: Gatsbyhttps://www.gatsbyjs.com is a React-based static site generator
+    with a rich plugin ecosystem. Use seoslug at build time via gatsby-node.js to
+    generate...
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Gatsby integration - seoslug
+    url: https://seoslug.emiliano-go.com/integrations/gatsby/
+    description: Gatsbyhttps://www.gatsbyjs.com is a React-based static site generator
+      with a rich plugin ecosystem. Use seoslug at build time via gatsby-node.js to
+      generate...
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
+seo_html: "<title>Gatsby integration - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"Gatsbyhttps://www.gatsbyjs.com is a React-based static site generator\
+  \ with a rich plugin ecosystem. Use seoslug at build time via gatsby-node.js to\
+  \ generate...\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/integrations/gatsby/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"Gatsby integration - seoslug\"\
+  >\n<meta property=\"og:description\" content=\"Gatsbyhttps://www.gatsbyjs.com is\
+  \ a React-based static site generator with a rich plugin ecosystem. Use seoslug\
+  \ at build time via gatsby-node.js to generate...\">\n<meta property=\"og:url\"\
+  \ content=\"https://seoslug.emiliano-go.com/integrations/gatsby/\">\n<meta property=\"\
+  og:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"Gatsby integration - seoslug\">\n<meta\
+  \ name=\"twitter:description\" content=\"Gatsbyhttps://www.gatsbyjs.com is a React-based\
+  \ static site generator with a rich plugin ecosystem. Use seoslug at build time\
+  \ via gatsby-node.js to generate...\">\n<meta name=\"twitter:image\" content=\"\
+  https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta name=\"twitter:image:alt\"\
+  \ content=\"seoslug documentation\">\n<meta name=\"twitter:site\" content=\"@emiliano_gando\"\
+  >\n<script type=\"application/ld+json\">\n{\n  \"@context\": \"https://schema.org\"\
+  ,\n  \"@type\": \"WebPage\",\n  \"name\": \"Gatsby integration - seoslug\",\n  \"\
+  url\": \"https://seoslug.emiliano-go.com/integrations/gatsby/\",\n  \"description\"\
+  : \"Gatsbyhttps://www.gatsbyjs.com is a React-based static site generator with a\
+  \ rich plugin ecosystem. Use seoslug at build time via gatsby-node.js to generate...\"\
+  ,\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\",\n\
+  \  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
+---
+
 # Gatsby integration
 
 [Gatsby](https://www.gatsbyjs.com) is a React-based static site generator with a rich plugin ecosystem. Use seoslug at build time via `gatsby-node.js` to generate SEO metadata for every page and inject it through the Gatsby Head API or `react-helmet`.

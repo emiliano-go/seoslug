@@ -1,3 +1,78 @@
+---
+seo:
+  title: Strapi integration - seoslug
+  canonical: https://seoslug.emiliano-go.com/integrations/strapi/
+  robots: index,follow
+  og:
+    type: website
+    title: Strapi integration - seoslug
+    description: Strapihttps://strapi.io is an open-source headless CMS built with
+      Node.js. Use seoslug in a custom plugin or middleware to enrich your API responses
+      with Open...
+    url: https://seoslug.emiliano-go.com/integrations/strapi/
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Strapi integration - seoslug
+    description: Strapihttps://strapi.io is an open-source headless CMS built with
+      Node.js. Use seoslug in a custom plugin or middleware to enrich your API responses
+      with Open...
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
+    site: '@emiliano_gando'
+  description: Strapihttps://strapi.io is an open-source headless CMS built with Node.js.
+    Use seoslug in a custom plugin or middleware to enrich your API responses with
+    Open...
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Strapi integration - seoslug
+    url: https://seoslug.emiliano-go.com/integrations/strapi/
+    description: Strapihttps://strapi.io is an open-source headless CMS built with
+      Node.js. Use seoslug in a custom plugin or middleware to enrich your API responses
+      with Open...
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
+seo_html: "<title>Strapi integration - seoslug</title>\n<meta name=\"description\"\
+  \ content=\"Strapihttps://strapi.io is an open-source headless CMS built with Node.js.\
+  \ Use seoslug in a custom plugin or middleware to enrich your API responses with\
+  \ Open...\">\n<link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/integrations/strapi/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"Strapi integration - seoslug\"\
+  >\n<meta property=\"og:description\" content=\"Strapihttps://strapi.io is an open-source\
+  \ headless CMS built with Node.js. Use seoslug in a custom plugin or middleware\
+  \ to enrich your API responses with Open...\">\n<meta property=\"og:url\" content=\"\
+  https://seoslug.emiliano-go.com/integrations/strapi/\">\n<meta property=\"og:image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta\
+  \ property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"Strapi integration - seoslug\">\n<meta\
+  \ name=\"twitter:description\" content=\"Strapihttps://strapi.io is an open-source\
+  \ headless CMS built with Node.js. Use seoslug in a custom plugin or middleware\
+  \ to enrich your API responses with Open...\">\n<meta name=\"twitter:image\" content=\"\
+  https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta name=\"twitter:image:alt\"\
+  \ content=\"seoslug documentation\">\n<meta name=\"twitter:site\" content=\"@emiliano_gando\"\
+  >\n<script type=\"application/ld+json\">\n{\n  \"@context\": \"https://schema.org\"\
+  ,\n  \"@type\": \"WebPage\",\n  \"name\": \"Strapi integration - seoslug\",\n  \"\
+  url\": \"https://seoslug.emiliano-go.com/integrations/strapi/\",\n  \"description\"\
+  : \"Strapihttps://strapi.io is an open-source headless CMS built with Node.js. Use\
+  \ seoslug in a custom plugin or middleware to enrich your API responses with Open...\"\
+  ,\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\",\n\
+  \  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
+---
+
 # Strapi integration
 
 [Strapi](https://strapi.io) is an open-source headless CMS built with Node.js. Use seoslug in a custom plugin or middleware to enrich your API responses with Open Graph, Twitter Card, JSON-LD, canonical, and robots metadata.

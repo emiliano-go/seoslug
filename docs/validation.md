@@ -9,9 +9,10 @@ seo:
     description: seoslug produces non-fatal validation warnings when emitwarnings
       is enabled. Warnings alert you to common SEO issues without breaking your build.
     url: https://seoslug.emiliano-go.com/validation/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -19,7 +20,8 @@ seo:
     title: Validation Warnings - seoslug
     description: seoslug produces non-fatal validation warnings when emitwarnings
       is enabled. Warnings alert you to common SEO issues without breaking your build.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: seoslug produces non-fatal validation warnings when emitwarnings is
     enabled. Warnings alert you to common SEO issues without breaking your build.
@@ -30,10 +32,11 @@ seo:
     url: https://seoslug.emiliano-go.com/validation/
     description: seoslug produces non-fatal validation warnings when emitwarnings
       is enabled. Warnings alert you to common SEO issues without breaking your build.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>Validation Warnings - seoslug</title>\n<meta name=\"description\"\
   \ content=\"seoslug produces non-fatal validation warnings when emitwarnings is\
   \ enabled. Warnings alert you to common SEO issues without breaking your build.\"\
@@ -43,22 +46,24 @@ seo_html: "<title>Validation Warnings - seoslug</title>\n<meta name=\"descriptio
   >\n<meta property=\"og:description\" content=\"seoslug produces non-fatal validation\
   \ warnings when emitwarnings is enabled. Warnings alert you to common SEO issues\
   \ without breaking your build.\">\n<meta property=\"og:url\" content=\"https://seoslug.emiliano-go.com/validation/\"\
-  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
-  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
-  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
-  summary_large_image\">\n<meta name=\"twitter:title\" content=\"Validation Warnings\
-  \ - seoslug\">\n<meta name=\"twitter:description\" content=\"seoslug produces non-fatal\
-  \ validation warnings when emitwarnings is enabled. Warnings alert you to common\
-  \ SEO issues without breaking your build.\">\n<meta name=\"twitter:image\" content=\"\
-  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta name=\"twitter:site\"\
-  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
-  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"Validation Warnings\
-  \ - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/validation/\",\n  \"\
-  description\": \"seoslug produces non-fatal validation warnings when emitwarnings\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"Validation Warnings - seoslug\">\n<meta\
+  \ name=\"twitter:description\" content=\"seoslug produces non-fatal validation warnings\
+  \ when emitwarnings is enabled. Warnings alert you to common SEO issues without\
+  \ breaking your build.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"Validation Warnings - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/validation/\"\
+  ,\n  \"description\": \"seoslug produces non-fatal validation warnings when emitwarnings\
   \ is enabled. Warnings alert you to common SEO issues without breaking your build.\"\
-  ,\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\",\n  \"publisher\"\
-  : {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\
+  ,\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\",\n\
+  \  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
   \n  }\n}\n</script>\n"
 ---
 

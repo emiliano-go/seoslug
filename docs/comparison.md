@@ -10,9 +10,10 @@ seo:
       across a growing site. Here is exactly what seoslug removes from your to-do
       list.
     url: https://seoslug.emiliano-go.com/comparison/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -21,7 +22,8 @@ seo:
     description: Manual SEO metadata is repetitive, error-prone, and hard to maintain
       across a growing site. Here is exactly what seoslug removes from your to-do
       list.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: Manual SEO metadata is repetitive, error-prone, and hard to maintain
     across a growing site. Here is exactly what seoslug removes from your to-do list.
@@ -33,10 +35,11 @@ seo:
     description: Manual SEO metadata is repetitive, error-prone, and hard to maintain
       across a growing site. Here is exactly what seoslug removes from your to-do
       list.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>seoslug vs manual SEO - seoslug</title>\n<meta name=\"description\"\
   \ content=\"Manual SEO metadata is repetitive, error-prone, and hard to maintain\
   \ across a growing site. Here is exactly what seoslug removes from your to-do list.\"\
@@ -47,22 +50,25 @@ seo_html: "<title>seoslug vs manual SEO - seoslug</title>\n<meta name=\"descript
   \ error-prone, and hard to maintain across a growing site. Here is exactly what\
   \ seoslug removes from your to-do list.\">\n<meta property=\"og:url\" content=\"\
   https://seoslug.emiliano-go.com/comparison/\">\n<meta property=\"og:image\" content=\"\
-  https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"og:image:width\"\
-  \ content=\"225\">\n<meta property=\"og:image:height\" content=\"225\">\n<meta property=\"\
-  og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"en_US\"\
-  >\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"twitter:title\"\
-  \ content=\"seoslug vs manual SEO - seoslug\">\n<meta name=\"twitter:description\"\
+  https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta property=\"\
+  og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\" content=\"\
+  768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\">\n<meta\
+  \ property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\" content=\"\
+  en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"\
+  twitter:title\" content=\"seoslug vs manual SEO - seoslug\">\n<meta name=\"twitter:description\"\
   \ content=\"Manual SEO metadata is repetitive, error-prone, and hard to maintain\
   \ across a growing site. Here is exactly what seoslug removes from your to-do list.\"\
-  >\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
   >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
   : \"seoslug vs manual SEO - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/comparison/\"\
   ,\n  \"description\": \"Manual SEO metadata is repetitive, error-prone, and hard\
   \ to maintain across a growing site. Here is exactly what seoslug removes from your\
-  \ to-do list.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  \ to-do list.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
   ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
 ---
 
 # seoslug vs manual SEO

@@ -10,9 +10,10 @@ seo:
       Go. Use seoslug at build time to generate Open Graph, Twitter Card, JSON-LD,
       and robots...
     url: https://seoslug.emiliano-go.com/integrations/hugo/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -21,7 +22,8 @@ seo:
     description: Hugohttps://gohugo.io is a fast static site generator written in
       Go. Use seoslug at build time to generate Open Graph, Twitter Card, JSON-LD,
       and robots...
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: Hugohttps://gohugo.io is a fast static site generator written in Go.
     Use seoslug at build time to generate Open Graph, Twitter Card, JSON-LD, and robots...
@@ -33,10 +35,11 @@ seo:
     description: Hugohttps://gohugo.io is a fast static site generator written in
       Go. Use seoslug at build time to generate Open Graph, Twitter Card, JSON-LD,
       and robots...
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>Hugo integration - seoslug</title>\n<meta name=\"description\" content=\"\
   Hugohttps://gohugo.io is a fast static site generator written in Go. Use seoslug\
   \ at build time to generate Open Graph, Twitter Card, JSON-LD, and robots...\">\n\
@@ -47,22 +50,25 @@ seo_html: "<title>Hugo integration - seoslug</title>\n<meta name=\"description\"
   \ site generator written in Go. Use seoslug at build time to generate Open Graph,\
   \ Twitter Card, JSON-LD, and robots...\">\n<meta property=\"og:url\" content=\"\
   https://seoslug.emiliano-go.com/integrations/hugo/\">\n<meta property=\"og:image\"\
-  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"\
-  og:image:width\" content=\"225\">\n<meta property=\"og:image:height\" content=\"\
-  225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"\
-  og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta\
+  \ property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
   >\n<meta name=\"twitter:title\" content=\"Hugo integration - seoslug\">\n<meta name=\"\
   twitter:description\" content=\"Hugohttps://gohugo.io is a fast static site generator\
   \ written in Go. Use seoslug at build time to generate Open Graph, Twitter Card,\
-  \ JSON-LD, and robots...\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  \ JSON-LD, and robots...\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
   >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
   : \"Hugo integration - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/integrations/hugo/\"\
   ,\n  \"description\": \"Hugohttps://gohugo.io is a fast static site generator written\
   \ in Go. Use seoslug at build time to generate Open Graph, Twitter Card, JSON-LD,\
-  \ and robots...\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  \ and robots...\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
   ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
 ---
 
 # Hugo integration

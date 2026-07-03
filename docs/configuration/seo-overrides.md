@@ -9,9 +9,10 @@ seo:
     description: SEOOverrides lets you override any generated SEO field for a single
       call. Pass it as the fourth argument to buildseopayload. Every field is optional.
     url: https://seoslug.emiliano-go.com/configuration/seo-overrides/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -19,7 +20,8 @@ seo:
     title: SEOOverrides reference - seoslug
     description: SEOOverrides lets you override any generated SEO field for a single
       call. Pass it as the fourth argument to buildseopayload. Every field is optional.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: SEOOverrides lets you override any generated SEO field for a single
     call. Pass it as the fourth argument to buildseopayload. Every field is optional.
@@ -30,10 +32,11 @@ seo:
     url: https://seoslug.emiliano-go.com/configuration/seo-overrides/
     description: SEOOverrides lets you override any generated SEO field for a single
       call. Pass it as the fourth argument to buildseopayload. Every field is optional.
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>SEOOverrides reference - seoslug</title>\n<meta name=\"description\"\
   \ content=\"SEOOverrides lets you override any generated SEO field for a single\
   \ call. Pass it as the fourth argument to buildseopayload. Every field is optional.\"\
@@ -43,23 +46,25 @@ seo_html: "<title>SEOOverrides reference - seoslug</title>\n<meta name=\"descrip
   >\n<meta property=\"og:description\" content=\"SEOOverrides lets you override any\
   \ generated SEO field for a single call. Pass it as the fourth argument to buildseopayload.\
   \ Every field is optional.\">\n<meta property=\"og:url\" content=\"https://seoslug.emiliano-go.com/configuration/seo-overrides/\"\
-  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
-  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
-  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
-  summary_large_image\">\n<meta name=\"twitter:title\" content=\"SEOOverrides reference\
-  \ - seoslug\">\n<meta name=\"twitter:description\" content=\"SEOOverrides lets you\
-  \ override any generated SEO field for a single call. Pass it as the fourth argument\
-  \ to buildseopayload. Every field is optional.\">\n<meta name=\"twitter:image\"\
-  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta name=\"twitter:site\"\
-  \ content=\"@emiliano_gando\">\n<script type=\"application/ld+json\">\n{\n  \"@context\"\
-  : \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\": \"SEOOverrides\
-  \ reference - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/configuration/seo-overrides/\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"SEOOverrides reference - seoslug\">\n\
+  <meta name=\"twitter:description\" content=\"SEOOverrides lets you override any\
+  \ generated SEO field for a single call. Pass it as the fourth argument to buildseopayload.\
+  \ Every field is optional.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"SEOOverrides reference - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/configuration/seo-overrides/\"\
   ,\n  \"description\": \"SEOOverrides lets you override any generated SEO field for\
   \ a single call. Pass it as the fourth argument to buildseopayload. Every field\
-  \ is optional.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  \ is optional.\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
   ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
 ---
 
 # SEOOverrides reference

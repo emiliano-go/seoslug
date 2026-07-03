@@ -1,3 +1,76 @@
+---
+seo:
+  title: Nuxt integration - seoslug
+  canonical: https://seoslug.emiliano-go.com/integrations/nuxt/
+  robots: index,follow
+  og:
+    type: website
+    title: Nuxt integration - seoslug
+    description: Nuxt 3https://nuxt.com is a Vue.js framework with hybrid rendering,
+      auto-imports, and a rich module ecosystem. Use seoslug during build or render
+      time to...
+    url: https://seoslug.emiliano-go.com/integrations/nuxt/
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
+    site_name: seoslug
+    locale: en_US
+  twitter:
+    card: summary_large_image
+    title: Nuxt integration - seoslug
+    description: Nuxt 3https://nuxt.com is a Vue.js framework with hybrid rendering,
+      auto-imports, and a rich module ecosystem. Use seoslug during build or render
+      time to...
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
+    site: '@emiliano_gando'
+  description: Nuxt 3https://nuxt.com is a Vue.js framework with hybrid rendering,
+    auto-imports, and a rich module ecosystem. Use seoslug during build or render
+    time to...
+  schema_jsonld:
+    '@context': https://schema.org
+    '@type': WebPage
+    name: Nuxt integration - seoslug
+    url: https://seoslug.emiliano-go.com/integrations/nuxt/
+    description: Nuxt 3https://nuxt.com is a Vue.js framework with hybrid rendering,
+      auto-imports, and a rich module ecosystem. Use seoslug during build or render
+      time to...
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    publisher:
+      '@type': Organization
+      name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
+seo_html: "<title>Nuxt integration - seoslug</title>\n<meta name=\"description\" content=\"\
+  Nuxt 3https://nuxt.com is a Vue.js framework with hybrid rendering, auto-imports,\
+  \ and a rich module ecosystem. Use seoslug during build or render time to...\">\n\
+  <link rel=\"canonical\" href=\"https://seoslug.emiliano-go.com/integrations/nuxt/\"\
+  >\n<meta name=\"robots\" content=\"index,follow\">\n<meta property=\"og:type\" content=\"\
+  website\">\n<meta property=\"og:title\" content=\"Nuxt integration - seoslug\">\n\
+  <meta property=\"og:description\" content=\"Nuxt 3https://nuxt.com is a Vue.js framework\
+  \ with hybrid rendering, auto-imports, and a rich module ecosystem. Use seoslug\
+  \ during build or render time to...\">\n<meta property=\"og:url\" content=\"https://seoslug.emiliano-go.com/integrations/nuxt/\"\
+  >\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"Nuxt integration - seoslug\">\n<meta name=\"\
+  twitter:description\" content=\"Nuxt 3https://nuxt.com is a Vue.js framework with\
+  \ hybrid rendering, auto-imports, and a rich module ecosystem. Use seoslug during\
+  \ build or render time to...\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
+  : \"Nuxt integration - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/integrations/nuxt/\"\
+  ,\n  \"description\": \"Nuxt 3https://nuxt.com is a Vue.js framework with hybrid\
+  \ rendering, auto-imports, and a rich module ecosystem. Use seoslug during build\
+  \ or render time to...\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
+---
+
 # Nuxt integration
 
 [Nuxt 3](https://nuxt.com) is a Vue.js framework with hybrid rendering, auto-imports, and a rich module ecosystem. Use seoslug during build or render time to populate Open Graph, Twitter Card, JSON-LD, canonical, and robots metadata via the `useHead` composable.

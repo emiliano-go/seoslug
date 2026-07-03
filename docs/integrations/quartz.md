@@ -9,9 +9,10 @@ seo:
     description: Quartzhttps://quartz.jzhao.xyz is a static site generator for Obsidian
       vaults, built with TypeScript and Preact. Use seoslug at build time to add JSON-LD...
     url: https://seoslug.emiliano-go.com/integrations/quartz/
-    image: https://seoslug.emiliano-go.com/assets/icon.png
-    image:width: 225
-    image:height: 225
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:width: 1408
+    image:height: 768
+    image:alt: seoslug documentation
     site_name: seoslug
     locale: en_US
   twitter:
@@ -19,7 +20,8 @@ seo:
     title: Quartz integration - seoslug
     description: Quartzhttps://quartz.jzhao.xyz is a static site generator for Obsidian
       vaults, built with TypeScript and Preact. Use seoslug at build time to add JSON-LD...
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
+    image:alt: seoslug documentation
     site: '@emiliano_gando'
   description: Quartzhttps://quartz.jzhao.xyz is a static site generator for Obsidian
     vaults, built with TypeScript and Preact. Use seoslug at build time to add JSON-LD...
@@ -30,10 +32,11 @@ seo:
     url: https://seoslug.emiliano-go.com/integrations/quartz/
     description: Quartzhttps://quartz.jzhao.xyz is a static site generator for Obsidian
       vaults, built with TypeScript and Preact. Use seoslug at build time to add JSON-LD...
-    image: https://seoslug.emiliano-go.com/assets/icon.png
+    image: https://seoslug.emiliano-go.com/assets/images/og-image.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
+      logo: https://seoslug.emiliano-go.com/assets/images/og-image.png
 seo_html: "<title>Quartz integration - seoslug</title>\n<meta name=\"description\"\
   \ content=\"Quartzhttps://quartz.jzhao.xyz is a static site generator for Obsidian\
   \ vaults, built with TypeScript and Preact. Use seoslug at build time to add JSON-LD...\"\
@@ -44,22 +47,25 @@ seo_html: "<title>Quartz integration - seoslug</title>\n<meta name=\"description
   \ a static site generator for Obsidian vaults, built with TypeScript and Preact.\
   \ Use seoslug at build time to add JSON-LD...\">\n<meta property=\"og:url\" content=\"\
   https://seoslug.emiliano-go.com/integrations/quartz/\">\n<meta property=\"og:image\"\
-  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"\
-  og:image:width\" content=\"225\">\n<meta property=\"og:image:height\" content=\"\
-  225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"\
-  og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\">\n<meta\
+  \ property=\"og:image:width\" content=\"1408\">\n<meta property=\"og:image:height\"\
+  \ content=\"768\">\n<meta property=\"og:image:alt\" content=\"seoslug documentation\"\
+  >\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"og:locale\"\
+  \ content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
   >\n<meta name=\"twitter:title\" content=\"Quartz integration - seoslug\">\n<meta\
   \ name=\"twitter:description\" content=\"Quartzhttps://quartz.jzhao.xyz is a static\
   \ site generator for Obsidian vaults, built with TypeScript and Preact. Use seoslug\
-  \ at build time to add JSON-LD...\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  \ at build time to add JSON-LD...\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  >\n<meta name=\"twitter:image:alt\" content=\"seoslug documentation\">\n<meta name=\"\
+  twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
   >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
   : \"Quartz integration - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/integrations/quartz/\"\
   ,\n  \"description\": \"Quartzhttps://quartz.jzhao.xyz is a static site generator\
   \ for Obsidian vaults, built with TypeScript and Preact. Use seoslug at build time\
-  \ to add JSON-LD...\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  \ to add JSON-LD...\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
   ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
-  \ Gandini Outeda\"\n  }\n}\n</script>\n"
+  \ Gandini Outeda\",\n    \"logo\": \"https://seoslug.emiliano-go.com/assets/images/og-image.png\"\
+  \n  }\n}\n</script>\n"
 ---
 
 # Quartz integration
