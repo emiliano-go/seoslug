@@ -75,7 +75,7 @@ The general pattern is always the same:
 | Framework | Guide | Notes |
 |-----------|-------|-------|
 | FastAPI | [FastAPI integration](fastapi.md) | Async route handlers, dependency injection, ETag caching |
-| Starlette | [FastAPI integration](fastapi.md#starlette) | Same async builder, no DI, lower-level routing |
+| Starlette | [Starlette integration](starlette.md) | Async endpoints, path params, middleware, Jinja2Templates |
 | Django | [Django integration](django.md) | Class-based views, template context, Django REST Framework |
 | Flask | [Flask integration](flask.md) | Route handlers, Jinja2 templates, JSON APIs, extension pattern |
 | Zensical | [Zensical integration](zensical.md) | Pre-build script + template override, works with any MkDocs theme |
