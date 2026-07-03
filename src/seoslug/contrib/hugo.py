@@ -150,12 +150,18 @@ class HugoBuilder:
 
         Returns ``(meta, body)`` where *body* excludes the frontmatter.
         """
-        import tomllib
         m = _FM_TOML_RE.match(text)
         if m:
             try:
-                meta = tomllib.loads(m.group(1))
-            except (tomllib.TOMLDecodeError, Exception):
+                import tomllib
+            except ImportError:
+                tomllib = None
+            if tomllib is not None:
+                try:
+                    meta = tomllib.loads(m.group(1))
+                except Exception:
+                    meta = {}
+            else:
                 meta = {}
             body = text[m.end():].lstrip("\n")
             return meta if isinstance(meta, dict) else {}, body
