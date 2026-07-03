@@ -1,5 +1,5 @@
 # seoslug Documentation
-> Full documentation for seoslug — a Python SEO toolkit
+> Full documentation for seoslug: a Python SEO toolkit
 > Source: https://seoslug.emiliano-go.com
 > Pages: 43
 
@@ -3388,7 +3388,7 @@ these are silently ignored by the builder.
 ```python
 @hook("post_process")
 def safe_hook(payload, entity, config):
-    # payload is a copy -- safe to mutate
+    # payload is a copy: safe to mutate
     payload["generator"] = "seoslug"
     return payload
 
@@ -5906,7 +5906,7 @@ When `debug_dir` is set, the extension writes one JSON file per page with the fu
 }
 ```
 
-Add `.seo-debug/` to your `.gitignore` -- these files are for local inspection, not committed.
+Add `.seo-debug/` to your `.gitignore`: these files are for local inspection, not committed.
 
 ## Alternative: pre-build script
 

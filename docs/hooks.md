@@ -192,7 +192,7 @@ these are silently ignored by the builder.
 ```python
 @hook("post_process")
 def safe_hook(payload, entity, config):
-    # payload is a copy -- safe to mutate
+    # payload is a copy: safe to mutate
     payload["generator"] = "seoslug"
     return payload
 
