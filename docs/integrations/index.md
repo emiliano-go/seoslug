@@ -19,10 +19,26 @@ The general pattern is always the same:
 | Starlette | [Starlette integration](starlette.md) | Async endpoints, path params, middleware, Jinja2Templates |
 | Django | [Django integration](django.md) | Class-based views, template context, Django REST Framework |
 | Flask | [Flask integration](flask.md) | Route handlers, Jinja2 templates, JSON APIs, extension pattern |
-| Zensical | [Zensical integration](zensical.md) | Inline Markdown extension + template override, or pre-build script |
+| Nuxt | [Nuxt integration](nuxt.md) | `useHead` composable + `asyncData` in Nuxt 3, static or SSR |
+| SvelteKit | [SvelteKit integration](sveltekit.md) | `load` function in `+page.js` + `<svelte:head>`, static or SSR |
+
+## SSG guides
+
+| SSG | Guide | Notes |
+|-----|-------|-------|
 | Hugo | [Hugo integration](hugo.md) | Pre-build frontmatter injection + head partial, works with any theme |
 | Quartz | [Quartz integration](quartz.md) | Pre-build frontmatter injection + Head component mod |
+| Next.js | [Next.js integration](nextjs.md) | `getStaticProps` + `next/head`, or `generateMetadata` in App Router |
+| Gatsby | [Gatsby integration](gatsby.md) | `onCreatePage` in `gatsby-node.js` + Gatsby Head API |
+| Astro | [Astro integration](astro.md) | `<Seo />` component via `Astro.glob` or JSON manifest |
+| Zensical | [Zensical integration](zensical.md) | Inline Markdown extension + template override, or pre-build script |
 | Static site generators | [SSG integration](ssg.md) | Build-time generation, JSON manifest, Pelican, MkDocs |
+
+## CMS guides
+
+| CMS | Guide | Notes |
+|-----|-------|-------|
+| Strapi | [Strapi integration](strapi.md) | Custom middleware to enrich API responses with SEO payloads |
 
 ## Other frameworks
 
