@@ -267,75 +267,75 @@ class SEOEntityBuilder:
     def __init__(self) -> None:
         self._kwargs: dict = {}
 
-    def entity_type(self, value: str) -> SEOEntityBuilder:
+    def entity_type(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["entity_type"] = value
         return self
 
-    def slug(self, value: str) -> SEOEntityBuilder:
+    def slug(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["slug"] = value
         return self
 
-    def title(self, value: str) -> SEOEntityBuilder:
+    def title(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["title"] = value
         return self
 
-    def excerpt(self, value: str) -> SEOEntityBuilder:
+    def excerpt(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["excerpt"] = value
         return self
 
-    def body_html(self, value: str) -> SEOEntityBuilder:
+    def body_html(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["body_html"] = value
         return self
 
-    def status(self, value: str) -> SEOEntityBuilder:
+    def status(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["status"] = value
         return self
 
-    def featured_image(self, value: str | OGImage) -> SEOEntityBuilder:
+    def featured_image(self, value: str | OGImage) -> "SEOEntityBuilder":
         self._kwargs["featured_image"] = value
         return self
 
-    def published_at(self, value: str) -> SEOEntityBuilder:
+    def published_at(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["published_at"] = value
         return self
 
-    def updated_at(self, value: str) -> SEOEntityBuilder:
+    def updated_at(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["updated_at"] = value
         return self
 
-    def author_name(self, value: str) -> SEOEntityBuilder:
+    def author_name(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["author_name"] = value
         return self
 
-    def breadcrumbs(self, value: list[Breadcrumb]) -> SEOEntityBuilder:
+    def breadcrumbs(self, value: list[Breadcrumb]) -> "SEOEntityBuilder":
         self._kwargs["breadcrumbs"] = value
         return self
 
-    def sku(self, value: str) -> SEOEntityBuilder:
+    def sku(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["sku"] = value
         return self
 
-    def price(self, value: str | float) -> SEOEntityBuilder:
+    def price(self, value: str | float) -> "SEOEntityBuilder":
         self._kwargs["price"] = str(value) if isinstance(value, (int, float)) else value
         return self
 
-    def price_currency(self, value: str) -> SEOEntityBuilder:
+    def price_currency(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["price_currency"] = value
         return self
 
-    def availability(self, value: str) -> SEOEntityBuilder:
+    def availability(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["availability"] = value
         return self
 
-    def same_as(self, value: list[str]) -> SEOEntityBuilder:
+    def same_as(self, value: list[str]) -> "SEOEntityBuilder":
         self._kwargs["same_as"] = value
         return self
 
-    def address(self, value: str) -> SEOEntityBuilder:
+    def address(self, value: str) -> "SEOEntityBuilder":
         self._kwargs["address"] = value
         return self
 
-    def faq_items(self, value: list[FAQItem]) -> SEOEntityBuilder:
+    def faq_items(self, value: list[FAQItem]) -> "SEOEntityBuilder":
         self._kwargs["faq_items"] = value
         return self
 
