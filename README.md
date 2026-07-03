@@ -25,6 +25,9 @@
   <a href="https://github.com/emiliano-go/seoslug/actions/workflows/test.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/emiliano-go/seoslug/test.yml?branch=master&style=for-the-badge&logo=github&label=Tests" alt="Tests">
   </a>
+  <a href="https://pypi.org/project/seoslug/">
+    <img src="https://img.shields.io/pypi/v/seoslug?logo=pypi&logoColor=white&style=for-the-badge" alt="PyPI">
+  </a>
 </p>
 
 ---
