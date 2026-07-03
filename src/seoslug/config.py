@@ -106,6 +106,16 @@ class SEOConfig:
         if self.locale is not None and not _is_nonempty_string(self.locale):
             raise ValueError("locale must be a non-empty string when set")
 
+        if self.locale_alternate is not None:
+            cleaned: list[str] = []
+            seen: set[str] = set()
+            for item in self.locale_alternate:
+                norm = item.strip()
+                if norm and norm not in seen:
+                    seen.add(norm)
+                    cleaned.append(norm)
+            self.locale_alternate = cleaned or None
+
         if self.twitter_site is not None and not _is_nonempty_string(self.twitter_site):
             raise ValueError("twitter_site must be a non-empty string when set")
 

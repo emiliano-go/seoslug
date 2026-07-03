@@ -71,6 +71,33 @@ seo_html: "<title>Changelog - seoslug</title>\n<meta name=\"description\" conten
 
 All notable changes to seoslug are documented here. The format is based on Keep a Changelog. The project follows semantic versioning.
 
+## 2.1.0 (2026-07-03)
+
+### Added
+
+- HugoBuilder and QuartzBuilder for static site generator SEO file generation.
+- Zensical Markdown extension for inline SEO generation within Markdown docs.
+- Favicon for documentation site.
+
+### Docs
+
+- New integration guides: Next.js, Gatsby, Astro, Nuxt, SvelteKit, Strapi.
+- Add Flask and Starlette integration guides, split Starlette into dedicated page.
+- Add PyPI badge to README.
+
+## 2.0.1 (2026-07-03)
+
+### Fixed
+
+- Python 3.10 compatibility: lazy import `tomllib`, fall back to `tomli`.
+- Lazy import `pyyaml` in HugoBuilder and QuartzBuilder; add `pyyaml` to test dependencies.
+
+### Docs
+
+- Replace OG image with 1408x768 Discord-friendly version.
+- Add robots.txt, llms.txt, llms-full.txt.
+- Add icon, centered heading, and catchphrase to landing page.
+
 ## 2.0.0 (2026-07-02)
 
 ### Added

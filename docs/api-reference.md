@@ -253,6 +253,7 @@ class SEOConfig:
     locale_alternate: list[str] | None = None
     twitter_site: str | None = None
     schema_registry: SchemaRegistry | None = None
+    hooks: HookRegistry | None = None
     emit_warnings: bool = False
 ```
 
@@ -277,6 +278,7 @@ in `__post_init__`.
 | `locale_alternate` | `list[str] \| None` | `None` | `og:locale:alternate` values |
 | `twitter_site` | `str \| None` | `None` | `twitter:site` value |
 | `schema_registry` | `SchemaRegistry \| None` | `None` | Custom schema generators |
+| `hooks` | `HookRegistry \| None` | `None` | Instance-scoped hooks for this config; global hooks run first |
 | `emit_warnings` | `bool` | `False` | Emit `warnings.warn` for validation issues |
 
 Default `schema_type_map`:
