@@ -1,4 +1,44 @@
-"""SEO payload builder for seoslug."""
+"""SEO payload builder for seoslug.
+
+Precedence (highest to lowest) for every resolved field:
+
+    title:       SEOOverrides.meta_title > SEOEntity.title > "Untitled"
+                 then title_template applied unless skip_title_template
+
+    description: SEOOverrides.meta_description > SEOEntity.excerpt
+                 > build_description_snippet(SEOEntity.body_html) > ""
+
+    canonical:   SEOOverrides.canonical_url
+                 > normalize_public_url(route_path, config)
+
+    robots:      SEOOverrides.robots > entity-derived default*
+                 > config.default_robots > "index,follow"
+                 *entity default: "noindex,follow" for search,
+                  config.default_robots for non-published,
+                  "index,follow" for published
+
+    og:type:     SEOEntity.entity_type mapped ("post"/"video" -> "article")
+
+    og:title:    SEOOverrides.og_title > resolved title
+    og:desc:     SEOOverrides.og_description > resolved description
+
+    og:image:    SEOOverrides.og_image > SEOEntity.featured_image
+                 > SEOConfig.default_og_image > None
+
+    twitter:card:SEOOverrides.twitter_card > "summary_large_image"
+    twitter:title:SEOOverrides.twitter_title > og:title
+    twitter:desc: SEOOverrides.twitter_description > og:description
+    twitter:image:SEOOverrides.twitter_image > resolved og:image
+
+    schema:      SEOOverrides.omit_schema -> None
+                 > SEOOverrides.schema_jsonld (normalised)
+                 > auto_generate_schema (via build_schema)
+                 + entity.breadcrumbs appended as BreadcrumbList
+
+Each field is resolved explicitly in `build_seo_payload()` below.
+The ``_pick()`` and ``_pick_image()`` helpers return the first
+non-None, non-empty value from the ordered list.
+"""
 
 from __future__ import annotations
 

@@ -9,6 +9,7 @@ from urllib.parse import urlparse
 from .exceptions import SEOConfigError, URLPolicyError
 
 if TYPE_CHECKING:
+    from .hooks import HookRegistry
     from .registry import SchemaRegistry
 
 from .schemas import OGImage, Robots
@@ -78,6 +79,7 @@ class SEOConfig:
     locale_alternate: list[str] | None = None
     twitter_site: str | None = None
     schema_registry: SchemaRegistry | None = None
+    hooks: HookRegistry | None = None
     emit_warnings: bool = False
 
     def __post_init__(self) -> None:

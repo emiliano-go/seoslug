@@ -790,8 +790,18 @@ class SEOPayload:
     schema_jsonld: dict | list[dict] | None = None
 ```
 
-Return type of `build_seo_payload`. Supports attribute access and
-dict-style access (`payload["title"]`, `payload["og"]["type"]`).
+Return type of `build_seo_payload`. Supports attribute access,
+dict-style access, `to_dict()`, and HTML rendering.
+
+Which access pattern to use:
+
+| Pattern | For |
+|---------|-----|
+| `payload.title` (attribute) | Type-safe Python code with IDE autocomplete |
+| `payload["title"]` (bracket) | Template engines that expect dicts |
+| `payload["og"]["image:width"]` (colon key) | Template loops over OG/Twitter tags -- key matches the HTML attribute |
+| `payload.to_dict()` | JSON serialization, API responses, caching |
+| `build_seo_payload_dict()` | Bypass the dataclass when you only need a dict |
 
 | Field | Type | Description |
 |---|---|---|
@@ -806,9 +816,12 @@ dict-style access (`payload["title"]`, `payload["og"]["type"]`).
 Methods:
 
 | Method | Returns | Description |
-|---|---|---|
+|---|---|---|---|
 | `to_dict()` | `dict` | Converts to a plain dict; drops `None` values from nested payloads |
-| `render_html()` | `str` | Render full `<head>` HTML snippet with all meta tags, OG, Twitter, and JSON-LD |
+| `render_html()` | `str` | Render full `<head>` HTML snippet (composes all methods below) |
+| `render_opengraph()` | `str` | Render only `<meta property="og:*">` tags |
+| `render_twitter()` | `str` | Render only `<meta name="twitter:*">` tags |
+| `render_jsonld()` | `str` | Render only `<script type="application/ld+json">` block |
 | `hash()` | `str` | Deterministic SHA-256 hex digest of the serialized payload |
 | `etag()` | `str` | Quoted hex string suitable for the HTTP `ETag` header |
 

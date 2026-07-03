@@ -1,10 +1,27 @@
 # SEOPayload Dataclass
 
 `build_seo_payload()` returns a `SEOPayload` dataclass instance.
-It supports both attribute access and dict-style access.
+It supports attribute access, dict-style access, `to_dict()`, and
+`render_html()`.
 
-Use attribute access for type safety in Python code.
-Use dict access for template engines and JSON serialization.
+Use the access pattern that matches your environment:
+
+| Pattern | Ideal for |
+|---------|-----------|
+| `payload.title` (attribute) | Python code where type safety matters |
+| `payload["title"]` (bracket) | Template engines that expect dicts |
+| `payload.og["image:width"]` (colon key) | Template loops over OG/Twitter tags -- the key matches the HTML `property`/`name` attribute |
+| `payload.to_dict()` | JSON serialization, API responses, caching |
+| `build_seo_payload_dict()` | Same as `to_dict()` but returns a plain dict directly without the intermediate dataclass |
+
+`to_dict()` vs `build_seo_payload_dict()`: identical output.  Use
+`to_dict()` when you already have a payload; use the dict builder when
+you want to skip the dataclass entirely (e.g., for JSON-only endpoints).
+
+The colon-key access (`payload["og"]["image:width"]`) mirrors the HTML
+attribute names so template logic maps one-to-one to output.  For
+type-safe Python code, the attribute form (`payload.og.image_width`)
+is preferred.
 
 ## Attribute access vs dict access
 
@@ -13,13 +30,13 @@ Both forms work on the same data:
 ```python
 payload = build_seo_payload(entity, route, config)
 
-# Attribute access
+# Attribute access (type-safe)
 payload.title          # "My Post"
 payload.canonical      # "https://example.com/post"
 payload.og.title       # "My Post"
 payload.twitter.card   # "summary_large_image"
 
-# Dict access
+# Dict access (templates / dynamic lookups)
 payload["title"]       # "My Post"
 payload["canonical"]   # "https://example.com/post"
 payload["og"]["title"] # "My Post"
@@ -161,6 +178,64 @@ Inject into a Jinja2 template:
 ```
 
 All values are HTML-escaped. JSON-LD is pretty-printed with 2-space indent.
+
+## Granular render helpers
+
+For templates that need finer control over tag ordering, three additional
+methods render individual sections of the payload.
+
+### render_opengraph()
+
+Returns only the `<meta property="og:*">` tags, or an empty string:
+
+```python
+{{ payload.render_opengraph()|safe }}
+```
+
+Useful when you need to insert custom tags between OG properties, or
+conditionally omit the OG block entirely.
+
+### render_twitter()
+
+Returns only the `<meta name="twitter:*">` tags, or an empty string:
+
+```python
+{{ payload.render_twitter()|safe }}
+```
+
+### render_jsonld()
+
+Returns the `<script type="application/ld+json">` block, or an empty string
+when `schema_jsonld` is `None`:
+
+```python
+{{ payload.render_jsonld()|safe }}
+```
+
+Inject JSON-LD at a specific location in your `<head>` or even at the bottom
+of your `<body>`.
+
+### Manual composition
+
+```jinja
+<head>
+  <title>{{ payload.title }}</title>
+  <meta name="description" content="{{ payload.description }}">
+  <link rel="canonical" href="{{ payload.canonical }}">
+  <meta name="robots" content="{{ payload.robots }}">
+
+  {{ payload.render_opengraph()|safe }}
+
+  <!-- custom tag between OG and Twitter -->
+  <meta name="custom" content="value">
+
+  {{ payload.render_twitter()|safe }}
+  {{ payload.render_jsonld()|safe }}
+</head>
+```
+
+`render_html()` composes these same methods internally, so the output is
+identical whether you use the combined method or the granular helpers.
 
 ## hash()
 

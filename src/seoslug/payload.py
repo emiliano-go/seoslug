@@ -155,12 +155,72 @@ class SEOPayload(_DictCompatMixin):
             result["schema_jsonld"] = self.schema_jsonld
         return result
 
+    # -- Granular render helpers -- #
+
+    def render_opengraph(self) -> str:
+        """Render Open Graph meta tags only.
+
+        Returns ``<meta property="og:*">`` tags separated by newlines,
+        or an empty string when no OG fields are set.  Useful when you
+        need to reorder tags or insert custom markup between OG and
+        Twitter sections.
+        """
+        e = _html.escape
+        lines: list[str] = []
+        for key, val in self.og.to_dict().items():
+            if isinstance(val, list):
+                for v in val:
+                    lines.append(f'<meta property="og:{e(key)}" content="{e(str(v))}">')
+            else:
+                lines.append(f'<meta property="og:{e(key)}" content="{e(str(val))}">')
+        return "\n".join(lines)
+
+    def render_twitter(self) -> str:
+        """Render Twitter Card meta tags only.
+
+        Returns ``<meta name="twitter:*">`` tags separated by newlines,
+        or an empty string when no Twitter fields are set.  Use this to
+        conditionally include Twitter tags or interleave them with
+        custom markup.
+        """
+        e = _html.escape
+        lines: list[str] = []
+        for key, val in self.twitter.to_dict().items():
+            if isinstance(val, list):
+                for v in val:
+                    lines.append(f'<meta name="twitter:{e(key)}" content="{e(str(v))}">')
+            else:
+                lines.append(f'<meta name="twitter:{e(key)}" content="{e(str(val))}">')
+        return "\n".join(lines)
+
+    def render_jsonld(self) -> str:
+        """Render the JSON-LD script tag only.
+
+        Returns a ``<script type="application/ld+json">`` block, or an
+        empty string when ``schema_jsonld`` is ``None``.  Inject this
+        at a specific location in your ``<head>`` or ``<body>``.
+        """
+        if self.schema_jsonld is None:
+            return ""
+        schema_str = json.dumps(self.schema_jsonld, indent=2, ensure_ascii=False)
+        return f"<script type=\"application/ld+json\">\n{schema_str}\n</script>"
+
+    # -- Composed render -- #
+
     def render_html(self) -> str:
         """Render the full SEO payload as an HTML snippet for ``<head>``.
 
-        Returns a string of ``<title>``, ``<meta>``, ``<link>``, and
-        ``<script>`` tags separated by newlines.  Ready to inject into
-        your page template with ``{{ payload.render_html()|safe }}``.
+        Composes ``<title>``, ``<meta>``, ``<link>``, and ``<script>``
+        tags into a ready-to-inject block.  Equivalent to:
+
+            {{ payload.render_opengraph() }}
+            {{ payload.render_twitter() }}
+            {{ payload.render_jsonld() }}
+
+        Plus the core title / description / canonical / robots tags.
+        Use ``|safe`` in Jinja2:
+
+            {{ payload.render_html()|safe }}
         """
         lines: list[str] = []
         e = _html.escape
@@ -173,23 +233,17 @@ class SEOPayload(_DictCompatMixin):
         lines.append(f'<link rel="canonical" href="{e(self.canonical)}">')
         lines.append(f'<meta name="robots" content="{e(self.robots)}">')
 
-        for key, val in self.og.to_dict().items():
-            if isinstance(val, list):
-                for v in val:
-                    lines.append(f'<meta property="og:{e(key)}" content="{e(str(v))}">')
-            else:
-                lines.append(f'<meta property="og:{e(key)}" content="{e(str(val))}">')
+        og_part = self.render_opengraph()
+        if og_part:
+            lines.append(og_part)
 
-        for key, val in self.twitter.to_dict().items():
-            if isinstance(val, list):
-                for v in val:
-                    lines.append(f'<meta name="twitter:{e(key)}" content="{e(str(v))}">')
-            else:
-                lines.append(f'<meta name="twitter:{e(key)}" content="{e(str(val))}">')
+        tw_part = self.render_twitter()
+        if tw_part:
+            lines.append(tw_part)
 
-        if self.schema_jsonld is not None:
-            schema_str = json.dumps(self.schema_jsonld, indent=2, ensure_ascii=False)
-            lines.append(f"<script type=\"application/ld+json\">\n{schema_str}\n</script>")
+        jl_part = self.render_jsonld()
+        if jl_part:
+            lines.append(jl_part)
 
         return "\n".join(lines) + "\n"
 

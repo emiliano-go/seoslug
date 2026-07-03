@@ -55,6 +55,85 @@ def my_hook(payload: dict, entity: SEOEntity, config: SEOConfig) -> dict:
 
 The `post_process` hook point is the only built-in hook point. More may be added in future versions.
 
+## Scoped hooks (multi-config / multi-tenant)
+
+When your application serves multiple sites or configs in the same process,
+use ``HookRegistry`` to scope hooks per ``SEOConfig``:
+
+```python
+from seoslug import HookRegistry, SEOConfig
+
+site_a = HookRegistry()
+site_a.register("post_process", lambda p, e, c: {**p, "site": "A"})
+
+site_b = HookRegistry()
+site_b.register("post_process", lambda p, e, c: {**p, "site": "B"})
+
+config_a = SEOConfig(canonical_host="a.com", ..., hooks=site_a)
+config_b = SEOConfig(canonical_host="b.com", ..., hooks=site_b)
+```
+
+Global hooks (registered with ``register`` / ``@hook``) run **before** scoped
+hooks.  Use global hooks for cross-cutting concerns (logging, instrumentation)
+and scoped hooks for per-site customization.
+
+``HookRegistry`` is thread-safe: writes are protected by a ``threading.Lock``.
+
+## Execution order
+
+1. Global hooks run in registration order (FIFO).  For decorators, file import
+   order determines registration order.
+2. Scoped hooks (``config.hooks``) run next, in registration order.
+
+Within a single registry, hooks are stored and executed in registration order.
+If multiple hooks modify the same field, the last one wins.
+
+## Thread safety
+
+The module-level ``register()`` is safe for import-time registration (the
+common case).  Runtime ``register()`` calls from multiple threads are not
+locked -- for concurrent registration, use a ``HookRegistry`` instance
+attached to ``SEOConfig``, which protects writes with ``threading.Lock``.
+
+Reads (``run()``) iterate a list that is typically populated at import time
+and never modified afterward, so read-safety is fine in practice.
+
+## Exception behavior
+
+If a hook raises an exception, propagation is immediate.  Remaining hooks in
+the chain are **skipped**.  There is no ``try/except`` wrapping.  Hook
+failures should be loud because they indicate a programming error.
+
+```python
+@hook("post_process")
+def broken_hook(payload, entity, config):
+    raise ValueError("something went wrong")
+    # The next hook in the chain will never run.
+```
+
+## Mutation guarantees
+
+Each hook receives a plain ``dict`` (a copy of the payload at that point).
+Mutations to the dict are safe because each hook works on its own reference.
+
+The ``entity`` and ``config`` arguments must **not** be mutated.  Changes to
+these are silently ignored by the builder.
+
+```python
+@hook("post_process")
+def safe_hook(payload, entity, config):
+    # payload is a copy -- safe to mutate
+    payload["generator"] = "seoslug"
+    return payload
+
+@hook("post_process")
+def unsafe_hook(payload, entity, config):
+    # entity and config must not be mutated
+    # entity.title = "Hacked"     # DON'T
+    # config.canonical_host = "X" # DON'T
+    return payload
+```
+
 ## Lifecycle
 
 ### Clear hooks

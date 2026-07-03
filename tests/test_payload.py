@@ -202,3 +202,104 @@ def test_etag_format() -> None:
     assert etag.startswith('"')
     assert etag.endswith('"')
     assert len(etag) == 66  # 64 hex chars + 2 quotes
+
+
+# -- Granular render helpers -- #
+
+
+def test_render_opengraph_basic() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(**_TW_KW)
+    p = SEOPayload(title="Test", description="Desc", canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+
+    html = p.render_opengraph()
+    assert 'property="og:type" content="website"' in html
+    assert 'property="og:title" content="Test"' in html
+    assert 'property="og:image" content="https://ex.com/img.jpg"' in html
+
+
+def test_render_opengraph_list_values() -> None:
+    og = OGPayload(type="article", title="Post", description=None, url="https://ex.com/p", image="https://ex.com/img.jpg",
+                   locale_alternate=["es_ES", "fr_FR"])
+    tw = TwitterPayload(**_TW_KW)
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+
+    html = p.render_opengraph()
+    assert 'property="og:locale:alternate" content="es_ES"' in html
+    assert 'property="og:locale:alternate" content="fr_FR"' in html
+
+
+def test_render_opengraph_omits_none_fields() -> None:
+    og = OGPayload(type="website", title=None, description=None, url=None, image=None)
+    tw = TwitterPayload(card="summary", title=None, description=None, image=None)
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+
+    html = p.render_opengraph()
+    # type is always present; other None fields should be omitted
+    assert 'property="og:type" content="website"' in html
+    assert 'og:title' not in html
+    assert 'og:image' not in html
+
+
+def test_render_twitter_basic() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(card="summary_large_image", title="TwTitle", description="TwDesc", image="https://ex.com/tw.jpg")
+    p = SEOPayload(title="Test", description="Desc", canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+
+    html = p.render_twitter()
+    assert 'name="twitter:card" content="summary_large_image"' in html
+    assert 'name="twitter:title" content="TwTitle"' in html
+    assert 'name="twitter:description" content="TwDesc"' in html
+    assert 'name="twitter:image" content="https://ex.com/tw.jpg"' in html
+
+
+def test_render_twitter_colon_key() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(card="summary", title="Test", description=None, image="https://ex.com/img.jpg", image_alt="Alt text")
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+
+    html = p.render_twitter()
+    assert 'name="twitter:image:alt" content="Alt text"' in html
+
+
+def test_render_jsonld_basic() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(**_TW_KW)
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+    p.schema_jsonld = {"@context": "https://schema.org", "@type": "Article", "name": "Test"}
+
+    html = p.render_jsonld()
+    assert '<script type="application/ld+json">' in html
+    assert '"@type": "Article"' in html
+    assert '"name": "Test"' in html
+    assert "</script>" in html
+
+
+def test_render_jsonld_empty_when_none() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(**_TW_KW)
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+
+    assert p.render_jsonld() == ""
+
+
+def test_render_html_composition_matches_individual_methods() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(card="summary", title="Test", description="Desc", image="https://ex.com/img.jpg")
+    p = SEOPayload(title="Test Title", description="Test Desc", canonical="https://ex.com/page", robots="index,follow", og=og, twitter=tw)
+    p.schema_jsonld = {"@context": "https://schema.org", "@type": "Article"}
+
+    full = p.render_html()
+    assert "<title>Test Title</title>" in full
+    assert p.render_opengraph() in full
+    assert p.render_twitter() in full
+    assert p.render_jsonld() in full
+
+
+def test_render_helpers_escape_html() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(card="summary", title='Title "X"', description='Desc <br>', image="https://ex.com/img.jpg")
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+
+    assert "&quot;X&quot;" in p.render_twitter()
+    assert "&lt;br&gt;" in p.render_twitter()

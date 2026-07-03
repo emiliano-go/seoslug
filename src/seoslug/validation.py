@@ -9,9 +9,16 @@ if TYPE_CHECKING:
 
 
 def validate_payload(payload: dict, config: SEOConfig) -> list[str]:
-    """Validate a built SEO payload and return a list of warning strings.
+    """Validate a single SEO payload in isolation and return warning strings.
 
-    Call when ``config.emit_warnings`` is True.
+    Checks only this payload -- title length, description length, canonical
+    absoluteness, OG image format, robots syntax.  Does **not** compare
+    against other payloads in your site, so it will not catch duplicate
+    canonicals, conflicting robots directives across routes, or missing
+    pages.  Those require a site-wide registry that is out of scope for
+    this stateless builder.
+
+    Call when ``config.emit_warnings`` is ``True``.
     """
     warnings: list[str] = []
 

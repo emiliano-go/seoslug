@@ -11,7 +11,7 @@ from .exceptions import (
     URLPolicyError,
 )
 from .factories import from_blog_post, from_faq, from_product
-from .hooks import clear as clear_hooks, get_registered as get_registered_hooks, hook, register as register_hook, run as run_hooks
+from .hooks import HookRegistry, clear as clear_hooks, get_registered as get_registered_hooks, hook, register as register_hook, run as run_hooks
 from .normalization import normalize_path, normalize_public_url
 from .registry import SchemaRegistry
 from .schemas import (
@@ -25,6 +25,7 @@ from .schemas import (
 )
 
 __all__ = [
+    "HookRegistry",
     "SEOConfig",
     "URLPolicy",
     "SEOEntity",
