@@ -6,7 +6,8 @@ seo:
   og:
     type: website
     title: seoslug - seoslug
-    description: Deterministic SEO payload generation for content platforms.
+    description: <p align="center" <img src="https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png"
+      alt="seoslug" width="225"/ </p <p...
     url: https://seoslug.emiliano-go.com/
     image: https://seoslug.emiliano-go.com/assets/icon.png
     image:width: 225
@@ -16,43 +17,58 @@ seo:
   twitter:
     card: summary_large_image
     title: seoslug - seoslug
-    description: Deterministic SEO payload generation for content platforms.
+    description: <p align="center" <img src="https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png"
+      alt="seoslug" width="225"/ </p <p...
     image: https://seoslug.emiliano-go.com/assets/icon.png
     site: '@emiliano_gando'
-  description: Deterministic SEO payload generation for content platforms.
+  description: <p align="center" <img src="https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png"
+    alt="seoslug" width="225"/ </p <p...
   schema_jsonld:
     '@context': https://schema.org
     '@type': WebPage
     name: seoslug - seoslug
     url: https://seoslug.emiliano-go.com/
-    description: Deterministic SEO payload generation for content platforms.
+    description: <p align="center" <img src="https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png"
+      alt="seoslug" width="225"/ </p <p...
     image: https://seoslug.emiliano-go.com/assets/icon.png
     publisher:
       '@type': Organization
       name: Emiliano Gandini Outeda
 seo_html: "<title>seoslug - seoslug</title>\n<meta name=\"description\" content=\"\
-  Deterministic SEO payload generation for content platforms.\">\n<link rel=\"canonical\"\
-  \ href=\"https://seoslug.emiliano-go.com/\">\n<meta name=\"robots\" content=\"index,follow\"\
-  >\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\"\
-  \ content=\"seoslug - seoslug\">\n<meta property=\"og:description\" content=\"Deterministic\
-  \ SEO payload generation for content platforms.\">\n<meta property=\"og:url\" content=\"\
-  https://seoslug.emiliano-go.com/\">\n<meta property=\"og:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta property=\"og:image:width\" content=\"225\">\n<meta property=\"og:image:height\"\
-  \ content=\"225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta\
-  \ property=\"og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"\
-  summary_large_image\">\n<meta name=\"twitter:title\" content=\"seoslug - seoslug\"\
-  >\n<meta name=\"twitter:description\" content=\"Deterministic SEO payload generation\
-  \ for content platforms.\">\n<meta name=\"twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\"\
-  >\n<meta name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
+  &lt;p align=&quot;center&quot; &lt;img src=&quot;https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png&quot;\
+  \ alt=&quot;seoslug&quot; width=&quot;225&quot;/ &lt;/p &lt;p...\">\n<link rel=\"\
+  canonical\" href=\"https://seoslug.emiliano-go.com/\">\n<meta name=\"robots\" content=\"\
+  index,follow\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"\
+  og:title\" content=\"seoslug - seoslug\">\n<meta property=\"og:description\" content=\"\
+  &lt;p align=&quot;center&quot; &lt;img src=&quot;https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png&quot;\
+  \ alt=&quot;seoslug&quot; width=&quot;225&quot;/ &lt;/p &lt;p...\">\n<meta property=\"\
+  og:url\" content=\"https://seoslug.emiliano-go.com/\">\n<meta property=\"og:image\"\
+  \ content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta property=\"\
+  og:image:width\" content=\"225\">\n<meta property=\"og:image:height\" content=\"\
+  225\">\n<meta property=\"og:site_name\" content=\"seoslug\">\n<meta property=\"\
+  og:locale\" content=\"en_US\">\n<meta name=\"twitter:card\" content=\"summary_large_image\"\
+  >\n<meta name=\"twitter:title\" content=\"seoslug - seoslug\">\n<meta name=\"twitter:description\"\
+  \ content=\"&lt;p align=&quot;center&quot; &lt;img src=&quot;https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png&quot;\
+  \ alt=&quot;seoslug&quot; width=&quot;225&quot;/ &lt;/p &lt;p...\">\n<meta name=\"\
+  twitter:image\" content=\"https://seoslug.emiliano-go.com/assets/icon.png\">\n<meta\
+  \ name=\"twitter:site\" content=\"@emiliano_gando\">\n<script type=\"application/ld+json\"\
   >\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"WebPage\",\n  \"name\"\
   : \"seoslug - seoslug\",\n  \"url\": \"https://seoslug.emiliano-go.com/\",\n  \"\
-  description\": \"Deterministic SEO payload generation for content platforms.\",\n\
-  \  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\",\n  \"publisher\"\
-  : {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano Gandini Outeda\"\
-  \n  }\n}\n</script>\n"
+  description\": \"<p align=\\\"center\\\" <img src=\\\"https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png\\\
+  \" alt=\\\"seoslug\\\" width=\\\"225\\\"/ </p <p...\",\n  \"image\": \"https://seoslug.emiliano-go.com/assets/icon.png\"\
+  ,\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Emiliano\
+  \ Gandini Outeda\"\n  }\n}\n</script>\n"
 ---
 
-# seoslug
+<p align="center">
+  <img src="https://raw.githubusercontent.com/emiliano-go/seoslug/refs/heads/master/assets/icon.png" alt="seoslug" width="225"/>
+</p>
+<p align="center">
+  <em>Fast on the draw, faster on the crawl.</em>
+</p>
+<p align="center">
+  <h1 align="center">seoslug</h1>
+</p>
 
 Deterministic SEO payload generation for content platforms.
 
