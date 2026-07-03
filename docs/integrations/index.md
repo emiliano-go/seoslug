@@ -76,6 +76,9 @@ The general pattern is always the same:
 |-----------|-------|-------|
 | FastAPI / Starlette | [FastAPI integration](fastapi.md) | Async route handlers, dependency injection, ETag caching |
 | Django | [Django integration](django.md) | Class-based views, template context, Django REST Framework |
+| Zensical | [Zensical integration](zensical.md) | Pre-build script + template override, works with any MkDocs theme |
+| Hugo | [Hugo integration](hugo.md) | Pre-build frontmatter injection + head partial, works with any theme |
+| Quartz | [Quartz integration](quartz.md) | Pre-build frontmatter injection + Head component mod |
 | Static site generators | [SSG integration](ssg.md) | Build-time generation, JSON manifest, Pelican, MkDocs |
 
 ## Other frameworks
