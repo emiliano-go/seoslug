@@ -16,6 +16,7 @@ extra_css = ["stylesheets/extra.css"]
 [project.theme]
 variant = "modern"
 custom_dir = "overrides"
+favicon = "assets/images/favicon.png"
 
 font.text = "Ubuntu"
 font.code = "JetBrains Mono"
