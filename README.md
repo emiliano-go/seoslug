@@ -48,7 +48,7 @@ payload = build_seo_payload(entity, "/blog/introducing-v2", config)
 ```
 
 That is it. `payload` is a `SEOPayload` dataclass with title, description, canonical,
-robots, og, twitter, and schema_jsonld -- ready to inject into your HTML.
+robots, og, twitter, and schema_jsonld, ready to inject into your HTML.
 
 Render the full `<head>` in one call:
 
@@ -89,7 +89,7 @@ payload.to_dict()       # plain dict for JSON serialization
 }
 ```
 
-Render the same payload twice -- identical HTML, identical hash. That is the
+Render the same payload twice: identical HTML, identical hash. That is the
 foundation of everything that follows.
 
 ---
@@ -142,7 +142,7 @@ that. Every call is a pure function with zero side effects.
 - **Diff staging vs production** to instantly reveal configuration drift.
 - **Track SEO evolution** right alongside your code.
 
-SEO becomes another deterministic build artifact -- testable, cacheable, and CI-verifiable.
+SEO becomes another deterministic build artifact: testable, cacheable, and CI-verifiable.
 
 ---
 

@@ -22,7 +22,7 @@ a growing site. Here is exactly what seoslug removes from your to-do list.
 
 ## What you write
 
-**Manual approach** -- template code for every tag, every route, every entity
+**Manual approach**: template code for every tag, every route, every entity
 type, plus a JSON-LD builder per schema:
 
 ```html
@@ -41,7 +41,7 @@ type, plus a JSON-LD builder per schema:
 <script type="application/ld+json">{{ schema_jsonld }}</script>
 ```
 
-**seoslug** -- one function call:
+**seoslug**: one function call:
 
 ```python
 payload = build_seo_payload(entity, path, config)
@@ -63,12 +63,12 @@ seoslug centralises all of it in a single `SEOConfig` and a single
 10,000 payloads in 276 ms  (28 µs/payload)
 ```
 
-That is 10,000 complete SEO metadata objects -- canonical, OG, Twitter,
-robots, JSON-LD -- in the time it takes to load a single page image.
+That is 10,000 complete SEO metadata objects (canonical, OG, Twitter,
+robots, JSON-LD) in the time it takes to load a single page image.
 
 ## Next steps
 
-- [Getting started](getting-started.md) -- build your first payload in 5
+- [Getting started](getting-started.md): build your first payload in 5
   minutes
-- [Benchmarks](https://github.com/emiliano-go/seoslug) -- profile on your
+- [Benchmarks](https://github.com/emiliano-go/seoslug): profile on your
   own hardware

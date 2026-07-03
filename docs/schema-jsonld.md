@@ -263,7 +263,7 @@ config = SEOConfig(
 
 Three levels of control over schema output.
 
-**Disable globally** -- turn off auto-generation for all entities:
+**Disable globally**: turn off auto-generation for all entities:
 
 ```python
 config = SEOConfig(
@@ -272,7 +272,7 @@ config = SEOConfig(
 )
 ```
 
-**Override per entity** -- provide a custom schema dict or list:
+**Override per entity**: provide a custom schema dict or list:
 
 ```python
 overrides = SEOOverrides(schema_jsonld={
@@ -292,7 +292,7 @@ overrides = SEOOverrides(schema_jsonld=[
 ])
 ```
 
-**Omit per entity** -- remove schema entirely (even breadcrumbs are suppressed):
+**Omit per entity**: remove schema entirely (even breadcrumbs are suppressed):
 
 ```python
 overrides = SEOOverrides(omit_schema=True)

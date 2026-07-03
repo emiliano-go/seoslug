@@ -63,8 +63,8 @@ og_image = payload["og"]["image"]
 In 1.x, lxml and detrack were required dependencies. In 2.0.0, they are
 optional extras. Two extras are available:
 
-- **`[fast]`** (recommended) -- lxml + detrack, same as 1.x behavior
-- **`[light]`** -- pure-Python fallbacks, minimal footprint
+- **`[fast]`** (recommended): lxml + detrack, same as 1.x behavior
+- **`[light]`**: pure-Python fallbacks, minimal footprint
 
 ### How to migrate
 

@@ -9,10 +9,10 @@ This means you can set site-wide defaults in config, override per-entity in `SEO
 
 The general precedence order is:
 
-1. **`SEOOverrides`** -- per-call overrides (highest priority)
-2. **`SEOEntity`** -- content entity fields
-3. **`SEOConfig`** -- configuration defaults
-4. **Hardcoded defaults** -- library fallbacks (lowest priority)
+1. **`SEOOverrides`**: per-call overrides (highest priority)
+2. **`SEOEntity`**: content entity fields
+3. **`SEOConfig`**: configuration defaults
+4. **Hardcoded defaults**: library fallbacks (lowest priority)
 
 Overrides always win. Entity data is next. Config defaults come last.
 

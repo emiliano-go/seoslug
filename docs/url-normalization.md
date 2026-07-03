@@ -96,14 +96,14 @@ URLPolicy(trailing_slash="never")
 
 Two layers of filtering:
 
-**Tracking param stripping** -- removes UTM parameters, fbclid, gclid, msclkid, and 60+ more. Uses the `detrack` library if installed, otherwise a built-in regex.
+**Tracking param stripping**: removes UTM parameters, fbclid, gclid, msclkid, and 60+ more. Uses the `detrack` library if installed, otherwise a built-in regex.
 
 | `strip_tracking_params` | Behavior                          |
 |-------------------------|-----------------------------------|
 | `True` (default)        | Strips known tracking params      |
 | `False`                 | Keeps all params                  |
 
-**Query allowlist** -- when set, only the listed params are kept. All others are removed.
+**Query allowlist**: when set, only the listed params are kept. All others are removed.
 
 ```python
 URLPolicy(

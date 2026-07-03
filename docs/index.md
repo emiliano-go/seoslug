@@ -145,12 +145,12 @@ zero-cost repeated lookups on the same input.
 
 ## Next steps
 
-- [Comparison: manual vs seoslug](comparison.md) -- see exactly what seoslug
+- [Comparison: manual vs seoslug](comparison.md): see exactly what seoslug
   removes from your to-do list
-- [Getting Started](getting-started.md) -- install, configure, generate your
+- [Getting Started](getting-started.md): install, configure, generate your
   first payload
-- [Core Concepts](core-concepts.md) -- determinism, pure functions, how the
+- [Core Concepts](core-concepts.md): determinism, pure functions, how the
   builder works
-- [API Reference](api-reference.md) -- complete function and dataclass
+- [API Reference](api-reference.md): complete function and dataclass
   reference
-- [Hooks](hooks.md) -- extend seoslug with custom post-processing
+- [Hooks](hooks.md): extend seoslug with custom post-processing

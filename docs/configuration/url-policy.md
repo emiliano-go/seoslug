@@ -38,9 +38,9 @@ URLPolicy(lowercase_paths=True)
 
 Controls whether canonical URLs end with a trailing slash. Accepts exactly three values:
 
-- `"always"` -- append a trailing slash to every path
-- `"never"` -- remove trailing slashes from every path
-- `"preserve"` -- leave the path as-is
+- `"always"`: append a trailing slash to every path
+- `"never"`: remove trailing slashes from every path
+- `"preserve"`: leave the path as-is
 
 ```python
 URLPolicy(trailing_slash="always")
@@ -103,12 +103,12 @@ policy = URLPolicy(
 
 What this policy does:
 
-- Forces HTTPS -- no mixed content
-- Lowercases paths -- `/Blog/Post` and `/blog/post` are the same
-- Removes trailing slashes -- no slash/no-slash duplicates
-- Collapses `//` -- no path injection
-- Strips UTM, fbclid, gclid -- clean URLs
-- Keeps only `q` and `page` -- no arbitrary query params
+- Forces HTTPS (no mixed content)
+- Lowercases paths (`/Blog/Post` and `/blog/post` are the same)
+- Removes trailing slashes (no slash/no-slash duplicates)
+- Collapses `//` (no path injection)
+- Strips UTM, fbclid, gclid (clean URLs)
+- Keeps only `q` and `page` (no arbitrary query params)
 
 ```python
 config = SEOConfig(

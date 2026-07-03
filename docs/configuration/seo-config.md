@@ -138,7 +138,7 @@ SEOConfig(
 
 ### search_robots
 
-Robots directive for pages with `entity_type="search"`. Same type flexibility as `default_robots` -- accepts `str` or `Robots`.
+Robots directive for pages with `entity_type="search"`. Same type flexibility as `default_robots`; accepts `str` or `Robots`.
 
 ```python
 SEOConfig(

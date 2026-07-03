@@ -127,7 +127,7 @@ None values are excluded. Colon-mapped keys use their dict form.
 ```python
 og = OGPayload(type="article", title="Post", description=None, ...)
 list(og.keys())
-# ["type", "title", "url", "image"]  -- description excluded because None
+# ["type", "title", "url", "image"]  (description excluded because None)
 ```
 
 ## render_html()
@@ -174,9 +174,9 @@ assert h1 == h2  # Always
 ```
 
 Use cases:
-- **Caching keys** -- use the hash as a cache key for the rendered HTML
-- **Content-addressed storage** -- store/fetch rendered head by hash
-- **CI comparison** -- assert the hash has not changed between commits
+- **Caching keys**: use the hash as a cache key for the rendered HTML
+- **Content-addressed storage**: store/fetch rendered head by hash
+- **CI comparison**: assert the hash has not changed between commits
 
 ## etag()
 

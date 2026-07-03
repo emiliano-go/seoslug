@@ -86,9 +86,9 @@ Return a `dict` for a single schema, or `None` to skip.
 
 When `build_schema()` looks up a schema type, it follows this order:
 
-1. **Registry** -- if a generator is registered for the schema type, call it
-2. **Built-in builder** -- if no registry match, check built-in builders (Product, Organization, LocalBusiness, FAQPage)
-3. **Generic fallback** -- produce a standard schema with name, url, description, image, dates, author, publisher
+1. **Registry**: if a generator is registered for the schema type, call it
+2. **Built-in builder**: if no registry match, check built-in builders (Product, Organization, LocalBusiness, FAQPage)
+3. **Generic fallback**: produce a standard schema with name, url, description, image, dates, author, publisher
 
 Each step is tried in sequence. The first match wins.
 
