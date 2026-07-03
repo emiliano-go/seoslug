@@ -1,0 +1,38 @@
+# seoslug Documentation
+
+> Modern Python SEO toolkit — generate Open Graph, Twitter Cards, JSON-LD, canonical, and robots metadata in pure Python.
+
+## Overview
+- [seoslug](https://seoslug.emiliano-go.com/): Python SEO toolkit with hooks, payloads, and per-route metadata
+- [Installation](https://seoslug.emiliano-go.com/installation/): Install seoslug via pip with fast or light extras
+- [Getting Started](https://seoslug.emiliano-go.com/getting-started/): Quickstart guide — SEOConfig, SEOEntity, build_seo_payload
+
+## Core Concepts
+- [Payload](https://seoslug.emiliano-go.com/payload/): The SEOPayload dataclass with to_dict(), render_html(), hash(), etag()
+- [Configuration](https://seoslug.emiliano-go.com/configuration/): SEOConfig reference — all fields, defaults, and validation
+- [Entities](https://seoslug.emiliano-go.com/entities/): SEOEntity types — page, article, profile, product, home
+- [Hooks](https://seoslug.emiliano-go.com/hooks/): Pre/post-processing pipeline with global and scoped registries
+- [URL Policy](https://seoslug.emiliano-go.com/url-policy/): URL normalization — trailing slashes, HTTPS enforcement, case
+
+## Metadata Reference
+- [Open Graph](https://seoslug.emiliano-go.com/open-graph/): og:title, og:description, og:image, og:type, og:url, og:site_name
+- [Twitter Cards](https://seoslug.emiliano-go.com/twitter-cards/): twitter:card, twitter:site, twitter:title, twitter:description, twitter:image
+- [Schema.org JSON-LD](https://seoslug.emiliano-go.com/schema-org/): Auto-generated WebPage, Article, Product, Profile schemas
+- [Canonical URLs](https://seoslug.emiliano-go.com/canonical/): Canonical link tags with URL policy normalization
+- [Robots](https://seoslug.emiliano-go.com/robots/): Per-route robots directives — index, follow, noarchive, nosnippet
+
+## Integrations
+- [Zensical](https://seoslug.emiliano-go.com/integrations/zensical/): Inline Markdown extension for Zensical docs sites
+- [Hugo](https://seoslug.emiliano-go.com/integrations/hugo/): Pre-build script + head partial for Hugo projects
+- [Quartz](https://seoslug.emiliano-go.com/integrations/quartz/): Pre-build script + Head.tsx modification for Quartz
+- [Flask](https://seoslug.emiliano-go.com/integrations/flask/): Jinja2 templates, route decorators, JSON API, ETag headers
+- [Starlette](https://seoslug.emiliano-go.com/integrations/starlette/): Async endpoints, middleware, Jinja2Templates, JSON API
+- [FastAPI](https://seoslug.emiliano-go.com/integrations/fastapi/): FastAPI + Starlette async patterns, dependency injection
+- [Django](https://seoslug.emiliano-go.com/integrations/django/): Django template tags, middleware, management commands
+- [SSG](https://seoslug.emiliano-go.com/integrations/ssg/): Pre-build script pattern for any static site generator
+
+## Reference
+- [CLI Reference](https://seoslug.emiliano-go.com/cli/): seoslug CLI commands — generate, validate, inspect
+- [Changelog](https://seoslug.emiliano-go.com/changelog/): Release history and version notes
+
+For the full documentation in a single file, see [llms-full.txt](https://seoslug.emiliano-go.com/llms-full.txt).
