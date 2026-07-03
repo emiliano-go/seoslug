@@ -18,7 +18,6 @@ Usage::
 from __future__ import annotations
 
 import re
-import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -151,6 +150,7 @@ class HugoBuilder:
 
         Returns ``(meta, body)`` where *body* excludes the frontmatter.
         """
+        import tomllib
         m = _FM_TOML_RE.match(text)
         if m:
             try:
