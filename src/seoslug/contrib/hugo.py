@@ -23,8 +23,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-import yaml
-
 from seoslug import SEOConfig, URLPolicy, SEOEntity, build_seo_payload
 from seoslug.schemas import OGImage, Robots
 
@@ -165,6 +163,7 @@ class HugoBuilder:
         m = _FM_YAML_RE.match(text)
         if m:
             try:
+                import yaml
                 meta = yaml.safe_load(m.group(1))
             except Exception:
                 meta = {}
@@ -261,6 +260,7 @@ class HugoBuilder:
         Always uses YAML ``---`` delimiters for consistency (Hugo
         reads YAML frontmatter just as well as TOML).
         """
+        import yaml
         fm_dump = yaml.dump(
             meta,
             default_flow_style=False,

@@ -30,7 +30,7 @@ license-files = ["LICENSE"]
 [project.optional-dependencies]
 fast = ["lxml", "detrack"]
 light = []
-test = ["pytest", "pytest-asyncio", "pytest-cov"]
+test = ["pytest", "pytest-asyncio", "pytest-cov", "pyyaml"]
 
 [project.urls]
 Documentation = "https://deepwiki.com/emiliano-go/seoslug/"

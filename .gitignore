@@ -4,3 +4,6 @@ __pycache__/
 /dist
 *.egg*
 .coverage
+.seo-debug/
+site/
+uv.lock

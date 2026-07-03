@@ -23,8 +23,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-import yaml
-
 from seoslug import SEOConfig, URLPolicy, SEOEntity, build_seo_payload
 from seoslug.schemas import OGImage, Robots
 
@@ -157,6 +155,7 @@ class QuartzBuilder:
         m = _FM_YAML_RE.match(text)
         if m:
             try:
+                import yaml
                 meta = yaml.safe_load(m.group(1))
             except Exception:
                 meta = {}
@@ -264,6 +263,7 @@ class QuartzBuilder:
         return self._changed
 
     def _write_frontmatter(self, filepath: Path, meta: dict, body: str) -> None:
+        import yaml
         fm_dump = yaml.dump(
             meta,
             default_flow_style=False,
