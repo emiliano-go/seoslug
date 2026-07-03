@@ -121,29 +121,30 @@ name = "seoslug on PyPI"
 # Markdown extensions
 # ==============================================================================
 
-[project.markdown_extensions.tables]
+[project.markdown_extensions]
+tables = {}
+admonition = {}
+toc = { permalink = true }
+"seoslug.contrib.zensical" = {
+  canonical_host = "seoslug.emiliano-go.com",
+  public_base_url = "https://seoslug.emiliano-go.com/",
+  site_name = "seoslug",
+  title_template = "{title} - seoslug",
+  default_og_image = "https://seoslug.emiliano-go.com/assets/icon.png",
+  publisher_name = "Emiliano Gandini Outeda",
+  locale = "en_US",
+  twitter_site = "@emiliano_gando",
+  auto_generate_schema = true,
+  debug_dir = ".seo-debug",
+}
 
-[project.markdown_extensions.admonition]
-
-[project.markdown_extensions.toc]
-permalink = true
-
-[project.markdown_extensions.pymdownx.highlight]
-anchor_linenums = true
-line_spans = "__span"
-pygments_lang_class = true
-
-[project.markdown_extensions.pymdownx.inlinehilite]
-
-[project.markdown_extensions.pymdownx.snippets]
-
-[project.markdown_extensions.pymdownx.superfences]
-
-[project.markdown_extensions.pymdownx.tabbed]
-alternate_style = true
-
-[project.markdown_extensions.pymdownx.tasklist]
-custom_checkbox = true
+[project.markdown_extensions.pymdownx]
+highlight = { anchor_linenums = true, line_spans = "__span", pygments_lang_class = true }
+inlinehilite = {}
+snippets = {}
+superfences = {}
+tabbed = { alternate_style = true }
+tasklist = { custom_checkbox = true }
 
 [project.markdown_extensions.attr_list]
 

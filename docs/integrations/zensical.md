@@ -75,15 +75,116 @@ The seoslug documentation site itself uses this integration. The source is avail
 
 ## How it works
 
-A pre-build Python script iterates all Markdown files, builds an SEO payload for each page using seoslug, and writes the rendered HTML into the file's YAML frontmatter under a `seo_html` key. A custom Zensical template override (`overrides/main.html`) intercepts the `site_meta` block and outputs that HTML directly, replacing the default `<title>`, `<meta>`, `<link>`, and `<script>` tags.
+seoslug ships a built-in Zensical Markdown extension at `seoslug.contrib.zensical`. Register it in your `zensical.toml` and it runs during Zensical's Markdown rendering pipeline. No pre-build step, no files modified on disk, no extra CI commands.
+
+A custom template override (`overrides/main.html`) intercepts the `site_meta` block and outputs the seoslug-rendered HTML directly, replacing the default `<title>`, `<meta>`, `<link>`, and `<script>` tags.
 
 The pattern works with any MkDocs-compatible theme because the block override lives in your own `overrides/` directory.
 
-## Setup
+## Setup (inline extension)
+
+This is the recommended approach. The extension runs during `zensical build` with no pre-build step.
+
+### 1. Register the extension
+
+Add `seoslug.contrib.zensical` to your `zensical.toml` under `[project.markdown_extensions]`:
+
+```toml
+[project.markdown_extensions]
+tables = {}
+"seoslug.contrib.zensical" = {
+  canonical_host = "yoursite.com",
+  public_base_url = "https://yoursite.com/",
+  site_name = "Your Site",
+  title_template = "{title} - Your Site",
+  default_og_image = "https://yoursite.com/icon.png",
+  publisher_name = "Your Name",
+  locale = "en_US",
+  twitter_site = "@yourhandle",
+  auto_generate_schema = true,
+  debug_dir = ".seo-debug",
+}
+```
+
+The extension accepts these configuration keys:
+
+| Key | Required | Default | Description |
+|-----|----------|---------|-------------|
+| `canonical_host` | Yes | -- | Hostname for canonical URLs (no scheme) |
+| `public_base_url` | Yes | -- | Full deployment URL with scheme |
+| `site_name` | No | `None` | Open Graph site name |
+| `title_template` | No | `"{title}"` | Title template with `{title}` placeholder |
+| `default_og_image` | No | `None` | Default OG image URL |
+| `publisher_name` | No | `None` | Publisher name for JSON-LD |
+| `locale` | No | `None` | Content locale (e.g. `en_US`) |
+| `twitter_site` | No | `None` | Twitter handle for `twitter:site` |
+| `auto_generate_schema` | No | `true` | Auto-generate JSON-LD schema |
+| `debug_dir` | No | `None` | Directory for debug JSON files |
+
+### 2. Create the template override
+
+Create `overrides/main.html` that extends the base template and overrides the `site_meta` block:
+
+```jinja
+{% extends "base.html" %}
+
+{% block site_meta %}
+{% if page.meta and page.meta._seo_head %}
+{{ page.meta._seo_head | safe }}
+{% else %}
+{{ super() }}
+{% endif %}
+{% endblock %}
+```
+
+The extension stores the rendered HTML in `page.meta["_seo_head"]`. The template outputs it when present and falls back to the theme's default otherwise.
+
+### 3. Configure the theme directory
+
+Add `custom_dir` to your theme in `zensical.toml`:
+
+```toml
+[project.theme]
+variant = "modern"
+custom_dir = "overrides"
+```
+
+### 4. Build
+
+That is all. Run `zensical build` as normal:
+
+```yaml
+# .github/workflows/deploy-docs.yml
+- run: pip install "seoslug>=2.0.1" zensical
+- run: zensical build --clean
+```
+
+No pre-build script, no frontmatter injection, no extra CI step.
+
+### Debug output
+
+When `debug_dir` is set, the extension writes one JSON file per page with the full payload as `payload.to_dict()`:
+
+```json
+{
+  "title": "Getting Started - Your Site",
+  "canonical": "https://yoursite.com/getting-started/",
+  "robots": "index,follow",
+  "og": { "type": "website", "title": "...", ... },
+  "twitter": { "card": "summary_large_image", ... },
+  "schema_jsonld": { "@context": "https://schema.org", ... }
+}
+```
+
+Add `.seo-debug/` to your `.gitignore` -- these files are for local inspection, not committed.
+
+## Alternative: pre-build script
+
+If you prefer persisted frontmatter or need to inspect the SEO data before the build, use the pre-build script approach instead of the inline extension.
 
 ### 1. Write the SEO generation script
 
-Create `scripts/generate_seo.py`. This script uses `SEOConfig`, `SEOEntity`, `build_seo_payload`, and `SEOPayload.render_html()`:
+Create `scripts/generate_seo.py`:
 
 ```python
 """Pre-build: generates SEO frontmatter for docs pages via seoslug."""
