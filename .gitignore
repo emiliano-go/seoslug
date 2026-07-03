@@ -7,3 +7,4 @@ __pycache__/
 .seo-debug/
 site/
 uv.lock
+/build
