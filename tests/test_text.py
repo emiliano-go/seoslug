@@ -183,7 +183,16 @@ def test_build_description_snippet_max_length_two() -> None:
 
 
 def test_try_import_lxml_success(monkeypatch) -> None:
+    import sys
+    import types
     import seoslug.text as text_mod
+
+    fake_lxml_html = types.ModuleType("lxml.html")
+    fake_lxml_html.fromstring = lambda s: None
+    fake_lxml = types.ModuleType("lxml")
+    fake_lxml.html = fake_lxml_html
+    monkeypatch.setitem(sys.modules, "lxml", fake_lxml)
+    monkeypatch.setitem(sys.modules, "lxml.html", fake_lxml_html)
 
     monkeypatch.setattr(text_mod, "_LXML_AVAILABLE", False)
     monkeypatch.setattr(text_mod, "_lxml_fromstring", None)

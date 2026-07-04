@@ -210,7 +210,14 @@ def test_normalize_public_url_non_string_raises_error() -> None:
 
 
 def test_try_import_detrack_succeeds(monkeypatch) -> None:
+    import sys
+    import types
     import seoslug.normalization as norm
+
+    fake_detrack = types.ModuleType("detrack")
+    fake_detrack.clean_query = lambda s, **kw: s
+    monkeypatch.setitem(sys.modules, "detrack", fake_detrack)
+
     monkeypatch.setattr(norm, "_DETRACK_AVAILABLE", False)
     monkeypatch.setattr(norm, "_detrack_clean_query", None)
     assert norm._try_import_detrack() is True
