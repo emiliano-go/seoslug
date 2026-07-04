@@ -45,3 +45,100 @@ def test_emit_warnings_false_no_warnings() -> None:
         build_seo_payload(entity, "/page", config)
     seo_warnings = [msg for msg in w if "seoslug" in str(msg.message).lower() or "Title" in str(msg.message)]
     assert len(seo_warnings) == 0
+
+
+# ---------------------------------------------------------------------------
+# Additional coverage: _nested_get
+# ---------------------------------------------------------------------------
+
+
+def test_nested_get_non_dict_intermediate() -> None:
+    from seoslug.validation import _nested_get
+    d = {"og": "not a dict"}
+    result = _nested_get(d, ("og", "image"), "default")
+    assert result == "default"
+
+
+# ---------------------------------------------------------------------------
+# Additional coverage: _valid_robots_format
+# ---------------------------------------------------------------------------
+
+
+def test_valid_robots_format_empty() -> None:
+    from seoslug.validation import _valid_robots_format
+    assert _valid_robots_format("") is False
+
+
+def test_valid_robots_format_empty_stripped_directive() -> None:
+    from seoslug.validation import _valid_robots_format
+    assert _valid_robots_format("index, ") is False
+    assert _valid_robots_format(", follow") is False
+
+
+def test_valid_robots_format_colon_empty_name_returns_false() -> None:
+    from seoslug.validation import _valid_robots_format
+    assert _valid_robots_format(":value") is False
+
+
+def test_valid_robots_format_colon_empty_value_returns_false() -> None:
+    from seoslug.validation import _valid_robots_format
+    assert _valid_robots_format("name:") is False
+
+
+def test_valid_robots_format_unknown_directive_returns_false() -> None:
+    from seoslug.validation import _valid_robots_format
+    assert _valid_robots_format("unknown") is False
+    assert _valid_robots_format("index,unknown") is False
+
+
+# ---------------------------------------------------------------------------
+# Additional coverage: validate_payload warnings
+# ---------------------------------------------------------------------------
+
+
+def test_canonical_not_absolute_warns() -> None:
+    from seoslug.validation import validate_payload
+
+    config = SEOConfig(
+        canonical_host="example.com",
+        public_base_url="https://example.com",
+        url_policy=URLPolicy(),
+    )
+    payload = {
+        "title": "Test",
+        "canonical": "relative/path",
+    }
+    warnings_list = validate_payload(payload, config)
+    assert any("Canonical URL is not absolute" in w for w in warnings_list)
+
+
+def test_og_image_not_absolute_warns() -> None:
+    from seoslug.validation import validate_payload
+
+    config = SEOConfig(
+        canonical_host="example.com",
+        public_base_url="https://example.com",
+        url_policy=URLPolicy(),
+    )
+    payload = {
+        "title": "Test",
+        "og": {"image": "relative/image.jpg"},
+    }
+    warnings_list = validate_payload(payload, config)
+    assert any("OG image URL is not absolute" in w for w in warnings_list)
+
+
+def test_malformed_robots_warns() -> None:
+    from seoslug.validation import validate_payload
+
+    config = SEOConfig(
+        canonical_host="example.com",
+        public_base_url="https://example.com",
+        url_policy=URLPolicy(),
+    )
+    payload = {
+        "title": "Test",
+        "robots": "unknown_directive",
+    }
+    warnings_list = validate_payload(payload, config)
+    assert any("Robots directive may be malformed" in w for w in warnings_list)

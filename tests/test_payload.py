@@ -303,3 +303,94 @@ def test_render_helpers_escape_html() -> None:
 
     assert "&quot;X&quot;" in p.render_twitter()
     assert "&lt;br&gt;" in p.render_twitter()
+
+
+# ── Additional coverage for dict-compatible mixin ──────────────────────────
+
+
+def test_og_getitem_unknown_key_raises_keyerror() -> None:
+    import pytest
+    og = OGPayload(**_OG_KW)
+    with pytest.raises(KeyError, match="nonexistent"):
+        _ = og["nonexistent"]
+
+
+def test_og_setitem_regular_attribute() -> None:
+    og = OGPayload(**_OG_KW)
+    og["title"] = "Updated"
+    assert og.title == "Updated"
+
+
+def test_og_setitem_mapped_colon_key() -> None:
+    og = OGPayload(**_OG_KW)
+    og["image:width"] = 800
+    assert og.image_width == 800
+
+
+def test_og_setitem_unknown_key_raises_keyerror() -> None:
+    import pytest
+    og = OGPayload(**_OG_KW)
+    with pytest.raises(KeyError, match="unknown"):
+        og["unknown"] = "val"
+
+
+def test_og_contains_keyerror_returns_false() -> None:
+    og = OGPayload(**_OG_KW)
+    assert "nonexistent" not in og
+
+
+def test_og_get_returns_default_for_missing_key() -> None:
+    og = OGPayload(**_OG_KW)
+    assert og.get("nonexistent", "fallback") == "fallback"
+
+
+def test_seopayload_eq_non_dict_non_seopayload_returns_notimplemented() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(**_TW_KW)
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+    assert p.__eq__("not a dict") is NotImplemented
+
+
+def test_seopayload_eq_another_seopayload() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(**_TW_KW)
+    p1 = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+    p2 = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+    assert p1 == p2
+
+
+def test_seopayload_keys_yields_mapped_keys() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(**_TW_KW)
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+    keys = list(p.keys())
+    assert "title" in keys
+    assert "canonical" in keys
+    assert "robots" in keys
+
+
+def test_seopayload_keys_excludes_none() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(**_TW_KW)
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+    keys = list(p.keys())
+    assert "schema_jsonld" not in keys
+
+
+def test_og_payload_keys_maps_colon_keys() -> None:
+    og = OGPayload(
+        type="article", title="Post", description=None, url="https://ex.com/p", image="https://ex.com/img.jpg",
+        image_width=1200, locale_alternate=["es_ES"],
+    )
+    keys = list(og.keys())
+    assert "image:width" in keys
+    assert "locale:alternate" in keys
+
+
+def test_render_twitter_with_list_values() -> None:
+    og = OGPayload(**_OG_KW)
+    tw = TwitterPayload(card="summary", title="Test", description=None, image="https://ex.com/img.jpg")
+    p = SEOPayload(title="Test", description=None, canonical="https://ex.com", robots="index,follow", og=og, twitter=tw)
+    html = p.render_twitter()
+    assert 'name="twitter:card" content="summary"' in html
+    assert 'name="twitter:title" content="Test"' in html

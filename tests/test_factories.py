@@ -72,3 +72,16 @@ def test_from_faq_multiple() -> None:
     assert entity.title == "FAQ Page"
     assert entity.excerpt == "Frequently asked questions"
     assert len(entity.faq_items) == 2
+
+
+def test_from_faq_with_breadcrumbs() -> None:
+    entity = from_faq(
+        questions=[{"question": "Q1", "answer": "A1"}],
+        breadcrumbs=[
+            {"name": "Home", "url": "/"},
+            {"name": "FAQ", "url": "/faq"},
+        ],
+    )
+    assert len(entity.breadcrumbs) == 2
+    assert entity.breadcrumbs[0].name == "Home"
+    assert entity.breadcrumbs[1].name == "FAQ"

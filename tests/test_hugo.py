@@ -6,7 +6,14 @@ from pathlib import Path
 
 import pytest
 
+from seoslug import SEOConfig, URLPolicy
 from seoslug.contrib.hugo import HugoBuilder, build_hugo
+
+_DUMMY_CONFIG = SEOConfig(
+    canonical_host="example.com",
+    public_base_url="https://example.com/",
+    url_policy=URLPolicy(),
+)
 
 
 @pytest.fixture
@@ -172,4 +179,122 @@ class TestHugoBuilder:
         assert "noindex,nofollow" in content
 
 
+class TestHugoBuilderEdgeCases:
+    def test_no_site_url(self):
+        builder = HugoBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        builder.site_url = ""
+        assert builder._canonical_host() == "yoursite.com"
+
+    def test_site_url_no_name_derives_from_host(self):
+        builder = HugoBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com",
+            config=_DUMMY_CONFIG,
+        )
+        assert builder._derive_site_name() == "Example"
+
+    def test_parse_frontmatter_malformed_toml(self):
+        builder = HugoBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        text = "+++\n[[[\n+++\n\nBody.\n"
+        meta, body = builder._parse_frontmatter(text)
+        assert meta == {}
+        assert body == "Body.\n"
+
+    def test_parse_frontmatter_malformed_yaml(self):
+        builder = HugoBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        text = "---\n: invalid\n---\n\nBody.\n"
+        meta, body = builder._parse_frontmatter(text)
+        assert meta == {}
+        assert body == "Body.\n"
+
+    def test_first_heading_no_h1(self):
+        builder = HugoBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        assert builder._first_heading("Just some text.\n\nNo headings.\n") == ""
+
+    def test_extract_excerpt_short(self):
+        builder = HugoBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        text = "Short text under limit."
+        assert builder._extract_excerpt(text, max_chars=160) == "Short text under limit."
+
+    def test_extract_excerpt_empty(self):
+        builder = HugoBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        assert builder._extract_excerpt("") == ""
+
+    def test_extract_excerpt_break_at_boundary(self):
+        builder = HugoBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        text = "This is a long text that should be broken at a word boundary since it exceeds the maximum character limit."
+        result = builder._extract_excerpt(text, max_chars=40)
+        assert result.endswith("...")
+        assert len(result[:-3]) <= 40
+
+    def test_no_title_no_h1_falls_back_to_site_name(self, tmp_path: Path):
+        src = tmp_path / "content"
+        src.mkdir()
+        (src / "page.md").write_text("---\n---\n\nNo heading here.\n")
+        build_hugo(content_dir=src, site_url="https://example.com", site_name="SiteName")
+        content = (src / "page.md").read_text()
+        assert "SiteName" in content
+
+    def test_build_hugo_convenience(self, tmp_path: Path):
+        src = tmp_path / "content"
+        src.mkdir()
+        (src / "index.md").write_text("---\ntitle: Test\n---\n\nBody.\n")
+        count = build_hugo(content_dir=src, site_url="https://example.com", site_name="Example")
+        assert count == 1
+        content = (src / "index.md").read_text()
+        assert "og:title" in content
+
+    def test_build_payload_none(self, tmp_path: Path):
+        import unittest.mock as mock
+        src = tmp_path / "content"
+        src.mkdir()
+        (src / "page.md").write_text("---\ntitle: Test\n---\n\nBody.\n")
+        builder = HugoBuilder(content_dir=src, site_url="https://example.com", site_name="Example")
+        with mock.patch("seoslug.contrib.hugo.build_seo_payload", return_value=None):
+            count = builder.build()
+        assert count == 0
+
+    def test_default_og_image(self):
+        builder = HugoBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com",
+            site_name="Example",
+            default_og_image="https://example.com/image.png",
+        )
+        assert builder._config.default_og_image is not None
+        assert builder._config.default_og_image.url == "https://example.com/image.png"
+        assert builder._config.default_og_image.width == 1200
+        assert builder._config.default_og_image.height == 630
+
+    def test_constructor_derives_site_name_from_url(self):
+        builder = HugoBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com",
+        )
+        assert builder._config.site_name == "Example"
+
+    def test_derive_site_name_no_url(self):
+        builder = HugoBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com",
+            config=_DUMMY_CONFIG,
+        )
+        builder.site_url = ""
+        assert builder._derive_site_name() == "My Site"
+
+    def test_build_site_url_strips_trailing(self):
+        builder = HugoBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com/",
+        )
+        assert builder._build_site_url() == "https://example.com"
+
+    def test_route_from_path_index_in_subdir(self, tmp_path: Path):
+        src = tmp_path / "content"
+        src.mkdir()
+        (src / "posts" / "_index.md").parent.mkdir()
+        (src / "posts" / "_index.md").write_text("")
+        builder = HugoBuilder(content_dir=src, site_url="https://example.com", site_name="Example")
+        route = builder._route_from_path(src / "posts" / "_index.md")
+        assert route == "/posts"
 

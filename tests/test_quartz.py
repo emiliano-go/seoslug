@@ -6,7 +6,14 @@ from pathlib import Path
 
 import pytest
 
+from seoslug import SEOConfig, URLPolicy
 from seoslug.contrib.quartz import QuartzBuilder, build_quartz
+
+_DUMMY_CONFIG = SEOConfig(
+    canonical_host="example.com",
+    public_base_url="https://example.com/",
+    url_policy=URLPolicy(),
+)
 
 
 @pytest.fixture
@@ -205,3 +212,105 @@ class TestQuartzBuilder:
         content = (src / "page.md").read_text()
         assert "Custom Site" in content
         assert "noindex,nofollow" in content
+
+
+class TestQuartzBuilderEdgeCases:
+    def test_no_site_url(self):
+        builder = QuartzBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        builder.site_url = ""
+        assert builder._canonical_host() == "yoursite.com"
+
+    def test_site_url_no_name_derives_from_host(self):
+        builder = QuartzBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com",
+            config=_DUMMY_CONFIG,
+        )
+        assert builder._derive_site_name() == "Example"
+
+    def test_parse_frontmatter_no_frontmatter(self):
+        builder = QuartzBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        text = "No frontmatter at all.\n\nBody.\n"
+        meta, body = builder._parse_frontmatter(text)
+        assert meta == {}
+        assert body == "No frontmatter at all.\n\nBody.\n"
+
+    def test_parse_frontmatter_malformed_yaml(self):
+        builder = QuartzBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        text = "---\n: invalid\n---\n\nBody.\n"
+        meta, body = builder._parse_frontmatter(text)
+        assert meta == {}
+        assert body == "Body.\n"
+
+    def test_first_heading_no_h1(self):
+        builder = QuartzBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        assert builder._first_heading("Just some text.\n\nNo headings.\n") == ""
+
+    def test_write_debug_none(self):
+        builder = QuartzBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG, debug_dir=None)
+        builder._write_debug("test", None)
+
+    def test_build_quartz_convenience(self, tmp_path: Path):
+        src = tmp_path / "content"
+        src.mkdir()
+        (src / "index.md").write_text("---\ntitle: Test\n---\n\nBody.\n")
+        count = build_quartz(content_dir=src, site_url="https://example.com", site_name="Example")
+        assert count == 1
+        content = (src / "index.md").read_text()
+        assert "og:title" in content
+
+    def test_default_og_image(self):
+        builder = QuartzBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com",
+            site_name="Example",
+            default_og_image="https://example.com/image.png",
+        )
+        assert builder._config.default_og_image is not None
+        assert builder._config.default_og_image.url == "https://example.com/image.png"
+        assert builder._config.default_og_image.width == 1200
+        assert builder._config.default_og_image.height == 630
+
+    def test_build_payload_none(self, tmp_path: Path):
+        import unittest.mock as mock
+        src = tmp_path / "content"
+        src.mkdir()
+        (src / "index.md").write_text("---\ntitle: Test\n---\n\nBody.\n")
+        builder = QuartzBuilder(content_dir=src, site_url="https://example.com", site_name="Example")
+        with mock.patch("seoslug.contrib.quartz.build_seo_payload", return_value=None):
+            count = builder.build()
+        assert count == 0
+
+    def test_constructor_derives_site_name_from_url(self):
+        builder = QuartzBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com",
+        )
+        assert builder._config.site_name == "Example"
+
+    def test_derive_site_name_no_url(self):
+        builder = QuartzBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com",
+            config=_DUMMY_CONFIG,
+        )
+        builder.site_url = ""
+        assert builder._derive_site_name() == "My Site"
+
+    def test_build_site_url_strips_trailing(self):
+        builder = QuartzBuilder(
+            content_dir="/tmp/does-not-exist",
+            site_url="https://example.com/",
+        )
+        assert builder._build_site_url() == "https://example.com"
+
+    def test_extract_excerpt_empty(self):
+        builder = QuartzBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        assert builder._extract_excerpt("") == ""
+
+    def test_extract_excerpt_long_truncation(self):
+        builder = QuartzBuilder(content_dir="/tmp/does-not-exist", config=_DUMMY_CONFIG)
+        text = "hello world " + "a" * 200
+        result = builder._extract_excerpt(text, max_chars=20)
+        assert result.startswith("hello")
+        assert result.endswith("...")

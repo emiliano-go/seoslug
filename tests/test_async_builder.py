@@ -43,3 +43,19 @@ async def test_async_custom_executor() -> None:
     payload = await build_seo_payload_async(entity, "/test", _config(), executor=executor)
     assert payload.title == "Test"
     executor.shutdown()
+
+
+@pytest.mark.asyncio
+async def test_set_executor_custom_and_none() -> None:
+    from concurrent.futures import ThreadPoolExecutor
+    from seoslug.async_builder import _get_executor, set_executor
+
+    custom = ThreadPoolExecutor(max_workers=2)
+    set_executor(custom)
+    assert _get_executor() is custom
+
+    set_executor(None)
+    new_exec = _get_executor()
+    assert isinstance(new_exec, ThreadPoolExecutor)
+    assert new_exec is not custom
+    custom.shutdown()

@@ -183,3 +183,93 @@ def test_host_always_enforced() -> None:
     for url in inputs:
         result = normalize_public_url(url, config)
         assert result.startswith("https://portal.example.com/"), f"Host not enforced for {url}: {result}"
+
+
+# ── Edge-case coverage ─────────────────────────────────────────────────────
+
+
+def test_normalize_path_non_string_raises_error() -> None:
+    import pytest
+    from seoslug import URLPolicyError
+    with pytest.raises(URLPolicyError, match="path must be a string"):
+        normalize_path(123, URLPolicy())  # type: ignore[arg-type]
+
+
+def test_normalize_public_url_non_string_raises_error() -> None:
+    import pytest
+    config = SEOConfig(
+        canonical_host="example.com",
+        public_base_url="https://example.com",
+        url_policy=URLPolicy(),
+    )
+    with pytest.raises(SEOPayloadError, match="url_or_path must be a non-empty string"):
+        normalize_public_url("", config)
+
+
+# ── Detrack integration tests ──────────────────────────────────────────────
+
+
+def test_try_import_detrack_succeeds(monkeypatch) -> None:
+    import seoslug.normalization as norm
+    monkeypatch.setattr(norm, "_DETRACK_AVAILABLE", False)
+    monkeypatch.setattr(norm, "_detrack_clean_query", None)
+    assert norm._try_import_detrack() is True
+    assert norm._DETRACK_AVAILABLE is True
+    assert norm._detrack_clean_query is not None
+
+
+def test_try_import_detrack_fails(monkeypatch) -> None:
+    import seoslug.normalization as norm
+    monkeypatch.setattr(norm, "_DETRACK_AVAILABLE", False)
+    monkeypatch.setattr(norm, "_detrack_clean_query", None)
+    import builtins
+    original_import = builtins.__import__
+
+    def _mock_import(name, *args, **kwargs):
+        if name == "detrack":
+            raise ImportError("mock: detrack not available")
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", _mock_import)
+    assert norm._try_import_detrack() is False
+    assert norm._DETRACK_AVAILABLE is False
+
+
+def test_clean_query_detrack_path(monkeypatch) -> None:
+    import seoslug.normalization as norm
+    monkeypatch.setattr(norm, "_DETRACK_AVAILABLE", False)
+    monkeypatch.setattr(norm, "_detrack_clean_query", None)
+    result = norm._clean_query("utm_source=x&keep=1")
+    assert "utm_source" not in result
+    assert "keep=1" in result
+
+
+def test_clean_query_builtin_empty_string() -> None:
+    import seoslug.normalization as norm
+    assert norm._clean_query_builtin("") == ""
+
+
+def test_clean_query_builtin_filters_tracking() -> None:
+    import seoslug.normalization as norm
+    result = norm._clean_query_builtin("utm_source=x&keep=1&gclid=abc")
+    assert "utm_source" not in result
+    assert "gclid" not in result
+    assert "keep=1" in result
+
+
+def test_clean_query_fallback_path(monkeypatch) -> None:
+    import seoslug.normalization as norm
+    monkeypatch.setattr(norm, "_DETRACK_AVAILABLE", False)
+    monkeypatch.setattr(norm, "_detrack_clean_query", None)
+    import builtins
+    original_import = builtins.__import__
+
+    def _mock_import(name, *args, **kwargs):
+        if name == "detrack":
+            raise ImportError("mock: detrack not available")
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", _mock_import)
+    result = norm._clean_query("fbclid=xyz&keep=2")
+    assert "fbclid" not in result
+    assert "keep=2" in result

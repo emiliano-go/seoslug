@@ -89,6 +89,18 @@ def test_get_registered_returns_copy():
     assert "other" not in get_registered()
 
 
+def test_decorator_wrapper_direct_call():
+    from seoslug import hook
+
+    @hook("post_process")
+    def my_hook(payload, entity, config):
+        payload["called"] = True
+        return payload
+
+    result = my_hook({"a": 1}, None, _EMPTY_CONFIG)
+    assert result == {"a": 1, "called": True}
+
+
 def test_missing_hook_point_is_noop():
     result = run_hooks("nonexistent", {"a": 1}, None, _EMPTY_CONFIG)
     assert result == {"a": 1}
