@@ -28,6 +28,9 @@
   <a href="https://pypi.org/project/seoslug/">
     <img src="https://img.shields.io/pypi/v/seoslug?logo=pypi&logoColor=white&style=for-the-badge" alt="PyPI">
   </a>
+  <a href="https://codecov.io/gh/emiliano-go/seoslug">
+    <img src="https://img.shields.io/codecov/c/github/emiliano-go/seoslug?style=for-the-badge&logo=codecov&label=Coverage" alt="Coverage">
+  </a>
 </p>
 
 ---
@@ -242,6 +245,21 @@ head_html = payload.render_html()
 fingerprint = payload.hash()
 etag_value = payload.etag()
 ```
+
+---
+
+## Testing
+
+Run the test suite (no external services needed):
+
+```bash
+pip install -e .[test]
+pytest --cov=seoslug tests/
+```
+
+### Coverage
+
+Tests cover 99% of the `seoslug` source package (`src/seoslug/`). Coverage reports are uploaded automatically to [Codecov](https://codecov.io/gh/emiliano-go/seoslug) on every push and pull request. The `codecov.yml` config enforces a project-level target of 80% with a 5% tolerance.
 
 ---
 
