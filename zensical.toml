@@ -131,7 +131,7 @@ toc = { permalink = true }
   public_base_url = "https://seoslug.emiliano-go.com/",
   site_name = "seoslug",
   title_template = "{title} - seoslug",
-  default_og_image = "https://seoslug.emiliano-go.com/assets/icon.png",
+  default_og_image = "https://seoslug.emiliano-go.com/assets/images/og-image.png",
   publisher_name = "Emiliano Gandini Outeda",
   locale = "en_US",
   twitter_site = "@emiliano_go_",
