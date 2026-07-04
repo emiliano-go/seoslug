@@ -259,7 +259,9 @@ pytest --cov=seoslug tests/
 
 ### Coverage
 
-Tests cover 99% of the `seoslug` source package (`src/seoslug/`). Coverage reports are uploaded automatically to [Codecov](https://codecov.io/gh/emiliano-go/seoslug) on every push and pull request. The `codecov.yml` config enforces a project-level target of 80% with a 5% tolerance.
+Expected test coverage is 99% of the `seoslug` source package (`src/seoslug/`). The 8 uncovered lines are unreachable in Python 3.14: `tomli` import fallbacks in `hugo.py`, and `TwitterPayload` list-value rendering in `payload.py` (no list fields exist).
+
+Coverage reports are uploaded automatically to [Codecov](https://codecov.io/gh/emiliano-go/seoslug) on every push and pull request. The `codecov.yml` config enforces a project-level target of 80% with a 5% tolerance on PRs.
 
 ---
 
