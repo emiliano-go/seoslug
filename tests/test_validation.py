@@ -1,8 +1,11 @@
-"""Tests for SEO payload validation warnings."""
+"""Tests for SEO payload and JSON-LD validation."""
 
 import warnings
 
-from seoslug import SEOConfig, SEOEntity, SEOOverrides, URLPolicy, build_seo_payload
+import pytest
+
+from seoslug import SEOConfig, SEOEntity, SEOEntityError, SEOOverrides, URLPolicy, build_seo_payload
+from seoslug.validation import validate_html_jsonld, validate_schema_jsonld
 
 
 def _config(**kw) -> SEOConfig:
@@ -142,3 +145,32 @@ def test_malformed_robots_warns() -> None:
     }
     warnings_list = validate_payload(payload, config)
     assert any("Robots directive may be malformed" in w for w in warnings_list)
+
+
+def test_validate_schema_jsonld_recurses_graph() -> None:
+    warnings_list = validate_schema_jsonld(
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {"@context": "https://schema.org", "@type": "WebPage", "name": "Home"},
+                {"@context": "https://schema.org", "@type": "Article", "headline": "Post"},
+            ],
+        }
+    )
+    assert any("recommended description is missing" in warning for warning in warnings_list)
+
+
+def test_validate_schema_jsonld_strict_raises() -> None:
+    with pytest.raises(SEOEntityError):
+        validate_schema_jsonld({"@context": "https://schema.org", "@type": "WebPage"}, strict=True)
+
+
+def test_validate_html_jsonld_detects_exact_duplicates() -> None:
+    html = """
+    <html><head>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage"}</script>
+    </head></html>
+    """
+    warnings_list = validate_html_jsonld(html)
+    assert any("Duplicate JSON-LD block" in warning for warning in warnings_list)

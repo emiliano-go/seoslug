@@ -592,7 +592,7 @@ Before going live:
 - [ ] Your theme's `og:` / `twitter:` tags are accounted for (use Strategy A or B accordingly)
 - [ ] Docker build runs successfully end-to-end
 - [ ] Deployed pages return 200 with correct canonical, no duplicate meta tags
-- [ ] JSON-LD validates at [validator.schema.org](https://validator.schema.org/)
+- [ ] JSON-LD passes the strict CI validation gate and [validator.schema.org](https://validator.schema.org/)
 
 ### 11. Edge cases
 

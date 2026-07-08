@@ -2,99 +2,51 @@
 {}
 ---
 
-# Validation Warnings
+# Validation
 
-seoslug produces non-fatal validation warnings when `emit_warnings` is enabled.
-Warnings alert you to common SEO issues without breaking your build.
+seoslug has three validation layers:
 
-## Enabling warnings
+1. payload warnings from `validate_payload()`
+2. schema-shape warnings from `validate_schema_jsonld()`
+3. rendered HTML checks from `validate_html_jsonld()`
 
-Set `emit_warnings=True` in `SEOConfig`.
+`build_seo_payload()` always runs validation, but warning emission is still gated by `SEOConfig.emit_warnings`.
 
-```python
-from seoslug import SEOConfig
-
-config = SEOConfig(
-    ...,
-    emit_warnings=True,
-)
-```
-
-When enabled, `build_seo_payload` calls `validate_payload()` and emits each warning via `warnings.warn()`.
-
-## The validate_payload function
+## Payload warnings
 
 ```python
 from seoslug.validation import validate_payload
 
-warnings: list[str] = validate_payload(payload_dict, config)
+warnings = validate_payload(payload_dict, config)
 ```
 
-Parameters:
+These cover title length, description length, canonical URLs, OG image URLs, robots format, and schema JSON-LD warnings.
 
-| Parameter | Type        | Description               |
-|-----------|-------------|---------------------------|
-| `payload` | `dict`      | The built SEO payload     |
-| `config`  | `SEOConfig` | Your SEO configuration    |
-
-Returns a list of warning strings. Each string describes one issue.
-
-## Warning types
-
-| Warning | Condition | Example |
-|---------|-----------|---------|
-| Title exceeds 60 chars | `len(title) > 60` | `"Title exceeds 60 characters (72 chars)"` |
-| Description exceeds 160 chars | `len(description) > 160` | `"Description exceeds 160 characters (245 chars)"` |
-| Canonical URL not absolute | canonical does not start with `http://` or `https://` | `"Canonical URL is not absolute: /relative-path"` |
-| OG image URL not absolute | og:image does not start with `http://` or `https://` | `"OG image URL is not absolute: /images/photo.jpg"` |
-| Robots directive malformed | robots string has invalid format | `"Robots directive may be malformed: jibberish"` |
-
-## Example with catch_warnings
+## Schema validation
 
 ```python
-import warnings
-from seoslug import SEOConfig, SEOEntity, build_seo_payload
+from seoslug.validation import validate_schema_jsonld
 
-config = SEOConfig(
-    canonical_host="example.com",
-    public_base_url="https://example.com",
-    url_policy=...,
-    emit_warnings=True,
-)
-
-entity = SEOEntity(
-    entity_type="page",
-    title="A" * 70,           # triggers title warning
-    excerpt="B" * 300,         # triggers description warning
-)
-
-with warnings.catch_warnings(record=True) as w:
-    warnings.simplefilter("always")
-    payload = build_seo_payload(entity, "/page", config)
-
-for warning in w:
-    print(warning.message)
-    # Title exceeds 60 characters (70 chars)
-    # Description exceeds 160 characters (300 chars)
+warnings = validate_schema_jsonld(schema_jsonld)
+validate_schema_jsonld(schema_jsonld, strict=True)
 ```
 
-## Disabling warnings
+`strict=True` turns warnings into errors. Structural problems always raise `SEOEntityError`.
 
-Set `emit_warnings=False` (default) to skip validation entirely.
+## HTML validation
 
 ```python
-config = SEOConfig(
-    ...,
-    emit_warnings=False,  # default
-)
+from seoslug.validation import validate_html_jsonld
+
+warnings = validate_html_jsonld(rendered_html)
 ```
 
-No performance cost when disabled. The validation function is never called.
+This checks rendered HTML for exact duplicate JSON-LD blocks.
 
-## Best practices
+## CLI
 
-- Enable warnings in development and CI
-- Keep the warnings list in CI output for review
-- Fix absolute URL issues in canonical and OG image fields
-- Tighten title generation if it consistently exceeds 60 chars
-- Disable warnings in production for zero overhead
+```bash
+seoslug validate-html path/to/page.html --strict
+```
+
+Use `-` to read from stdin.

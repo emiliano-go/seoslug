@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "seoslug"
-version = "2.2.0"
+version = "2.3.0"
 description = "Framework-agnostic canonical URL normalization and deterministic SEO payload generation"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -34,6 +34,9 @@ test = ["pytest", "pytest-asyncio", "pytest-cov", "pyyaml", "tomli; python_versi
 
 [project.urls]
 Documentation = "https://deepwiki.com/emiliano-go/seoslug/"
+
+[project.scripts]
+seoslug = "seoslug.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

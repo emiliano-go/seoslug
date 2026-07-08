@@ -52,6 +52,7 @@ from .normalization import normalize_public_url
 from .payload import OGPayload, SEOPayload, TwitterPayload
 from .schemas import OGImage, Robots, SEOEntity, SEOOverrides
 from .text import build_description_snippet
+from .validation import validate_payload
 
 if TYPE_CHECKING:
     from .payload import SEOPayloadTypedDict
@@ -215,11 +216,12 @@ def build_seo_payload(
     elif len(schemas) > 1:
         payload.schema_jsonld = schemas
 
-    # Validation warnings
+    # Validation warnings are always computed; emission is config-gated.
+    warnings_list = validate_payload(payload.to_dict(), config)
     if config.emit_warnings:
-        from .validation import validate_payload
         import warnings as _warnings
-        for warning in validate_payload(payload.to_dict(), config):
+
+        for warning in warnings_list:
             _warnings.warn(warning)
 
     payload = run_hooks("post_process", payload, entity, config)
