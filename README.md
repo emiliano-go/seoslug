@@ -8,6 +8,20 @@
   <h1 align="center">seoslug</h1>
 </p>
 
+> **Archived: this project has been replaced by [easeo](https://github.com/emiliano-go/easeo).**
+>
+> seoslug is no longer maintained. It is being replaced by `easeo`, a rewrite
+> with a Rust core and Python and JavaScript/TypeScript bindings. All future
+> development, fixes, and features happen in `easeo`.
+>
+> Existing seoslug users should migrate to `easeo`. See the
+> [migration guide](https://github.com/emiliano-go/easeo/blob/master/docs/guides/migration-from-seoslug.md).
+>
+> ```bash
+> pip uninstall seoslug
+> pip install easeo
+> ```
+
 <p align="center">
   <strong>Deterministic SEO payload generation for content platforms.</strong>
 </p>
